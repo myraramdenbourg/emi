@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PuzzleData } from "@/types/puzzle";
+import { Eye } from "lucide-react";
 
 interface HintModalProps {
   isOpen: boolean;
@@ -13,13 +14,18 @@ interface HintModalProps {
 }
 
 const HintModal = ({ isOpen, onClose, puzzle, puzzleIndex }: HintModalProps) => {
-  const [unlockedHints, setUnlockedHints] = useState<number[]>([0]);
+  const [unlockedHints, setUnlockedHints] = useState<number[]>([]);
+  const [showAnswer, setShowAnswer] = useState(false);
 
   const unlockNextHint = () => {
     const nextHintIndex = unlockedHints.length;
     if (nextHintIndex < puzzle.hints.length) {
       setUnlockedHints([...unlockedHints, nextHintIndex]);
     }
+  };
+
+  const handleViewAnswer = () => {
+    setShowAnswer(true);
   };
 
   return (
@@ -58,6 +64,7 @@ const HintModal = ({ isOpen, onClose, puzzle, puzzleIndex }: HintModalProps) => 
                           onClick={unlockNextHint}
                           variant="outline"
                           className="border-amber-300 text-amber-700 hover:bg-amber-100"
+                          disabled={index !== unlockedHints.length}
                         >
                           Unlock Hint {index + 1}
                         </Button>
@@ -70,10 +77,30 @@ const HintModal = ({ isOpen, onClose, puzzle, puzzleIndex }: HintModalProps) => 
           </div>
 
           {unlockedHints.length === puzzle.hints.length && (
-            <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
-              <p className="text-green-800 text-center font-medium">
-                All hints unlocked! Ready to submit your answer?
-              </p>
+            <div className="space-y-4">
+              <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
+                <p className="text-green-800 text-center font-medium">
+                  All hints unlocked!
+                </p>
+              </div>
+              
+              <div className="text-center">
+                <Button
+                  onClick={handleViewAnswer}
+                  className="bg-red-600 hover:bg-red-700 text-white"
+                  variant="default"
+                >
+                  <Eye className="w-4 h-4 mr-2" />
+                  View Answer
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {showAnswer && (
+            <div className="bg-red-50 border border-red-200 p-4 rounded-lg">
+              <h3 className="font-semibold text-red-900 mb-2">Answer:</h3>
+              <p className="text-red-800 text-lg font-medium">{puzzle.answer}</p>
             </div>
           )}
         </div>

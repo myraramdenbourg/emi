@@ -15,9 +15,71 @@ interface AnswerModalProps {
   onSolved: () => void;
 }
 
+const getCustomResponse = (answer: string, correctAnswer: string, puzzleTitle: string): string | null => {
+  const userAnswer = answer.toLowerCase().trim();
+  const correct = correctAnswer.toLowerCase().trim();
+  
+  // Check for close answers based on puzzle context
+  switch (puzzleTitle.toLowerCase()) {
+    case 'coffee':
+      if (['warm', 'heat', 'cozy', 'comfort'].includes(userAnswer)) {
+        return "You're very close! Think about the feeling coffee brings to your hands and heart.";
+      }
+      break;
+    case 'fish':
+      if (['river', 'stream', 'water', 'salmon'].includes(userAnswer)) {
+        return "Getting warmer! Think smaller than a river but where salmon are born.";
+      }
+      break;
+    case 'ferris wheel':
+      if (['view', 'views', 'panoramic', 'panorama'].includes(userAnswer)) {
+        return "Almost there! You need both words - what kind of views?";
+      }
+      break;
+    case 'cheese':
+      if (['skin', 'crust', 'outer', 'covering'].includes(userAnswer)) {
+        return "Very close! What's the specific term for the outer layer of aged cheese?";
+      }
+      break;
+    case 'gum wall':
+      if (['stick', 'stuck', 'adhering', 'attaching'].includes(userAnswer)) {
+        return "So close! You need the action word - what is the gum doing?";
+      }
+      break;
+    case 'flowers':
+      if (['flower', 'tropical', 'hawaii', 'exotic'].includes(userAnswer)) {
+        return "You're on the right track! What specific tropical flower is known for its beauty?";
+      }
+      break;
+    case 'pigs':
+      if (['fair', 'county fair', 'carnival', 'agriculture'].includes(userAnswer)) {
+        return "Almost! What type of fair features livestock competitions?";
+      }
+      break;
+    case 'post alley':
+      if (['stone', 'stones', 'cobble', 'historic'].includes(userAnswer)) {
+        return "Very close! What's the full term for this type of historic street paving?";
+      }
+      break;
+    case 'produce':
+      if (['farmers', 'sellers', 'merchants', 'people'].includes(userAnswer)) {
+        return "Almost there! What do you call the people who sell goods at a market?";
+      }
+      break;
+    case 'the final letter':
+      if (['remember', 'memories', 'recall', 'nostalgia'].includes(userAnswer)) {
+        return "So close! What's the specific word for fondly remembering the past?";
+      }
+      break;
+  }
+  
+  return null;
+};
+
 const AnswerModal = ({ isOpen, onClose, puzzle, puzzleIndex, onSolved }: AnswerModalProps) => {
   const [answer, setAnswer] = useState("");
   const [showError, setShowError] = useState(false);
+  const [customMessage, setCustomMessage] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -28,15 +90,27 @@ const AnswerModal = ({ isOpen, onClose, puzzle, puzzleIndex, onSolved }: AnswerM
       onSolved();
       setAnswer("");
       setShowError(false);
+      setCustomMessage("");
     } else {
-      setShowError(true);
-      setTimeout(() => setShowError(false), 3000);
+      const customResponse = getCustomResponse(answer, puzzle.answer, puzzle.title);
+      if (customResponse) {
+        setCustomMessage(customResponse);
+        setShowError(false);
+      } else {
+        setShowError(true);
+        setCustomMessage("");
+      }
+      setTimeout(() => {
+        setShowError(false);
+        setCustomMessage("");
+      }, 5000);
     }
   };
 
   const handleClose = () => {
     setAnswer("");
     setShowError(false);
+    setCustomMessage("");
     onClose();
   };
 
@@ -77,6 +151,14 @@ const AnswerModal = ({ isOpen, onClose, puzzle, puzzleIndex, onSolved }: AnswerM
               <div className="bg-red-50 border border-red-200 p-3 rounded-lg">
                 <p className="text-red-800 text-sm text-center">
                   That's not quite right. Try again or check the hints!
+                </p>
+              </div>
+            )}
+
+            {customMessage && (
+              <div className="bg-blue-50 border border-blue-200 p-3 rounded-lg">
+                <p className="text-blue-800 text-sm text-center">
+                  {customMessage}
                 </p>
               </div>
             )}

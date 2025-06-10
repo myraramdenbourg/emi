@@ -49,7 +49,7 @@ const getImageForPuzzle = (title: string) => {
     case 'fish':
       return 'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=400&h=600&fit=crop';
     case 'ferris wheel':
-      return 'https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=400&h=600&fit=crop';
+      return '/assets/ferris_front.png';
     case 'cheese':
       return 'https://images.unsplash.com/photo-1500673922987-e212871fec22?w=400&h=600&fit=crop';
     case 'gum wall':

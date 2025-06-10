@@ -45,27 +45,27 @@ const getIconForPuzzle = (title: string) => {
 const getImageForPuzzle = (title: string) => {
   switch (title.toLowerCase()) {
     case 'coffee':
-      return 'https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=400&h=600&fit=crop';
+      return '/assets/coffee_front.png';
     case 'fish':
-      return 'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=400&h=600&fit=crop';
+      return '/assets/fish_front.png';
     case 'ferris wheel':
       return '/assets/ferris_front.png';
     case 'cheese':
-      return 'https://images.unsplash.com/photo-1500673922987-e212871fec22?w=400&h=600&fit=crop';
+      return '/assets/cheese_front.png';
     case 'gum wall':
-      return 'https://images.unsplash.com/photo-1486718448742-163732cd1544?w=400&h=600&fit=crop';
+      return '/assets/gum_front.png';
     case 'flowers':
-      return 'https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=400&h=600&fit=crop';
+      return '/assets/flowers_front.png';
     case 'pigs':
-      return 'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=400&h=600&fit=crop';
+      return '/assets/pigs_front.png';
     case 'post alley':
-      return 'https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=400&h=600&fit=crop';
+      return '/assets/cheese_front.png';
     case 'produce':
-      return 'https://images.unsplash.com/photo-1500673922987-e212871fec22?w=400&h=600&fit=crop';
+      return '/assets/produce_front.png';
     case 'the final letter':
-      return 'https://images.unsplash.com/photo-1486718448742-163732cd1544?w=400&h=600&fit=crop';
+      return '/assets/meta_front.png';
     default:
-      return 'https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=400&h=600&fit=crop';
+      return '/assets/cheese_front.png';
   }
 };
 

@@ -3,242 +3,242 @@ import { PuzzleData } from "@/types/puzzle";
 
 export const puzzleData: PuzzleData[] = [
   {
-    title: "The First Letter",
-    description: "Emi's first postcard mentions a secret meeting place where 'fish fly through the air at noon.' Where could this be?",
+    title: "Coffee",
+    description: "Emi's first postcard mentions a secret meeting place where 'the aroma fills the air and brings comfort to weary souls.' What feeling does this evoke?",
     hints: [
-      "Think about Pike Place Market's most famous attraction.",
-      "It happens daily and draws crowds of tourists.",
-      "The workers throw something to each other.",
-      "It's a type of seafood that's very popular in Seattle.",
-      "The famous Pike Place Fish Market is known for this spectacle.",
-      "The answer rhymes with 'salmon toss' but it's the fish that flies!"
+      "Think about what coffee provides beyond just caffeine.",
+      "It's something people seek on cold Seattle mornings.",
+      "Coffee shops are places where people gather and feel cozy.",
+      "It's the opposite of coldness.",
+      "People hold their coffee cups to feel this sensation.",
+      "It's what coffee brings to both your hands and your heart."
     ],
-    answer: "fish throwing",
-    storyProgression: "You've found the first clue! Emi was fascinated by the fish throwing at Pike Place Fish Market. Her letter mentions meeting someone there at noon, but who could it be?",
-    recommendations: [
-      {
-        title: "Pike Place Fish Market",
-        description: "Watch the famous fish throwing show and buy fresh seafood. The fishmongers put on an entertaining show daily!"
-      },
-      {
-        title: "World Famous Fish & Chips",
-        description: "Try some of the best fish and chips in Seattle, made with the freshest catch from Pike Place."
-      }
-    ]
-  },
-  {
-    title: "The Flower Code",
-    description: "The second postcard has pressed flowers with numbers: Tulip (3), Rose (1), Daisy (2). What word do they spell?",
-    hints: [
-      "Each flower represents a letter position in the alphabet.",
-      "Tulip starts with T, which is the 20th letter.",
-      "Rose starts with R, which is the 18th letter.",
-      "Daisy starts with D, which is the 4th letter.",
-      "The numbers tell you which letter to take from each flower name.",
-      "T(3rd letter)=L, R(1st letter)=R, D(2nd letter)=A"
-    ],
-    answer: "ART",
-    storyProgression: "Brilliant! The flowers spell 'ART'. Emi was leaving clues about an art gallery or artist she discovered at Pike Place Market. The mystery deepens...",
-    recommendations: [
-      {
-        title: "Pike Place Market Artists",
-        description: "Explore the various artist stalls and galleries within Pike Place Market featuring local Seattle artists."
-      },
-      {
-        title: "Market Heritage Tours",
-        description: "Take a guided tour to learn about the artistic history and cultural significance of Pike Place Market."
-      }
-    ]
-  },
-  {
-    title: "The Music Box Mystery",
-    description: "Emi's postcard mentions a melody that plays every hour. She wrote: 'When the big hand points to 12 and the little hand to 3, listen for the tune.'",
-    hints: [
-      "This is about a specific time of day.",
-      "The big hand on 12 and little hand on 3 means 3 o'clock.",
-      "Pike Place Market has a famous clock.",
-      "The clock is located at a specific shop in the market.",
-      "It's the oldest business in Pike Place Market.",
-      "The answer is the name of the shop with the musical clock."
-    ],
-    answer: "Tenzing Momo",
-    storyProgression: "Perfect! Tenzing Momo's magical music box clock chimed at 3 PM, just as Emi described. She must have been enchanted by this mystical shop filled with Tibetan treasures.",
-    recommendations: [
-      {
-        title: "Tenzing Momo",
-        description: "Visit this enchanting Tibetan shop filled with singing bowls, prayer flags, and spiritual artifacts. Don't miss the hourly chimes!"
-      },
-      {
-        title: "Market Spice",
-        description: "Explore the aromatic spice shop nearby, perfect for finding unique teas and seasonings."
-      }
-    ]
-  },
-  {
-    title: "The Underground Connection",
-    description: "The postcard shows stairs going down with the note: 'Where Seattle's past lies beneath your feet, near the market's southern beat.'",
-    hints: [
-      "This refers to something below street level near Pike Place Market.",
-      "Seattle has a famous underground area.",
-      "It's related to the city's history after the Great Fire.",
-      "Tours are available to explore this hidden area.",
-      "It's located south of Pike Place Market.",
-      "The answer is Seattle's famous subterranean attraction."
-    ],
-    answer: "Underground Tour",
-    storyProgression: "Excellent detective work! Emi discovered Seattle's fascinating Underground Tour. She was amazed by the buried streets and storefronts from old Seattle, hidden beneath the modern city.",
-    recommendations: [
-      {
-        title: "Bill Speidel's Underground Tour",
-        description: "Explore the buried streets and storefronts of old Seattle on this fascinating historical tour."
-      },
-      {
-        title: "Klondike Gold Rush Museum",
-        description: "Learn about Seattle's role in the Klondike Gold Rush and its connection to the underground history."
-      }
-    ]
-  },
-  {
-    title: "The Gum Wall Secret",
-    description: "Emi's postcard is sticky! She wrote: 'Where thousands leave their mark in the most colorful way, beneath the market where music plays.'",
-    hints: [
-      "This is about a very unique wall in Seattle.",
-      "It's located below Pike Place Market.",
-      "People stick something to this wall.",
-      "It's considered one of the most germy tourist attractions.",
-      "The wall is covered in colorful chewed items.",
-      "It's near the theater district below the market."
-    ],
-    answer: "Gum Wall",
-    storyProgression: "Spot on! Emi found the famous (and infamous) Gum Wall in Post Alley. She was both disgusted and fascinated by this sticky landmark where thousands of people have left their mark.",
-    recommendations: [
-      {
-        title: "Post Alley Gum Wall",
-        description: "Visit this quirky and colorful (though germy) attraction where visitors stick their chewed gum to the wall."
-      },
-      {
-        title: "Unexpected Productions",
-        description: "Catch an improv comedy show at the theater near the Gum Wall for some laughs after your sticky adventure."
-      }
-    ]
-  },
-  {
-    title: "The First Starbucks Riddle",
-    description: "The postcard shows a mermaid and says: 'Where the siren first sang her song, before she conquered the world's coffee strong.'",
-    hints: [
-      "This is about the very first location of a famous coffee company.",
-      "The mermaid reference is about their logo.",
-      "It's located in Pike Place Market.",
-      "This coffee company is now worldwide.",
-      "The original store looks different from modern locations.",
-      "It's the birthplace of a coffee empire."
-    ],
-    answer: "Original Starbucks",
-    storyProgression: "Perfect! Emi visited the original Starbucks store, where it all began in 1971. She was fascinated by the original logo and the humble beginnings of what would become a global coffee empire.",
+    answer: "warmth",
+    storyProgression: "You've found the first clue! Emi was drawn to the warmth of Pike Place Market's coffee culture. Her letter mentions the comfort she found in the bustling cafes, but there's more to discover...",
     recommendations: [
       {
         title: "Original Starbucks Store",
-        description: "Visit the first-ever Starbucks location and see the original logo and vintage decor from 1971."
+        description: "Visit the first-ever Starbucks location and experience where the coffee empire began in 1971."
       },
       {
-        title: "Grand Central Bakery",
-        description: "Try some artisanal pastries and coffee from this local Seattle bakery with a location in the market."
+        title: "Victrola Coffee Roasters",
+        description: "Try artisanal coffee from this local Seattle roaster with a cozy atmosphere perfect for warming up."
       }
     ]
   },
   {
-    title: "The Piggy Bank Puzzle",
-    description: "Emi's postcard features a bronze pig and the words: 'This little piggy went to market, and never left. Touch its nose for luck!'",
+    title: "Fish",
+    description: "The second postcard shows flowing water with the words: 'Where salmon swim upstream to their birthplace, following nature's ancient call.'",
     hints: [
-      "There's a famous pig statue at Pike Place Market.",
-      "It's made of bronze and quite large.",
-      "People rub its nose for good luck.",
-      "It's a popular photo spot for tourists.",
-      "The pig has a name.",
-      "It's also a functioning piggy bank for donations."
+      "This is about a natural waterway where salmon travel.",
+      "Salmon return to where they were born to spawn.",
+      "It's smaller than a river but larger than a stream.",
+      "Pike Place Market is near Seattle's waterfront.",
+      "These waterways flow into larger bodies of water.",
+      "It's a small freshwater stream where fish are born."
     ],
-    answer: "Rachel the Pig",
-    storyProgression: "Wonderful! Emi met Rachel the Pig, Pike Place Market's beloved bronze mascot. She learned that Rachel collects donations for the market foundation and that rubbing her nose brings good luck.",
+    answer: "creek",
+    storyProgression: "Excellent! Emi discovered the connection between Pike Place Market and Seattle's natural waterways. She learned about the salmon runs and the creeks that feed into Elliott Bay.",
     recommendations: [
       {
-        title: "Rachel the Pig Photo Op",
-        description: "Take a photo with Rachel and rub her nose for good luck! Don't forget to drop a coin in for the market foundation."
+        title: "Pike Place Fish Market",
+        description: "Watch the famous fish throwing show and learn about Pacific Northwest seafood traditions."
       },
       {
-        title: "Market Ghost Tour",
-        description: "Join an evening ghost tour to learn about the spooky history of Pike Place Market and its supernatural residents."
+        title: "Waterfront Park",
+        description: "Walk along the waterfront to see where urban Seattle meets the natural marine environment."
       }
     ]
   },
   {
-    title: "The Honey Maze",
-    description: "The postcard is covered in hexagons and says: 'Sweet golden treasure from busy workers, where the keeper shares nature's nectar.'",
+    title: "Ferris Wheel",
+    description: "Emi's postcard features a giant wheel against the sky with the note: 'From up here, you can see the whole world spread out like a map.'",
     hints: [
-      "This is about a sweet product made by insects.",
-      "The hexagon pattern is a clue to what they make.",
-      "Pike Place Market has a famous shop for this product.",
-      "The 'keeper' refers to someone who tends to bees.",
-      "You can taste different varieties of this golden substance.",
-      "It's a shop dedicated entirely to bee products."
+      "This is about what you can see from a high vantage point.",
+      "The Ferris wheel offers views in all directions.",
+      "It's a type of view that covers a wide area.",
+      "You can see 360 degrees around you.",
+      "It's the kind of view photographers love for landscapes.",
+      "It means you can see everything spread out before you."
     ],
-    answer: "honey",
-    storyProgression: "Sweet success! Emi discovered the amazing honey shop at Pike Place Market. She tasted dozens of varieties from local beekeepers and learned about the importance of bees to our ecosystem.",
+    answer: "panoramic views",
+    storyProgression: "Perfect! Emi was mesmerized by the panoramic views from the Seattle Great Wheel. She could see Mount Rainier, the Olympic Mountains, and all of Elliott Bay from above.",
     recommendations: [
       {
-        title: "Pike Place Market Honey Shops",
-        description: "Sample dozens of honey varieties from local beekeepers and learn about sustainable beekeeping practices."
+        title: "Seattle Great Wheel",
+        description: "Take a ride on this iconic Ferris wheel for breathtaking 360-degree views of the city and Puget Sound."
       },
       {
-        title: "Local Flower Vendors",
-        description: "Buy fresh flowers from the market's flower vendors to support the bees and beautify your space."
+        title: "Pike Place Market Overlook",
+        description: "Find the perfect viewpoints within the market for stunning photos of Elliott Bay and the city skyline."
       }
     ]
   },
   {
-    title: "The Magic Elixir",
-    description: "Emi's postcard smells like herbs and says: 'Where ancient wisdom meets modern taste, and leaves steep in harmony's haste.'",
+    title: "Cheese",
+    description: "The postcard smells of aged dairy and says: 'The outer layer protects the treasure within, rough and tough but full of flavor.'",
     hints: [
-      "This is about a popular beverage made from dried leaves.",
-      "The reference to 'ancient wisdom' suggests traditional preparation.",
-      "Pike Place Market has several shops specializing in this.",
-      "The 'steeping' process is key to making this drink.",
-      "It can be served hot or cold.",
-      "Many varieties come from different countries and regions."
+      "This is about the outer covering of aged cheese.",
+      "It forms naturally as cheese ages.",
+      "It's often removed before eating the cheese.",
+      "Some people do eat it, as it has concentrated flavor.",
+      "It protects the cheese during the aging process.",
+      "It's the tough outer skin that develops on aged cheeses."
     ],
-    answer: "tea",
-    storyProgression: "Excellent! Emi found the wonderful tea shops at Pike Place Market. She learned about tea ceremonies, tasted exotic blends from around the world, and found her new favorite chai blend.",
+    answer: "rind",
+    storyProgression: "Wonderful! Emi discovered the artisanal cheese shops at Pike Place Market. She learned about cheese aging and how the rind protects and flavors the cheese during the process.",
     recommendations: [
       {
-        title: "Stash Tea Company",
-        description: "Explore hundreds of tea varieties and learn about proper brewing techniques from tea experts."
+        title: "Beecher's Handmade Cheese",
+        description: "Watch cheese being made through the windows and sample their famous Mac & Cheese and aged cheeses."
       },
       {
-        title: "The Spice & Tea Exchange",
-        description: "Discover unique spice and tea blends, perfect for creating your own signature flavors at home."
+        title: "DeLaurenti Specialty Food",
+        description: "Explore their extensive selection of imported and local cheeses with knowledgeable staff to guide your choices."
+      }
+    ]
+  },
+  {
+    title: "Gum Wall",
+    description: "Emi's postcard is oddly tacky to the touch! She wrote: 'This colorful wall has a strange power - everything that touches it becomes part of it forever.'",
+    hints: [
+      "This is about what happens when things adhere to surfaces.",
+      "The Gum Wall is famous for this property.",
+      "It's the opposite of sliding or falling off.",
+      "Things become attached and don't come off easily.",
+      "It's what gum does when you step on it.",
+      "Items become firmly attached or adhered to the surface."
+    ],
+    answer: "sticking",
+    storyProgression: "Spot on! Emi found the famous (and infamous) Gum Wall in Post Alley. She was both fascinated and disgusted by how everything sticks to this colorful, quirky landmark.",
+    recommendations: [
+      {
+        title: "Post Alley Gum Wall",
+        description: "Visit this unique and colorful (though germy) attraction where visitors stick their chewed gum to create art."
+      },
+      {
+        title: "Unexpected Productions",
+        description: "Catch an improv comedy show at the theater near the Gum Wall for entertainment after your sticky adventure."
+      }
+    ]
+  },
+  {
+    title: "Flowers",
+    description: "The postcard is decorated with tropical blooms and says: 'In the land of evergreen, this exotic beauty brings thoughts of distant shores and warm breezes.'",
+    hints: [
+      "This is about a specific type of tropical flower.",
+      "It's often associated with Hawaii and tropical climates.",
+      "The flower is large and colorful, often red or pink.",
+      "It's commonly used in leis and tropical decorations.",
+      "You might find it at Pike Place Market's flower vendors.",
+      "It's a flower that represents paradise and tropical beauty."
+    ],
+    answer: "hibiscus",
+    storyProgression: "Beautiful! Emi discovered exotic hibiscus flowers at Pike Place Market's flower vendors. Even in Seattle's climate, she found these tropical beauties that reminded her of distant, warmer places.",
+    recommendations: [
+      {
+        title: "Pike Place Market Flower Vendors",
+        description: "Browse the colorful flower stalls and find both local and exotic blooms to brighten your day."
+      },
+      {
+        title: "Market Heritage Tours",
+        description: "Learn about the market's agricultural heritage and the farmers who travel from across the region to sell their flowers."
+      }
+    ]
+  },
+  {
+    title: "Pigs",
+    description: "Emi's postcard shows carnival games and cotton candy with the note: 'Where prizes are won, rides are ridden, and memories are made under bright lights.'",
+    hints: [
+      "This is about a specific type of annual event.",
+      "It features carnival rides, games, and agricultural exhibits.",
+      "Pigs are often featured in livestock competitions there.",
+      "It's a traditional American summer celebration.",
+      "People compete for ribbons and prizes.",
+      "It combines agriculture, entertainment, and community celebration."
+    ],
+    answer: "state fair",
+    storyProgression: "Excellent! Emi was reminiscing about state fairs while looking at Rachel the Pig. The bronze pig reminded her of county fairs, livestock shows, and the agricultural heritage that Pike Place Market represents.",
+    recommendations: [
+      {
+        title: "Rachel the Pig",
+        description: "Visit Pike Place Market's beloved bronze pig mascot and learn about the market's agricultural roots."
+      },
+      {
+        title: "Local Farm Vendors",
+        description: "Meet the farmers who bring their produce to the market, continuing the agricultural tradition."
+      }
+    ]
+  },
+  {
+    title: "Post Alley",
+    description: "The postcard shows an old-fashioned street surface with the note: 'Where ancient stones tell stories of horse-drawn carts and gaslight evenings.'",
+    hints: [
+      "This is about a traditional type of street paving.",
+      "It was commonly used in the 1800s and early 1900s.",
+      "These stones are rounded and fit together like a puzzle.",
+      "You can still find streets paved this way in historic areas.",
+      "It creates a distinctive bumpy texture underfoot.",
+      "Post Alley features this historic type of stone street surface."
+    ],
+    answer: "cobblestone",
+    storyProgression: "Perfect! Emi walked the historic cobblestone streets of Post Alley, feeling connected to Seattle's past. The old stones reminded her of the city's maritime and pioneer heritage.",
+    recommendations: [
+      {
+        title: "Post Alley Historic Walk",
+        description: "Stroll the cobblestone streets and discover the historic architecture and hidden gems of this charming alley."
+      },
+      {
+        title: "Underground Tours",
+        description: "Learn more about Seattle's historic streets and how the city was rebuilt after the Great Fire of 1889."
+      }
+    ]
+  },
+  {
+    title: "Produce",
+    description: "Emi's postcard shows bustling market stalls with the note: 'The heart of the market beats with those who bring the earth's bounty to the city.'",
+    hints: [
+      "This is about the people who sell fresh fruits and vegetables.",
+      "They're the heart and soul of Pike Place Market.",
+      "Many of them are local farmers who grow their own crops.",
+      "They bring fresh produce from the surrounding farms.",
+      "They often have deep knowledge about what they're selling.",
+      "They're the sellers who make the market come alive with fresh goods."
+    ],
+    answer: "vendors",
+    storyProgression: "Wonderful! Emi connected with the produce vendors, the true heart of Pike Place Market. She learned their stories, tasted their fresh fruits, and understood the market's agricultural soul.",
+    recommendations: [
+      {
+        title: "Produce Vendors Tour",
+        description: "Meet the farmers and vendors who bring fresh, local produce to the market year-round."
+      },
+      {
+        title: "Seasonal Fruit Tastings",
+        description: "Sample the best of Pacific Northwest produce, from summer berries to autumn apples."
       }
     ]
   },
   {
     title: "The Final Letter",
-    description: "The last postcard shows a sunset view and says: 'Where water meets sky and ferries glide by, the final secret waits where lovers sigh.'",
+    description: "The last postcard shows a sunset view and says: 'In this place where memories gather like morning mist, the heart learns to treasure what was and what is.'",
     hints: [
-      "This is about a scenic viewpoint near Pike Place Market.",
-      "You can see water and ferries from this location.",
-      "It's a romantic spot popular with couples.",
-      "The view includes Elliott Bay.",
-      "It's accessible from the market area.",
-      "Many proposals happen at this scenic waterfront location."
+      "This is about remembering and cherishing past experiences.",
+      "It's what you do when you think fondly of good times.",
+      "Pike Place Market helps people create lasting memories.",
+      "It's the act of looking back with warmth and affection.",
+      "People often do this about places that meant something special to them.",
+      "It means to remember with pleasure and hold dear to your heart."
     ],
-    answer: "waterfront",
-    storyProgression: "Magnificent! You've solved all of Emi's puzzles! The final secret was the beautiful Seattle waterfront, where she watched ferries cross Elliott Bay and realized that sometimes the greatest adventures are found in the simple moments of wonder and discovery.",
+    answer: "reminisce",
+    storyProgression: "Magnificent! You've solved all of Emi's puzzles! The final secret was about reminiscing - how Pike Place Market becomes a place where people return in memory and heart, treasuring the experiences and connections made in this magical corner of Seattle.",
     recommendations: [
       {
-        title: "Seattle Waterfront",
-        description: "Take a romantic stroll along the waterfront, watch the ferries, and enjoy stunning views of Elliott Bay and the Olympic Mountains."
+        title: "Pike Place Market Memory Tour",
+        description: "Take a final walk through the market, collecting memories and perhaps finding your own special corner to reminisce about."
       },
       {
-        title: "Great Wheel",
-        description: "Ride the Seattle Great Wheel for panoramic views of the city, sound, and mountains - perfect for celebrating your puzzle-solving success!"
+        title: "Seattle Waterfront Sunset",
+        description: "End your journey watching the sunset over Elliott Bay, the perfect time for reflection and reminiscing about your Pike Place Market adventure."
       }
     ]
   }

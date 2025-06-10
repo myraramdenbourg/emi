@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import HintModal from "./HintModal";
 import AnswerModal from "./AnswerModal";
 import { PuzzleData } from "@/types/puzzle";
-import { Check } from "lucide-react";
+import { Check, Coffee, Fish, FerrisWheel, Flower } from "lucide-react";
 
 interface PuzzleCardProps {
   puzzle: PuzzleData;
@@ -14,6 +14,33 @@ interface PuzzleCardProps {
   isSolved: boolean;
   onSolved: () => void;
 }
+
+const getIconForPuzzle = (title: string) => {
+  switch (title.toLowerCase()) {
+    case 'coffee':
+      return <Coffee className="w-8 h-8 text-white" />;
+    case 'fish':
+      return <Fish className="w-8 h-8 text-white" />;
+    case 'ferris wheel':
+      return <FerrisWheel className="w-8 h-8 text-white" />;
+    case 'cheese':
+      return <Coffee className="w-8 h-8 text-white" />; // Using coffee as closest available
+    case 'gum wall':
+      return <Coffee className="w-8 h-8 text-white" />; // Using coffee as placeholder
+    case 'flowers':
+      return <Flower className="w-8 h-8 text-white" />;
+    case 'pigs':
+      return <Coffee className="w-8 h-8 text-white" />; // Using coffee as placeholder
+    case 'post alley':
+      return <Coffee className="w-8 h-8 text-white" />; // Using coffee as placeholder
+    case 'produce':
+      return <Coffee className="w-8 h-8 text-white" />; // Using coffee as placeholder
+    case 'the final letter':
+      return <Coffee className="w-8 h-8 text-white" />; // Using coffee as placeholder
+    default:
+      return <Coffee className="w-8 h-8 text-white" />;
+  }
+};
 
 const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps) => {
   const [showHints, setShowHints] = useState(false);
@@ -35,8 +62,8 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
         
         <CardContent className="p-6 relative">
           <div className="text-center mb-4">
-            <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
-              {puzzleIndex + 1}
+            <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
+              {getIconForPuzzle(puzzle.title)}
             </div>
             <h3 className="text-lg font-bold text-amber-900 font-serif mb-2">
               {puzzle.title}

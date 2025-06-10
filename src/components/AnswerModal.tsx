@@ -127,7 +127,7 @@ const AnswerModal = ({ isOpen, onClose, puzzle, puzzleIndex, onSolved }: AnswerM
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="bg-amber-100 p-4 rounded-lg border border-amber-200">
               <h3 className="font-semibold text-amber-900 mb-2">
-                Puzzle {puzzleIndex + 1}: {puzzle.title}
+                {puzzle.title}
               </h3>
               <p className="text-amber-800 text-sm">{puzzle.description}</p>
             </div>

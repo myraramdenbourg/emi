@@ -46,7 +46,7 @@ const AnswerModal = ({ isOpen, onClose, puzzle, puzzleIndex, onSolved }: AnswerM
         <DialogContent className="max-w-md bg-gradient-to-br from-amber-50 to-orange-100">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold text-amber-900 font-serif">
-              Submit Answer
+              Check Answer
             </DialogTitle>
           </DialogHeader>
 
@@ -94,7 +94,7 @@ const AnswerModal = ({ isOpen, onClose, puzzle, puzzleIndex, onSolved }: AnswerM
                 type="submit"
                 className="flex-1 bg-amber-600 hover:bg-amber-700 text-white"
               >
-                Submit Answer
+                Check Answer
               </Button>
             </div>
           </form>

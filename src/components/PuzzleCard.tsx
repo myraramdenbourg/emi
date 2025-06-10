@@ -87,13 +87,13 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
               className="w-full bg-orange-600 hover:bg-orange-700 text-white"
               variant="default"
             >
-              Submit Answer
+              Check Answer
             </Button>
           </div>
 
           <div className="mt-4 pt-4 border-t border-amber-200">
             <div className="text-xs text-amber-600 text-center">
-              Pike Place Market • Seattle, WA
+              {/* Pike Place Market • Seattle, WA */}
             </div>
           </div>
         </CardContent>

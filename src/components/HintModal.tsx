@@ -33,7 +33,8 @@ const HintModal = ({ isOpen, onClose, puzzle, puzzleIndex }: HintModalProps) => 
       <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto bg-gradient-to-br from-amber-50 to-orange-100">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-amber-900 font-serif">
-            Puzzle {puzzleIndex + 1}: {puzzle.title}
+            {/* Puzzle {puzzleIndex + 1}: */}
+            {puzzle.title}
           </DialogTitle>
         </DialogHeader>
 

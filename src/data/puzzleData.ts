@@ -52,7 +52,7 @@ export const puzzleData: PuzzleData[] = [
   },
   {
     title: "Ferris Wheel",
-    description: "Emi's postcard features a giant wheel against the sky with the note: 'From up here, you can see the whole world spread out like a map.'",
+    description: "When you start from the beginning, everything becomes clear. The wheel goes round and round, just lie our lives and stories.",
     hints: [
       "This is about what you can see from a high vantage point.",
       "The Ferris wheel offers views in all directions.",
@@ -76,7 +76,7 @@ export const puzzleData: PuzzleData[] = [
   },
   {
     title: "Cheese",
-    description: "The postcard smells of aged dairy and says: 'The outer layer protects the treasure within, rough and tough but full of flavor.'",
+    description: "I've noticed something curious on the shelves: no two wheels on the same shelf look exactly alike. Can you spot the pattern?",
     hints: [
       "This is about the outer covering of aged cheese.",
       "It forms naturally as cheese ages.",
@@ -100,7 +100,7 @@ export const puzzleData: PuzzleData[] = [
   },
   {
     title: "Gum Wall",
-    description: "Emi's postcard is oddly tacky to the touch! She wrote: 'This colorful wall has a strange power - everything that touches it becomes part of it forever.'",
+    description: "The gum wall doesn't just hold sugar and stories - it holds perspectives.",
     hints: [
       "This is about what happens when things adhere to surfaces.",
       "The Gum Wall is famous for this property.",
@@ -124,7 +124,7 @@ export const puzzleData: PuzzleData[] = [
   },
   {
     title: "Flowers",
-    description: "The postcard is decorated with tropical blooms and says: 'In the land of evergreen, this exotic beauty brings thoughts of distant shores and warm breezes.'",
+    description: "Look closely at the hybrids. If you know what each one is made of, you might figure out which letter to pluck from each name.",
     hints: [
       "This is about a specific type of tropical flower.",
       "It's often associated with Hawaii and tropical climates.",
@@ -148,7 +148,7 @@ export const puzzleData: PuzzleData[] = [
   },
   {
     title: "Pigs",
-    description: "Emi's postcard shows carnival games and cotton candy with the note: 'Where prizes are won, rides are ridden, and memories are made under bright lights.'",
+    description: "There's a secret tucked away where people leave their spare change. Take a look and follow the shapes.",
     hints: [
       "This is about a specific type of annual event.",
       "It features carnival rides, games, and agricultural exhibits.",
@@ -172,7 +172,7 @@ export const puzzleData: PuzzleData[] = [
   },
   {
     title: "Post Alley",
-    description: "The postcard shows an old-fashioned street surface with the note: 'Where ancient stones tell stories of horse-drawn carts and gaslight evenings.'",
+    description: "Pay attention to the details, both front and back - they hold the key.",
     hints: [
       "This is about a traditional type of street paving.",
       "It was commonly used in the 1800s and early 1900s.",
@@ -196,7 +196,7 @@ export const puzzleData: PuzzleData[] = [
   },
   {
     title: "Produce",
-    description: "Emi's postcard shows bustling market stalls with the note: 'The heart of the market beats with those who bring the earth's bounty to the city.'",
+    description: "I always loved when vendors at the market would slice open fruit for you. Looks like the oranges and dragon fruit are already cut! With help from the nubmers, line by line, something familiar will start to take shape.",
     hints: [
       "This is about the people who sell fresh fruits and vegetables.",
       "They're the heart and soul of Pike Place Market.",
@@ -220,7 +220,7 @@ export const puzzleData: PuzzleData[] = [
   },
   {
     title: "The Final Letter",
-    description: "The last postcard shows a sunset view and says: 'In this place where memories gather like morning mist, the heart learns to treasure what was and what is.'",
+    description: "The market changes over time. What are the hands pointing at?",
     hints: [
       "This is about remembering and cherishing past experiences.",
       "It's what you do when you think fondly of good times.",

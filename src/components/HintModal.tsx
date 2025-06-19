@@ -39,7 +39,7 @@ const HintModal = ({ isOpen, onClose, puzzle, puzzleIndex }: HintModalProps) => 
 
         <div className="space-y-4">
           <div className="bg-amber-100 p-4 rounded-lg border border-amber-200">
-            <h3 className="font-semibold text-amber-900 mb-2">Puzzle Description:</h3>
+            <h3 className="font-semibold text-amber-900 mb-2">Puzzle Clue:</h3>
             <p className="text-amber-800">{puzzle.description}</p>
           </div>
 

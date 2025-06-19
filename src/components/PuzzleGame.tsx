@@ -17,7 +17,7 @@ const PuzzleGame = () => {
       <div className="max-w-7xl mx-auto">
         <header className="text-center mb-12">
           <h1 className="text-5xl font-bold text-amber-900 mb-4 font-serif">
-            Letters to Emi
+            Echoes of the Market
           </h1>
           <p className="text-xl text-amber-700 max-w-2xl mx-auto">
             Discover the mysteries hidden in these vintage postcards from Pike Place Market. 

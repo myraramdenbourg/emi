@@ -4,7 +4,7 @@ import { PuzzleData } from "@/types/puzzle";
 export const puzzleData: PuzzleData[] = [
   {
     title: "Coffee",
-    description: "Emi's first postcard mentions a secret meeting place where 'the aroma fills the air and brings comfort to weary souls.' What feeling does this evoke?",
+    description: "You loved asking the baristas to make cool latte art. There may be more to it than you think. The secret lies in the last 3 sips.",
     hints: [
       "Think about what coffee provides beyond just caffeine.",
       "It's something people seek on cold Seattle mornings.",
@@ -28,7 +28,7 @@ export const puzzleData: PuzzleData[] = [
   },
   {
     title: "Fish",
-    description: "The second postcard shows flowing water with the words: 'Where salmon swim upstream to their birthplace, following nature's ancient call.'",
+    description: "Fish are always flying at the market. Sometimes they go missing.",
     hints: [
       "This is about a natural waterway where salmon travel.",
       "Salmon return to where they were born to spawn.",

@@ -98,12 +98,11 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
           </div>
 
           <div className="flex-1 flex flex-col">
-            <div className="flex-1 mb-4 rounded-lg overflow-hidden shadow-md bg-white">
+            <div className="mb-4 rounded-lg overflow-hidden shadow-md bg-white w-full aspect-[4/6]">
               <img 
                 src={getImageForPuzzle(puzzle.title)} 
                 alt={puzzle.title}
                 className="w-full h-full object-contain"
-                style={{ aspectRatio: '400/600' }}
               />
             </div>
 

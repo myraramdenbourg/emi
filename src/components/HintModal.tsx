@@ -67,7 +67,7 @@ const HintModal = ({ isOpen, onClose, puzzle, puzzleIndex }: HintModalProps) => 
                           className="border-amber-300 text-amber-700 hover:bg-amber-100"
                           disabled={index !== unlockedHints.length}
                         >
-                          {index === puzzle.hints.length - 1 ? "Reveal answer" : `Unlock Hint ${index + 1}`}
+                          { `Unlock Hint ${index + 1}`}
                         </Button>
                       </div>
                     )}

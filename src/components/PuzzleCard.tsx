@@ -89,16 +89,16 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
         
         <CardContent className="p-6 relative flex flex-col h-full">
           <div className="text-center mb-4">
-            <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
+            {/* <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg"> */}
               {/* {getIconForPuzzle(puzzle.title)} */}
-            </div>
+            {/* </CardContent>div> */}
             <h3 className="text-lg font-bold text-amber-900 font-serif mb-3">
               {puzzle.title}
             </h3>
           </div>
 
           <div className="flex-1 flex flex-col">
-            <div className="mb-4 rounded-lg overflow-hidden shadow-md bg-white w-full aspect-[4/6]">
+            <div className="mb-4 rounded-lg overflow-hidden shadow-md bg-white w-full">
               <img 
                 src={getImageForPuzzle(puzzle.title)} 
                 alt={puzzle.title}

@@ -59,7 +59,7 @@ const getImageForPuzzle = (title: string) => {
     case 'pigs':
       return '/assets/pigs_front.png';
     case 'post alley':
-      return '/assets/postalley.png';
+      return '/assets/postalley_front.png';
     case 'produce':
       return '/assets/produce_front.png';
     case 'the final letter':

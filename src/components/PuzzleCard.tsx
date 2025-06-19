@@ -75,7 +75,7 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
 
   return (
     <>
-      <Card className="relative overflow-hidden bg-gradient-to-br from-amber-50 to-orange-100 border-2 border-amber-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+      <Card className="relative overflow-hidden bg-gradient-to-br from-amber-50 to-orange-100 border-2 border-amber-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col h-full">
         {isSolved && (
           <div className="absolute top-2 right-2 z-10">
             <Badge className="bg-green-600 hover:bg-green-600">
@@ -87,7 +87,7 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
         
         <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-amber-900/10" />
         
-        <CardContent className="p-6 relative">
+        <CardContent className="p-6 relative flex flex-col h-full">
           <div className="text-center mb-4">
             <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
               {getIconForPuzzle(puzzle.title)}
@@ -95,36 +95,40 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
             <h3 className="text-lg font-bold text-amber-900 font-serif mb-3">
               {puzzle.title}
             </h3>
-            <div className="w-full h-48 mb-4 rounded-lg overflow-hidden shadow-md">
+          </div>
+
+          <div className="flex-1 flex flex-col">
+            <div className="flex-1 mb-4 rounded-lg overflow-hidden shadow-md bg-white">
               <img 
                 src={getImageForPuzzle(puzzle.title)} 
                 alt={puzzle.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
+                style={{ aspectRatio: '400/600' }}
               />
             </div>
-          </div>
 
-          <div className="space-y-3">
-            <Button
-              onClick={() => setShowHints(true)}
-              className="w-full bg-amber-600 hover:bg-amber-700 text-white"
-              variant="default"
-            >
-              View Hints
-            </Button>
-            
-            <Button
-              onClick={() => setShowAnswer(true)}
-              className="w-full bg-orange-600 hover:bg-orange-700 text-white"
-              variant="default"
-            >
-              Check Answer
-            </Button>
-          </div>
+            <div className="space-y-3 mt-auto">
+              <Button
+                onClick={() => setShowHints(true)}
+                className="w-full bg-amber-600 hover:bg-amber-700 text-white"
+                variant="default"
+              >
+                View Hints
+              </Button>
+              
+              <Button
+                onClick={() => setShowAnswer(true)}
+                className="w-full bg-orange-600 hover:bg-orange-700 text-white"
+                variant="default"
+              >
+                Check Answer
+              </Button>
+            </div>
 
-          <div className="mt-4 pt-4 border-t border-amber-200">
-            <div className="text-xs text-amber-600 text-center">
-              {/* Pike Place Market • Seattle, WA */}
+            <div className="mt-4 pt-4 border-t border-amber-200">
+              <div className="text-xs text-amber-600 text-center">
+                {/* Pike Place Market • Seattle, WA */}
+              </div>
             </div>
           </div>
         </CardContent>

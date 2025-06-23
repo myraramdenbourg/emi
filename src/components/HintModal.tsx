@@ -78,11 +78,11 @@ return (
 
        
           <div className="space-y-4">
-            <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
+            {/* <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
               <p className="text-green-800 text-center font-medium">
                 All hints unlocked!
               </p>
-            </div>
+            </div> */}
 
             <div className="text-center">
               <Button

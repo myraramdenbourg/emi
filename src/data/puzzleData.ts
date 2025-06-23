@@ -6,12 +6,10 @@ export const puzzleData: PuzzleData[] = [
     title: "Coffee",
     description: "You loved asking the baristas to make cool latte art. There may be more to it than you think. The secret lies in the last 3 sips.",
     hints: [
-      "Think about what coffee provides beyond just caffeine.",
-      "It's something people seek on cold Seattle mornings.",
-      "Coffee shops are places where people gather and feel cozy.",
-      "It's the opposite of coldness.",
-      "People hold their coffee cups to feel this sensation.",
-      "It's what coffee brings to both your hands and your heart."
+      "Do you notice something missing with the bottom 3 cups of coffee?",
+      "You need to find the correct letters that match the latte art pattern.",
+      "Each letter has an associated symbol in the latte art. For example, heart = C.",
+      "The first cup with missing letters should have a W on the left side and an A on the right side."
     ],
     answer: "warmth",
     storyProgression: "You've found the first clue! Emi was drawn to the warmth of Pike Place Market's coffee culture. Her letter mentions the comfort she found in the bustling cafes, but there's more to discover...",

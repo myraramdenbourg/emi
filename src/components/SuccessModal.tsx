@@ -28,7 +28,7 @@ const SuccessModal = ({ isOpen, onClose, puzzle, puzzleIndex }: SuccessModalProp
               <Star className="w-10 h-10 text-white" />
             </div>
             <h3 className="text-xl font-bold text-green-900 mb-2">
-              Puzzle {puzzleIndex + 1} Solved!
+              {puzzle.title} Solved!
             </h3>
             <p className="text-green-700">
               You've successfully solved "{puzzle.title}"

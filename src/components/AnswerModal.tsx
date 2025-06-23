@@ -115,85 +115,85 @@ const AnswerModal = ({ isOpen, onClose, puzzle, puzzleIndex, onSolved }: AnswerM
   };
 
   return (
-    <>
-      <Dialog open={isOpen} onOpenChange={handleClose}>
-        <DialogContent className="max-w-md bg-gradient-to-br from-amber-50 to-orange-100">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-bold text-amber-900 font-serif">
+  <>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
+      <DialogContent className="max-w-md bg-[#FFFDF5] border border-[#F5D547] shadow-md">
+        <DialogHeader>
+          <DialogTitle className="text-xl font-bold text-[#03404A] font-serif">
+            Check Answer
+          </DialogTitle>
+        </DialogHeader>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="bg-[#FFFBEA] p-4 rounded-lg border border-[#F5D547]/60">
+            <h3 className="font-semibold text-[#03404A] mb-2">
+              {puzzle.title}
+            </h3>
+            <p className="text-[#2C2C2C] text-sm">{puzzle.description}</p>
+          </div>
+
+          <div>
+            <Label htmlFor="answer" className="text-[#03404A] font-medium">
+              Your Answer:
+            </Label>
+            <Input
+              id="answer"
+              type="text"
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+              placeholder="Enter your answer..."
+              className="mt-1 border-[#F5D547]/40 focus:border-[#F5D547] text-[#2C2C2C]"
+              required
+            />
+          </div>
+
+          {showError && (
+            <div className="bg-[#FFF3F3] border border-red-200 p-3 rounded-lg">
+              <p className="text-red-800 text-sm text-center">
+                That's not quite right. Try again or check the hints!
+              </p>
+            </div>
+          )}
+
+          {customMessage && (
+            <div className="bg-[#E6F4FF] border border-blue-200 p-3 rounded-lg">
+              <p className="text-blue-800 text-sm text-center">
+                {customMessage}
+              </p>
+            </div>
+          )}
+
+          <div className="flex gap-2">
+            <Button
+              type="button"
+              onClick={handleClose}
+              variant="outline"
+              className="flex-1 border-[#F5D547]/40 text-[#03404A] hover:bg-[#FFFBEA]"
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              className="flex-1 bg-[#F5D547] hover:bg-[#e8c734] text-[#03404A] font-semibold"
+            >
               Check Answer
-            </DialogTitle>
-          </DialogHeader>
+            </Button>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="bg-amber-100 p-4 rounded-lg border border-amber-200">
-              <h3 className="font-semibold text-amber-900 mb-2">
-                {puzzle.title}
-              </h3>
-              <p className="text-amber-800 text-sm">{puzzle.description}</p>
-            </div>
-
-            <div>
-              <Label htmlFor="answer" className="text-amber-900 font-medium">
-                Your Answer:
-              </Label>
-              <Input
-                id="answer"
-                type="text"
-                value={answer}
-                onChange={(e) => setAnswer(e.target.value)}
-                placeholder="Enter your answer..."
-                className="mt-1 border-amber-300 focus:border-amber-500"
-                required
-              />
-            </div>
-
-            {showError && (
-              <div className="bg-red-50 border border-red-200 p-3 rounded-lg">
-                <p className="text-red-800 text-sm text-center">
-                  That's not quite right. Try again or check the hints!
-                </p>
-              </div>
-            )}
-
-            {customMessage && (
-              <div className="bg-blue-50 border border-blue-200 p-3 rounded-lg">
-                <p className="text-blue-800 text-sm text-center">
-                  {customMessage}
-                </p>
-              </div>
-            )}
-
-            <div className="flex gap-2">
-              <Button
-                type="button"
-                onClick={handleClose}
-                variant="outline"
-                className="flex-1 border-amber-300 text-amber-700 hover:bg-amber-100"
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                className="flex-1 bg-amber-600 hover:bg-amber-700 text-white"
-              >
-                Check Answer
-              </Button>
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
-
-      <SuccessModal
-        isOpen={showSuccess}
-        onClose={() => {
-          setShowSuccess(false);
-          handleClose();
-        }}
-        puzzle={puzzle}
-        puzzleIndex={puzzleIndex}
-      />
-    </>
-  );
+    <SuccessModal
+      isOpen={showSuccess}
+      onClose={() => {
+        setShowSuccess(false);
+        handleClose();
+      }}
+      puzzle={puzzle}
+      puzzleIndex={puzzleIndex}
+    />
+  </>
+);
 };
 
 export default AnswerModal;

@@ -1,7 +1,6 @@
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { PuzzleData } from "@/types/puzzle";
 import { Trophy, Star } from "lucide-react";
 
@@ -35,32 +34,6 @@ const SuccessModal = ({ isOpen, onClose, puzzle, puzzleIndex }: SuccessModalProp
               You've successfully solved "{puzzle.title}"
             </p>
           </div>
-
-          <Card className="border border-green-200 bg-green-50">
-            <CardContent className="p-4">
-              <h4 className="font-semibold text-green-900 mb-2">Story Continues...</h4>
-              <p className="text-green-800 leading-relaxed">
-                {puzzle.storyProgression}
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border border-blue-200 bg-blue-50">
-            <CardContent className="p-4">
-              <h4 className="font-semibold text-blue-900 mb-3 flex items-center gap-2">
-                <Star className="w-4 h-4" />
-                Pike Place Market Recommendations
-              </h4>
-              <div className="space-y-2">
-                {puzzle.recommendations.map((rec, index) => (
-                  <div key={index} className="bg-blue-100 p-3 rounded-lg">
-                    <h5 className="font-medium text-blue-900">{rec.title}</h5>
-                    <p className="text-blue-800 text-sm">{rec.description}</p>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
 
           <div className="text-center">
             <Button

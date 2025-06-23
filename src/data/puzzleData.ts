@@ -25,6 +25,30 @@ export const puzzleData: PuzzleData[] = [
     ]
   },
   {
+    title: "Pigs",
+    description: "There's a secret tucked away where people leave their spare change. Take a look and follow the shapes.",
+    hints: [
+      "This is about a specific type of annual event.",
+      "It features carnival rides, games, and agricultural exhibits.",
+      "Pigs are often featured in livestock competitions there.",
+      "It's a traditional American summer celebration.",
+      "People compete for ribbons and prizes.",
+      "It combines agriculture, entertainment, and community celebration."
+    ],
+    answer: "state fair",
+    storyProgression: "Excellent! Emi was reminiscing about state fairs while looking at Rachel the Pig. The bronze pig reminded her of county fairs, livestock shows, and the agricultural heritage that Pike Place Market represents.",
+    recommendations: [
+      {
+        title: "Rachel the Pig",
+        description: "Visit Pike Place Market's beloved bronze pig mascot and learn about the market's agricultural roots."
+      },
+      {
+        title: "Local Farm Vendors",
+        description: "Meet the farmers who bring their produce to the market, continuing the agricultural tradition."
+      }
+    ]
+  },
+  {
     title: "Fish",
     description: "Fish are always flying at the market. Sometimes they go missing.",
     hints: [
@@ -45,78 +69,6 @@ export const puzzleData: PuzzleData[] = [
       {
         title: "Waterfront Park",
         description: "Walk along the waterfront to see where urban Seattle meets the natural marine environment."
-      }
-    ]
-  },
-  {
-    title: "Ferris Wheel",
-    description: "When you start from the beginning, everything becomes clear. The wheel goes round and round, just lie our lives and stories.",
-    hints: [
-      "This is about what you can see from a high vantage point.",
-      "The Ferris wheel offers views in all directions.",
-      "It's a type of view that covers a wide area.",
-      "You can see 360 degrees around you.",
-      "It's the kind of view photographers love for landscapes.",
-      "It means you can see everything spread out before you."
-    ],
-    answer: "panoramic views",
-    storyProgression: "Perfect! Emi was mesmerized by the panoramic views from the Seattle Great Wheel. She could see Mount Rainier, the Olympic Mountains, and all of Elliott Bay from above.",
-    recommendations: [
-      {
-        title: "Seattle Great Wheel",
-        description: "Take a ride on this iconic Ferris wheel for breathtaking 360-degree views of the city and Puget Sound."
-      },
-      {
-        title: "Pike Place Market Overlook",
-        description: "Find the perfect viewpoints within the market for stunning photos of Elliott Bay and the city skyline."
-      }
-    ]
-  },
-  {
-    title: "Cheese",
-    description: "I've noticed something curious on the shelves: no two wheels on the same shelf look exactly alike. Can you spot the pattern?",
-    hints: [
-      "This is about the outer covering of aged cheese.",
-      "It forms naturally as cheese ages.",
-      "It's often removed before eating the cheese.",
-      "Some people do eat it, as it has concentrated flavor.",
-      "It protects the cheese during the aging process.",
-      "It's the tough outer skin that develops on aged cheeses."
-    ],
-    answer: "rind",
-    storyProgression: "Wonderful! Emi discovered the artisanal cheese shops at Pike Place Market. She learned about cheese aging and how the rind protects and flavors the cheese during the process.",
-    recommendations: [
-      {
-        title: "Beecher's Handmade Cheese",
-        description: "Watch cheese being made through the windows and sample their famous Mac & Cheese and aged cheeses."
-      },
-      {
-        title: "DeLaurenti Specialty Food",
-        description: "Explore their extensive selection of imported and local cheeses with knowledgeable staff to guide your choices."
-      }
-    ]
-  },
-  {
-    title: "Gum Wall",
-    description: "The gum wall doesn't just hold sugar and stories - it holds perspectives.",
-    hints: [
-      "This is about what happens when things adhere to surfaces.",
-      "The Gum Wall is famous for this property.",
-      "It's the opposite of sliding or falling off.",
-      "Things become attached and don't come off easily.",
-      "It's what gum does when you step on it.",
-      "Items become firmly attached or adhered to the surface."
-    ],
-    answer: "sticking",
-    storyProgression: "Spot on! Emi found the famous (and infamous) Gum Wall in Post Alley. She was both fascinated and disgusted by how everything sticks to this colorful, quirky landmark.",
-    recommendations: [
-      {
-        title: "Post Alley Gum Wall",
-        description: "Visit this unique and colorful (though germy) attraction where visitors stick their chewed gum to create art."
-      },
-      {
-        title: "Unexpected Productions",
-        description: "Catch an improv comedy show at the theater near the Gum Wall for entertainment after your sticky adventure."
       }
     ]
   },
@@ -145,26 +97,50 @@ export const puzzleData: PuzzleData[] = [
     ]
   },
   {
-    title: "Pigs",
-    description: "There's a secret tucked away where people leave their spare change. Take a look and follow the shapes.",
+    title: "Produce",
+    description: "I always loved when vendors at the market would slice open fruit for you. Looks like the oranges and dragon fruit are already cut! With help from the nubmers, line by line, something familiar will start to take shape.",
     hints: [
-      "This is about a specific type of annual event.",
-      "It features carnival rides, games, and agricultural exhibits.",
-      "Pigs are often featured in livestock competitions there.",
-      "It's a traditional American summer celebration.",
-      "People compete for ribbons and prizes.",
-      "It combines agriculture, entertainment, and community celebration."
+      "This is about the people who sell fresh fruits and vegetables.",
+      "They're the heart and soul of Pike Place Market.",
+      "Many of them are local farmers who grow their own crops.",
+      "They bring fresh produce from the surrounding farms.",
+      "They often have deep knowledge about what they're selling.",
+      "They're the sellers who make the market come alive with fresh goods."
     ],
-    answer: "state fair",
-    storyProgression: "Excellent! Emi was reminiscing about state fairs while looking at Rachel the Pig. The bronze pig reminded her of county fairs, livestock shows, and the agricultural heritage that Pike Place Market represents.",
+    answer: "vendors",
+    storyProgression: "Wonderful! Emi connected with the produce vendors, the true heart of Pike Place Market. She learned their stories, tasted their fresh fruits, and understood the market's agricultural soul.",
     recommendations: [
       {
-        title: "Rachel the Pig",
-        description: "Visit Pike Place Market's beloved bronze pig mascot and learn about the market's agricultural roots."
+        title: "Produce Vendors Tour",
+        description: "Meet the farmers and vendors who bring fresh, local produce to the market year-round."
       },
       {
-        title: "Local Farm Vendors",
-        description: "Meet the farmers who bring their produce to the market, continuing the agricultural tradition."
+        title: "Seasonal Fruit Tastings",
+        description: "Sample the best of Pacific Northwest produce, from summer berries to autumn apples."
+      }
+    ]
+  },
+  {
+    title: "Cheese",
+    description: "I've noticed something curious on the shelves: no two wheels on the same shelf look exactly alike. Can you spot the pattern?",
+    hints: [
+      "This is about the outer covering of aged cheese.",
+      "It forms naturally as cheese ages.",
+      "It's often removed before eating the cheese.",
+      "Some people do eat it, as it has concentrated flavor.",
+      "It protects the cheese during the aging process.",
+      "It's the tough outer skin that develops on aged cheeses."
+    ],
+    answer: "rind",
+    storyProgression: "Wonderful! Emi discovered the artisanal cheese shops at Pike Place Market. She learned about cheese aging and how the rind protects and flavors the cheese during the process.",
+    recommendations: [
+      {
+        title: "Beecher's Handmade Cheese",
+        description: "Watch cheese being made through the windows and sample their famous Mac & Cheese and aged cheeses."
+      },
+      {
+        title: "DeLaurenti Specialty Food",
+        description: "Explore their extensive selection of imported and local cheeses with knowledgeable staff to guide your choices."
       }
     ]
   },
@@ -193,26 +169,50 @@ export const puzzleData: PuzzleData[] = [
     ]
   },
   {
-    title: "Produce",
-    description: "I always loved when vendors at the market would slice open fruit for you. Looks like the oranges and dragon fruit are already cut! With help from the nubmers, line by line, something familiar will start to take shape.",
+    title: "Gum Wall",
+    description: "The gum wall doesn't just hold sugar and stories - it holds perspectives.",
     hints: [
-      "This is about the people who sell fresh fruits and vegetables.",
-      "They're the heart and soul of Pike Place Market.",
-      "Many of them are local farmers who grow their own crops.",
-      "They bring fresh produce from the surrounding farms.",
-      "They often have deep knowledge about what they're selling.",
-      "They're the sellers who make the market come alive with fresh goods."
+      "This is about what happens when things adhere to surfaces.",
+      "The Gum Wall is famous for this property.",
+      "It's the opposite of sliding or falling off.",
+      "Things become attached and don't come off easily.",
+      "It's what gum does when you step on it.",
+      "Items become firmly attached or adhered to the surface."
     ],
-    answer: "vendors",
-    storyProgression: "Wonderful! Emi connected with the produce vendors, the true heart of Pike Place Market. She learned their stories, tasted their fresh fruits, and understood the market's agricultural soul.",
+    answer: "sticking",
+    storyProgression: "Spot on! Emi found the famous (and infamous) Gum Wall in Post Alley. She was both fascinated and disgusted by how everything sticks to this colorful, quirky landmark.",
     recommendations: [
       {
-        title: "Produce Vendors Tour",
-        description: "Meet the farmers and vendors who bring fresh, local produce to the market year-round."
+        title: "Post Alley Gum Wall",
+        description: "Visit this unique and colorful (though germy) attraction where visitors stick their chewed gum to create art."
       },
       {
-        title: "Seasonal Fruit Tastings",
-        description: "Sample the best of Pacific Northwest produce, from summer berries to autumn apples."
+        title: "Unexpected Productions",
+        description: "Catch an improv comedy show at the theater near the Gum Wall for entertainment after your sticky adventure."
+      }
+    ]
+  },
+  {
+    title: "Ferris Wheel",
+    description: "When you start from the beginning, everything becomes clear. The wheel goes round and round, just lie our lives and stories.",
+    hints: [
+      "This is about what you can see from a high vantage point.",
+      "The Ferris wheel offers views in all directions.",
+      "It's a type of view that covers a wide area.",
+      "You can see 360 degrees around you.",
+      "It's the kind of view photographers love for landscapes.",
+      "It means you can see everything spread out before you."
+    ],
+    answer: "panoramic views",
+    storyProgression: "Perfect! Emi was mesmerized by the panoramic views from the Seattle Great Wheel. She could see Mount Rainier, the Olympic Mountains, and all of Elliott Bay from above.",
+    recommendations: [
+      {
+        title: "Seattle Great Wheel",
+        description: "Take a ride on this iconic Ferris wheel for breathtaking 360-degree views of the city and Puget Sound."
+      },
+      {
+        title: "Pike Place Market Overlook",
+        description: "Find the perfect viewpoints within the market for stunning photos of Elliott Bay and the city skyline."
       }
     ]
   },

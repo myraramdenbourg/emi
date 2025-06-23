@@ -63,7 +63,7 @@ const getImageForPuzzle = (title: string) => {
     case 'produce':
       return '/assets/produce_front.png';
     case 'the final letter':
-      return '/assets/meta_front.png';
+      return 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDIwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjZEQzlGIi8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTUwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNzIiIGZpbGw9IiMwMzQwNEEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJjZW50cmFsIj4/PC90ZXh0Pgo8L3N2Zz4K';
     default:
       return '/assets/cheese_front.png';
   }
@@ -89,20 +89,17 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
         
         <CardContent className="p-6 relative flex flex-col h-full">
           <div className="text-center mb-4">
-            {/* <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg"> */}
-              {/* {getIconForPuzzle(puzzle.title)} */}
-            {/* </CardContent>div> */}
             <h3 className="text-lg font-bold text-amber-900 font-serif mb-3">
               {puzzle.title}
             </h3>
           </div>
 
           <div className="flex-1 flex flex-col">
-            <div className="mb-4 rounded-lg overflow-hidden shadow-md bg-white w-full">
+            <div className="mb-4 rounded-lg overflow-hidden shadow-md bg-white w-full" style={{ aspectRatio: '4/6' }}>
               <img 
                 src={getImageForPuzzle(puzzle.title)} 
                 alt={puzzle.title}
-                className="w-full object-contain"
+                className="w-full h-full object-contain"
               />
             </div>
 
@@ -123,6 +120,15 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
                 Check Answer
               </Button>
             </div>
+
+            {isSolved && (
+              <div className="mt-4 pt-4 border-t border-amber-200">
+                <div className="text-center">
+                  <p className="text-sm text-amber-700 font-medium">Answer:</p>
+                  <p className="text-lg font-bold text-amber-900 capitalize">{puzzle.answer}</p>
+                </div>
+              </div>
+            )}
 
             <div className="mt-4 pt-4 border-t border-amber-200">
               <div className="text-xs text-amber-600 text-center">

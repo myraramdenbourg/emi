@@ -19,10 +19,9 @@ const PuzzleGame = () => {
           <h1 className="text-5xl font-bold text-[#F6DC9F] mb-4 font-serif">
             ECHOES OF THE MARKET
           </h1>
-          {/* <p className="text-xl text-[#F6DC9F] max-w-2xl mx-auto opacity-90">
-            Discover the mysteries hidden in these vintage postcards from Pike Place Market. 
-            Each card holds a puzzle waiting to be solved.
-          </p> */}
+          <p className="text-xl text-[#F6DC9F] max-w-2xl mx-auto opacity-90">
+            "I may not have all the answers, but I know my grandpa well and I may be able to provide a pointer in the right direction. Good luck players!"
+          </p>
           <div className="mt-4 text-[#F6DC9F] opacity-80">
             {/* Puzzles Solved: {solvedPuzzles.length} / {puzzleData.length} */}
           </div>

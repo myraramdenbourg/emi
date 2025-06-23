@@ -75,69 +75,70 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
 
   return (
     <>
-      <Card className="relative overflow-hidden bg-gradient-to-br from-amber-50 to-orange-100 border-2 border-amber-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col">
-        {isSolved && (
-          <div className="absolute top-2 right-2 z-10">
-            <Badge className="bg-green-600 hover:bg-green-600">
-              <Check className="w-3 h-3 mr-1" />
-              Solved
-            </Badge>
+     <Card className="relative overflow-hidden bg-gradient-to-br from-[#FFFDF5] to-[#F5D547]/10 border-2 border-[#F5D547] shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col">
+  {isSolved && (
+    <div className="absolute top-2 right-2 z-10">
+      <Badge className="bg-green-700 hover:bg-green-700">
+        <Check className="w-3 h-3 mr-1" />
+        Solved
+      </Badge>
+    </div>
+  )}
+
+  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[#03404A]/10" />
+
+  <CardContent className="p-6 relative flex flex-col h-full">
+    <div className="text-center mb-4">
+      <h3 className="text-lg font-bold text-[#2C2C2C] font-serif mb-3">
+        {puzzle.title}
+      </h3>
+    </div>
+
+    <div className="flex-1 flex flex-col">
+      <div className="mb-4 rounded-lg overflow-hidden shadow-md bg-white w-full">
+        <img 
+          src={getImageForPuzzle(puzzle.title)} 
+          alt={puzzle.title}
+          className="w-full object-contain"
+        />
+      </div>
+
+      <div className="space-y-3 mt-auto">
+        <Button
+          onClick={() => setShowHints(true)}
+          className="w-full bg-[#F5D547] hover:bg-[#E87E04] text-[#03404A] font-semibold"
+          variant="default"
+        >
+          View Hints
+        </Button>
+
+        <Button
+          onClick={() => setShowAnswer(true)}
+          className="w-full bg-[#03404A] hover:bg-[#022F37] text-white"
+          variant="default"
+        >
+          Check Answer
+        </Button>
+      </div>
+
+      {isSolved && (
+        <div className="mt-4 pt-4 border-t border-[#F5D547]/60">
+          <div className="text-center">
+            <p className="text-sm text-[#03404A] font-medium">Answer:</p>
+            <p className="text-lg font-bold text-[#2C2C2C] capitalize">{puzzle.answer}</p>
           </div>
-        )}
-        
-        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-amber-900/10" />
-        
-        <CardContent className="p-6 relative flex flex-col h-full">
-          <div className="text-center mb-4">
-            <h3 className="text-lg font-bold text-amber-900 font-serif mb-3">
-              {puzzle.title}
-            </h3>
-          </div>
+        </div>
+      )}
 
-          <div className="flex-1 flex flex-col">
-            <div className="mb-4 rounded-lg overflow-hidden shadow-md bg-white w-full" >
-              <img 
-                src={getImageForPuzzle(puzzle.title)} 
-                alt={puzzle.title}
-                className="w-full object-contain"
-              />
-            </div>
+      <div className="mt-4 pt-4 border-t border-[#F5D547]/40">
+        <div className="text-xs text-[#03404A]/70 text-center">
+          {/* Optional footer text */}
+        </div>
+      </div>
+    </div>
+  </CardContent>
+</Card>
 
-            <div className="space-y-3 mt-auto">
-              <Button
-                onClick={() => setShowHints(true)}
-                className="w-full bg-amber-600 hover:bg-amber-700 text-white"
-                variant="default"
-              >
-                View Hints
-              </Button>
-              
-              <Button
-                onClick={() => setShowAnswer(true)}
-                className="w-full bg-orange-600 hover:bg-orange-700 text-white"
-                variant="default"
-              >
-                Check Answer
-              </Button>
-            </div>
-
-            {isSolved && (
-              <div className="mt-4 pt-4 border-t border-amber-200">
-                <div className="text-center">
-                  <p className="text-sm text-amber-700 font-medium">Answer:</p>
-                  <p className="text-lg font-bold text-amber-900 capitalize">{puzzle.answer}</p>
-                </div>
-              </div>
-            )}
-
-            <div className="mt-4 pt-4 border-t border-amber-200">
-              <div className="text-xs text-amber-600 text-center">
-                {/* Pike Place Market • Seattle, WA */}
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
 
       <HintModal
         isOpen={showHints}

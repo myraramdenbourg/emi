@@ -131,11 +131,11 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
         </div>
       )}
 
-      <div className="mt-4 pt-4 border-t border-[#F5D547]/40">
+      {/* <div className="mt-4 pt-4 border-t border-[#F5D547]/40">
         <div className="text-xs text-[#03404A]/70 text-center">
-          {/* Optional footer text */}
+           Optional footer text 
         </div>
-      </div>
+      </div> */}
     </div>
   </CardContent>
 </Card>

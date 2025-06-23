@@ -3,7 +3,7 @@ import { PuzzleData } from "@/types/puzzle";
 
 export const puzzleData: PuzzleData[] = [
   {
-    title: "Coffee",
+    title: "COFFEE",
     description: "You loved asking the baristas to make cool latte art. There may be more to it than you think. The secret lies in the last 3 sips.",
     hints: [
       "Do you notice something missing with the bottom 3 cups of coffee?",
@@ -11,21 +11,10 @@ export const puzzleData: PuzzleData[] = [
       "Each letter has an associated symbol in the latte art. For example, heart = C.",
       "The first cup with missing letters should have a W on the left side and an A on the right side."
     ],
-    answer: "warmth",
-    storyProgression: "You've found the first clue! Emi was drawn to the warmth of Pike Place Market's coffee culture. Her letter mentions the comfort she found in the bustling cafes, but there's more to discover...",
-    recommendations: [
-      {
-        title: "Original Starbucks Store",
-        description: "Visit the first-ever Starbucks location and experience where the coffee empire began in 1971."
-      },
-      {
-        title: "Victrola Coffee Roasters",
-        description: "Try artisanal coffee from this local Seattle roaster with a cozy atmosphere perfect for warming up."
-      }
-    ]
+    answer: "WARMTH",
   },
   {
-    title: "Pigs",
+    title: "PIGS",
     description: "There's a secret tucked away where people leave their spare change. Take a look and follow the shapes.",
     hints: [
       "This is about a specific type of annual event.",
@@ -35,21 +24,11 @@ export const puzzleData: PuzzleData[] = [
       "People compete for ribbons and prizes.",
       "It combines agriculture, entertainment, and community celebration."
     ],
-    answer: "state fair",
-    storyProgression: "Excellent! Emi was reminiscing about state fairs while looking at Rachel the Pig. The bronze pig reminded her of county fairs, livestock shows, and the agricultural heritage that Pike Place Market represents.",
-    recommendations: [
-      {
-        title: "Rachel the Pig",
-        description: "Visit Pike Place Market's beloved bronze pig mascot and learn about the market's agricultural roots."
-      },
-      {
-        title: "Local Farm Vendors",
-        description: "Meet the farmers who bring their produce to the market, continuing the agricultural tradition."
-      }
-    ]
+    answer: "STATE FAIR",
+    
   },
   {
-    title: "Fish",
+    title: "FISH",
     description: "Fish are always flying at the market. Sometimes they go missing.",
     hints: [
       "This is about a natural waterway where salmon travel.",
@@ -59,21 +38,11 @@ export const puzzleData: PuzzleData[] = [
       "These waterways flow into larger bodies of water.",
       "It's a small freshwater stream where fish are born."
     ],
-    answer: "creek",
-    storyProgression: "Excellent! Emi discovered the connection between Pike Place Market and Seattle's natural waterways. She learned about the salmon runs and the creeks that feed into Elliott Bay.",
-    recommendations: [
-      {
-        title: "Pike Place Fish Market",
-        description: "Watch the famous fish throwing show and learn about Pacific Northwest seafood traditions."
-      },
-      {
-        title: "Waterfront Park",
-        description: "Walk along the waterfront to see where urban Seattle meets the natural marine environment."
-      }
-    ]
+    answer: "CREEK",
+   
   },
   {
-    title: "Flowers",
+    title: "FLOWERS",
     description: "Look closely at the hybrids. If you know what each one is made of, you might figure out which letter to pluck from each name.",
     hints: [
       "This is about a specific type of tropical flower.",
@@ -83,21 +52,11 @@ export const puzzleData: PuzzleData[] = [
       "You might find it at Pike Place Market's flower vendors.",
       "It's a flower that represents paradise and tropical beauty."
     ],
-    answer: "hibiscus",
-    storyProgression: "Beautiful! Emi discovered exotic hibiscus flowers at Pike Place Market's flower vendors. Even in Seattle's climate, she found these tropical beauties that reminded her of distant, warmer places.",
-    recommendations: [
-      {
-        title: "Pike Place Market Flower Vendors",
-        description: "Browse the colorful flower stalls and find both local and exotic blooms to brighten your day."
-      },
-      {
-        title: "Market Heritage Tours",
-        description: "Learn about the market's agricultural heritage and the farmers who travel from across the region to sell their flowers."
-      }
-    ]
+    answer: "HIBISCUS",
+   
   },
   {
-    title: "Produce",
+    title: "PRODUCE",
     description: "I always loved when vendors at the market would slice open fruit for you. Looks like the oranges and dragon fruit are already cut! With help from the nubmers, line by line, something familiar will start to take shape.",
     hints: [
       "This is about the people who sell fresh fruits and vegetables.",
@@ -107,21 +66,11 @@ export const puzzleData: PuzzleData[] = [
       "They often have deep knowledge about what they're selling.",
       "They're the sellers who make the market come alive with fresh goods."
     ],
-    answer: "vendors",
-    storyProgression: "Wonderful! Emi connected with the produce vendors, the true heart of Pike Place Market. She learned their stories, tasted their fresh fruits, and understood the market's agricultural soul.",
-    recommendations: [
-      {
-        title: "Produce Vendors Tour",
-        description: "Meet the farmers and vendors who bring fresh, local produce to the market year-round."
-      },
-      {
-        title: "Seasonal Fruit Tastings",
-        description: "Sample the best of Pacific Northwest produce, from summer berries to autumn apples."
-      }
-    ]
+    answer: "VENDORS",
+   
   },
   {
-    title: "Cheese",
+    title: "CHEESE",
     description: "I've noticed something curious on the shelves: no two wheels on the same shelf look exactly alike. Can you spot the pattern?",
     hints: [
       "This is about the outer covering of aged cheese.",
@@ -131,21 +80,11 @@ export const puzzleData: PuzzleData[] = [
       "It protects the cheese during the aging process.",
       "It's the tough outer skin that develops on aged cheeses."
     ],
-    answer: "rind",
-    storyProgression: "Wonderful! Emi discovered the artisanal cheese shops at Pike Place Market. She learned about cheese aging and how the rind protects and flavors the cheese during the process.",
-    recommendations: [
-      {
-        title: "Beecher's Handmade Cheese",
-        description: "Watch cheese being made through the windows and sample their famous Mac & Cheese and aged cheeses."
-      },
-      {
-        title: "DeLaurenti Specialty Food",
-        description: "Explore their extensive selection of imported and local cheeses with knowledgeable staff to guide your choices."
-      }
-    ]
+    answer: "RIND",
+    
   },
   {
-    title: "Post Alley",
+    title: "POST ALLEY",
     description: "Pay attention to the details, both front and back - they hold the key.",
     hints: [
       "This is about a traditional type of street paving.",
@@ -155,21 +94,11 @@ export const puzzleData: PuzzleData[] = [
       "It creates a distinctive bumpy texture underfoot.",
       "Post Alley features this historic type of stone street surface."
     ],
-    answer: "cobblestone",
-    storyProgression: "Perfect! Emi walked the historic cobblestone streets of Post Alley, feeling connected to Seattle's past. The old stones reminded her of the city's maritime and pioneer heritage.",
-    recommendations: [
-      {
-        title: "Post Alley Historic Walk",
-        description: "Stroll the cobblestone streets and discover the historic architecture and hidden gems of this charming alley."
-      },
-      {
-        title: "Underground Tours",
-        description: "Learn more about Seattle's historic streets and how the city was rebuilt after the Great Fire of 1889."
-      }
-    ]
+    answer: "COBBLESTONE",
+    
   },
   {
-    title: "Gum Wall",
+    title: "GUM WALL",
     description: "The gum wall doesn't just hold sugar and stories - it holds perspectives.",
     hints: [
       "This is about what happens when things adhere to surfaces.",
@@ -179,21 +108,11 @@ export const puzzleData: PuzzleData[] = [
       "It's what gum does when you step on it.",
       "Items become firmly attached or adhered to the surface."
     ],
-    answer: "sticking",
-    storyProgression: "Spot on! Emi found the famous (and infamous) Gum Wall in Post Alley. She was both fascinated and disgusted by how everything sticks to this colorful, quirky landmark.",
-    recommendations: [
-      {
-        title: "Post Alley Gum Wall",
-        description: "Visit this unique and colorful (though germy) attraction where visitors stick their chewed gum to create art."
-      },
-      {
-        title: "Unexpected Productions",
-        description: "Catch an improv comedy show at the theater near the Gum Wall for entertainment after your sticky adventure."
-      }
-    ]
+    answer: "STICKING",
+   
   },
   {
-    title: "Ferris Wheel",
+    title: "FERRIS WHEEL",
     description: "When you start from the beginning, everything becomes clear. The wheel goes round and round, just lie our lives and stories.",
     hints: [
       "This is about what you can see from a high vantage point.",
@@ -203,21 +122,11 @@ export const puzzleData: PuzzleData[] = [
       "It's the kind of view photographers love for landscapes.",
       "It means you can see everything spread out before you."
     ],
-    answer: "panoramic views",
-    storyProgression: "Perfect! Emi was mesmerized by the panoramic views from the Seattle Great Wheel. She could see Mount Rainier, the Olympic Mountains, and all of Elliott Bay from above.",
-    recommendations: [
-      {
-        title: "Seattle Great Wheel",
-        description: "Take a ride on this iconic Ferris wheel for breathtaking 360-degree views of the city and Puget Sound."
-      },
-      {
-        title: "Pike Place Market Overlook",
-        description: "Find the perfect viewpoints within the market for stunning photos of Elliott Bay and the city skyline."
-      }
-    ]
+    answer: "PANORAMIC VIEWS",
+   
   },
   {
-    title: "The Final Letter",
+    title: "THE FINAL LETTER",
     description: "The market changes over time. What are the hands pointing at?",
     hints: [
       "This is about remembering and cherishing past experiences.",
@@ -227,17 +136,7 @@ export const puzzleData: PuzzleData[] = [
       "People often do this about places that meant something special to them.",
       "It means to remember with pleasure and hold dear to your heart."
     ],
-    answer: "reminisce",
-    storyProgression: "Magnificent! You've solved all of Emi's puzzles! The final secret was about reminiscing - how Pike Place Market becomes a place where people return in memory and heart, treasuring the experiences and connections made in this magical corner of Seattle.",
-    recommendations: [
-      {
-        title: "Pike Place Market Memory Tour",
-        description: "Take a final walk through the market, collecting memories and perhaps finding your own special corner to reminisce about."
-      },
-      {
-        title: "Seattle Waterfront Sunset",
-        description: "End your journey watching the sunset over Elliott Bay, the perfect time for reflection and reminiscing about your Pike Place Market adventure."
-      }
-    ]
+    answer: "REMINISCE",
+   
   }
 ];

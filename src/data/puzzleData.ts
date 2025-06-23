@@ -9,7 +9,10 @@ export const puzzleData: PuzzleData[] = [
       "Do you notice something missing with the bottom 3 cups of coffee?",
       "You need to find the correct letters that match the latte art pattern.",
       "Each letter has an associated symbol in the latte art. For example, heart = C.",
-      "The first cup with missing letters should have a W on the left side and an A on the right side."
+      "The first cup with missing letters should have a W on the left side and an A on the right side.",
+      "The second cup with missing letters should have an R on the left side and an M on the right side.",
+      "The third cup with missing letters should have a T on the left side and an H on the right side.",
+      "Combining these words together, you get WARMTH."
     ],
     answer: "WARMTH",
   },
@@ -17,27 +20,25 @@ export const puzzleData: PuzzleData[] = [
     title: "PIGS",
     description: "There's a secret tucked away where people leave their spare change. Take a look and follow the shapes.",
     hints: [
-      "This is about a specific type of annual event.",
-      "It features carnival rides, games, and agricultural exhibits.",
-      "Pigs are often featured in livestock competitions there.",
-      "It's a traditional American summer celebration.",
-      "People compete for ribbons and prizes.",
-      "It combines agriculture, entertainment, and community celebration."
+      "Do you notice the letters on the pigs and on the ground?",
+      "The pigs provide the key to help solve the symbols on the ground.",
+      "This is called a pigpen cipher. The solution is found by looking at the lines surrounding the letters.",
+      "The first footprint is an S.",
+      "After deciphering the pigs, you get STATE FAIR."
     ],
     answer: "STATE FAIR",
-    
   },
   {
     title: "FISH",
     description: "Fish are always flying at the market. Sometimes they go missing.",
     hints: [
-      "This is about a natural waterway where salmon travel.",
-      "Salmon return to where they were born to spawn.",
-      "It's smaller than a river but larger than a stream.",
-      "Pike Place Market is near Seattle's waterfront.",
-      "These waterways flow into larger bodies of water.",
-      "It's a small freshwater stream where fish are born."
-    ],
+      "Do you notice the letters on the fish pieces and the signs?",
+      "This is similar to a crossword puzzle. Use the signs and their numbers and arrows to solve. For example, the top left sign has a 1 and an -> which means it is the word for the first row.",
+      "The answers to the signs are CARP (1 across), HOOK (2 across), RINK (3 across), AHI (1 down), POKE (3 down).",
+      "Apply the answers to the crossword. Some letters will be missing a fish.",
+      "The fish pieces with the missing letters form a word, which is the solution to the puzzle.",
+      "The missing letters are C, R, E, and K. The red E is also part of the solution, which makes CREEK."
+      ],
     answer: "CREEK",
    
   },
@@ -45,26 +46,28 @@ export const puzzleData: PuzzleData[] = [
     title: "FLOWERS",
     description: "Look closely at the hybrids. If you know what each one is made of, you might figure out which letter to pluck from each name.",
     hints: [
-      "This is about a specific type of tropical flower.",
-      "It's often associated with Hawaii and tropical climates.",
-      "The flower is large and colorful, often red or pink.",
-      "It's commonly used in leis and tropical decorations.",
-      "You might find it at Pike Place Market's flower vendors.",
-      "It's a flower that represents paradise and tropical beauty."
+     "Do you notice the flowers and their labels?",
+     "There are 4 bouquets with blue labels and 4 bouquets with pink labels. The hybrids have a blue and pink label.",
+     "Figure out what plants form the hybrids.",
+     "The hybrid flowers from left to right are PINCUSION + DAHLIA, BLUEBELL + TULIP, SNAPDRAGON + CHOCOLATE COSMOS, and SUNFLOWER + ROSE.",
+     "Each bouquet has a different number of flowers in it.",
+     "Count the number of flowers in each bouquet and use that to index the correct letter. For example, There are 7 flowers in the Pincushion bouquet, which means you would extract the letter H since it is the 7th letter in Pincushion.",
+     "For the first hybrid flower, the letters are H and I.",
+     "Following this pattern, you get the letters H, I, B, I, S, C, U, and S, which spells HIBISCUS."
     ],
     answer: "HIBISCUS",
    
   },
   {
     title: "PRODUCE",
-    description: "I always loved when vendors at the market would slice open fruit for you. Looks like the oranges and dragon fruit are already cut! With help from the nubmers, line by line, something familiar will start to take shape.",
+    description: "I always loved when vendors at the market would slice open fruit for you. Looks like the oranges and dragon fruit are already cut! With help from the numbers, line by line, something familiar will start to take shape.",
     hints: [
-      "This is about the people who sell fresh fruits and vegetables.",
-      "They're the heart and soul of Pike Place Market.",
-      "Many of them are local farmers who grow their own crops.",
-      "They bring fresh produce from the surrounding farms.",
-      "They often have deep knowledge about what they're selling.",
-      "They're the sellers who make the market come alive with fresh goods."
+     "Do you notice the cut produce, and numbers on the top, left, and bottom of the produce?",
+     "The cut produce (oranges and dragonfruit) show you how to solve the puzzle.",
+     "For the top left container with the oranges, the top numbers represent the number of cut fruit in that container column. The left numbers represent the number of cut fruit in that row.",
+     "For the oranges, the top numbers are all 2, which means that there are 2 oranges in each column.",
+     "Continue this pattern with the other produce to get letters. The cut oranges form a V and the cut dragonfruit form a D.",
+     "The top row of letters are V, E, and N. The bottom row of letters are D, O, R, and S. Together this spells VENDORS"
     ],
     answer: "VENDORS",
    
@@ -73,12 +76,12 @@ export const puzzleData: PuzzleData[] = [
     title: "CHEESE",
     description: "I've noticed something curious on the shelves: no two wheels on the same shelf look exactly alike. Can you spot the pattern?",
     hints: [
-      "This is about the outer covering of aged cheese.",
-      "It forms naturally as cheese ages.",
-      "It's often removed before eating the cheese.",
-      "Some people do eat it, as it has concentrated flavor.",
-      "It protects the cheese during the aging process.",
-      "It's the tough outer skin that develops on aged cheeses."
+     "Do you notice the cheese wheels with different label shapes, patterns, colors, and heights?",
+     "The first 6 cheese have a red string connecting some of them together. This is the pattern to follow for the rest of the cheese wheels.",
+     "No 2 wheels in each group are exactly the same. The cheese wheels connected together are very similar though.",
+     "The cheese wheels that are connected to each other have 3 out of 4 characteristics the same.",
+     "Following the pattern of connecting cheese wheels that have 3 out of 4 characteristics the same, you get letters from the connections.",
+     "The letters you get from the connections are R, I, N, and D. Together this spells RIND."
     ],
     answer: "RIND",
     
@@ -87,12 +90,11 @@ export const puzzleData: PuzzleData[] = [
     title: "POST ALLEY",
     description: "Pay attention to the details, both front and back - they hold the key.",
     hints: [
-      "This is about a traditional type of street paving.",
-      "It was commonly used in the 1800s and early 1900s.",
-      "These stones are rounded and fit together like a puzzle.",
-      "You can still find streets paved this way in historic areas.",
-      "It creates a distinctive bumpy texture underfoot.",
-      "Post Alley features this historic type of stone street surface."
+     "Do you notice a difference between the left and right images?",
+     "There are 5 differences between the left and right images.",
+     "Once you have found all the differences, take a look at the back of the postcard. Can you extra words using both sides?",
+     "Match the differences with the back side. For exmaple, the word behind the crow is THE.",
+     "Find all the words behind the image differences. The 5 words are THE WORD IS COBBLE STONE. The solution is COBBLESTONE."
     ],
     answer: "COBBLESTONE",
     
@@ -101,12 +103,10 @@ export const puzzleData: PuzzleData[] = [
     title: "GUM WALL",
     description: "The gum wall doesn't just hold sugar and stories - it holds perspectives.",
     hints: [
-      "This is about what happens when things adhere to surfaces.",
-      "The Gum Wall is famous for this property.",
-      "It's the opposite of sliding or falling off.",
-      "Things become attached and don't come off easily.",
-      "It's what gum does when you step on it.",
-      "Items become firmly attached or adhered to the surface."
+    "There's something interesting with the pink middle of the gum wall.",
+    "Can you look at the postcard through a different angle?",
+    "Hold the postcard perpendicular to your face to see a message hidden in the gum wall.",
+    "The hidden message is THE WORD IS STICKING. The solution is STICKING."
     ],
     answer: "STICKING",
    
@@ -115,12 +115,11 @@ export const puzzleData: PuzzleData[] = [
     title: "FERRIS WHEEL",
     description: "When you start from the beginning, everything becomes clear. The wheel goes round and round, just lie our lives and stories.",
     hints: [
-      "This is about what you can see from a high vantage point.",
-      "The Ferris wheel offers views in all directions.",
-      "It's a type of view that covers a wide area.",
-      "You can see 360 degrees around you.",
-      "It's the kind of view photographers love for landscapes.",
-      "It means you can see everything spread out before you."
+      "Do you notice the ferris wheel with letters, the red arrow, and the patterns on the ferris wheel and boat?",
+      "If you start from the arrow pointing at the P, where do you go next?",
+      "The boat gives you the pattern to follow, starting from red. The next letter would be A since it is orange.",
+      "Keep going until all words in the ferris wheel are used once.",
+      "If you keep following the rainbow pattern and going around the wheel, you should get the letters P, A, N, O, R, A, M, I, C, V, I, E, W, and S. The solution is PANORAMIC VIEWS."
     ],
     answer: "PANORAMIC VIEWS",
    
@@ -129,14 +128,14 @@ export const puzzleData: PuzzleData[] = [
     title: "THE FINAL LETTER",
     description: "The market changes over time. What are the hands pointing at?",
     hints: [
-      "This is about remembering and cherishing past experiences.",
-      "It's what you do when you think fondly of good times.",
-      "Pike Place Market helps people create lasting memories.",
-      "It's the act of looking back with warmth and affection.",
-      "People often do this about places that meant something special to them.",
-      "It means to remember with pleasure and hold dear to your heart."
+    "Do you notice the sign with 9 arrows of varying lengths?",
+    "Where have you seen those red arrows before?",
+    "What has a short hand and a long hand?",
+    "The arrows represent the hands of the clocks from all the puzzles you've done before!",
+    "Using the answers from each puzzle and the clock, can you extract the answer?",
+    "For the first sign (COFFEE), the arrow is short, which represents the hour hand on the clock, which is pointing to a 3. The 3rd letter in WARMTH is R.",
+    "Following this pattern for all the puzzles, you get R, E, M, I, N, I, S, C, and E. The final solutino is REMINISCE."
     ],
     answer: "REMINISCE",
-   
   }
 ];

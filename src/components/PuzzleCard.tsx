@@ -63,8 +63,7 @@ const getImageForPuzzle = (title: string) => {
     case 'produce':
       return '/assets/produce_front.png';
     case 'the final letter':
-      return ;
-      // return 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDIwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjZEQzlGIi8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTUwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNzIiIGZpbGw9IiMwMzQwNEEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJjZW50cmFsIj4/PC90ZXh0Pgo8L3N2Zz4K';
+      return '/assets/meta_front2.png';
     default:
       return '/assets/cheese_front.png';
   }

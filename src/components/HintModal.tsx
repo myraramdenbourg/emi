@@ -76,7 +76,7 @@ return (
           </div>
         </div>
 
-        {unlockedHints.length === puzzle.hints.length && (
+       
           <div className="space-y-4">
             <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
               <p className="text-green-800 text-center font-medium">
@@ -94,7 +94,7 @@ return (
               </Button>
             </div>
           </div>
-        )}
+        
 
         {showAnswer && (
           <div className="bg-[#FFF3F3] border border-red-200 p-4 rounded-lg">

@@ -78,11 +78,12 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
      <Card className="relative overflow-hidden bg-gradient-to-br from-[#FFFDF5] to-[#F5D547]/10 border-2 border-[#F5D547] shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col">
   {isSolved && (
     <div className="absolute top-2 right-2 z-10">
-      <Badge className="bg-green-700 hover:bg-green-700">
+      <Badge className="bg-green-700 hover:bg-green-700 text-white">
         <Check className="w-3 h-3 mr-1" />
         Solved
       </Badge>
     </div>
+
   )}
 
   <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[#03404A]/10" />

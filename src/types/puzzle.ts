@@ -4,8 +4,6 @@ export interface PuzzleData {
   description: string;
   hints: string[];
   answer: string;
-  storyProgression: string;
-  recommendations: Recommendation[];
 }
 
 export interface Recommendation {

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -100,6 +99,13 @@ return (
           <div className="bg-[#FFF3F3] border border-red-200 p-4 rounded-lg">
             <h3 className="font-semibold text-red-900 mb-2">Answer:</h3>
             <p className="text-red-800 text-lg font-medium">{puzzle.answer}</p>
+            {puzzle.title.toLowerCase() === 'the final letter' && (
+              <div className="mt-3 pt-3 border-t border-red-200">
+                <p className="text-sm text-red-700 font-medium italic">
+                  Open the last envelope after solving this puzzle
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>

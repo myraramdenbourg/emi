@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -90,7 +89,7 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
 
   <CardContent className="p-6 relative flex flex-col h-full">
     <div className="text-center mb-4">
-      <h3 className="text-lg font-bold text-[#2C2C2C] font-serif mb-3">
+      <h3 className="text-2xl font-bold text-[#2C2C2C] font-serif mb-3">
         {puzzle.title}
       </h3>
     </div>
@@ -128,6 +127,13 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
             <p className="text-sm text-[#03404A] font-medium">Answer:</p>
             <p className="text-lg font-bold text-[#2C2C2C] capitalize">{puzzle.answer}</p>
           </div>
+          {puzzle.title.toLowerCase() === 'the final letter' && (
+            <div className="mt-3 pt-3 border-t border-[#F5D547]/40">
+              <p className="text-sm text-center text-[#03404A] font-medium italic">
+                Open the last envelope after solving this puzzle
+              </p>
+            </div>
+          )}
         </div>
       )}
 
@@ -139,7 +145,6 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
     </div>
   </CardContent>
 </Card>
-
 
       <HintModal
         isOpen={showHints}

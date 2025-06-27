@@ -22,53 +22,53 @@ const getCustomResponse = (answer: string, correctAnswer: string, puzzleTitle: s
   // Check for close answers based on puzzle context
   switch (puzzleTitle.toLowerCase()) {
     case 'coffee':
-      if (['warm', 'heat', 'cozy', 'comfort'].includes(userAnswer)) {
-        return "You're very close! Think about the feeling coffee brings to your hands and heart.";
+      if (['warm', 'warmht', 'awrmth'].includes(userAnswer)) {
+        return "You're very close!";
       }
       break;
     case 'fish':
-      if (['river', 'stream', 'water', 'salmon'].includes(userAnswer)) {
+      if (['cheek'].includes(userAnswer)) {
         return "Getting warmer! Think smaller than a river but where salmon are born.";
       }
       break;
     case 'ferris wheel':
-      if (['view', 'views', 'panoramic', 'panorama'].includes(userAnswer)) {
-        return "Almost there! You need both words - what kind of views?";
+      if (['panora', 'panoramic', 'panoramic view'].includes(userAnswer)) {
+        return "Almost there! Keep going!";
       }
       break;
     case 'cheese':
-      if (['skin', 'crust', 'outer', 'covering'].includes(userAnswer)) {
-        return "Very close! What's the specific term for the outer layer of aged cheese?";
+      if (['rlnd'].includes(userAnswer)) {
+        return "Very close!";
       }
       break;
     case 'gum wall':
-      if (['stick', 'stuck', 'adhering', 'attaching'].includes(userAnswer)) {
-        return "So close! You need the action word - what is the gum doing?";
+      if (['stick'].includes(userAnswer)) {
+        return "So close!";
       }
       break;
     case 'flowers':
-      if (['flower', 'tropical', 'hawaii', 'exotic'].includes(userAnswer)) {
-        return "You're on the right track! What specific tropical flower is known for its beauty?";
+      if (['hibis'].includes(userAnswer)) {
+        return "You're on the right track!";
       }
       break;
     case 'pigs':
-      if (['fair', 'county fair', 'carnival', 'agriculture'].includes(userAnswer)) {
-        return "Almost! What type of fair features livestock competitions?";
+      if (['state'].includes(userAnswer)) {
+        return "Almost there! Keep going!";
       }
       break;
     case 'post alley':
-      if (['stone', 'stones', 'cobble', 'historic'].includes(userAnswer)) {
-        return "Very close! What's the full term for this type of historic street paving?";
+      if (['stone', 'stones', 'cobble'].includes(userAnswer)) {
+        return "Very close!";
       }
       break;
     case 'produce':
-      if (['farmers', 'sellers', 'merchants', 'people'].includes(userAnswer)) {
-        return "Almost there! What do you call the people who sell goods at a market?";
+      if (['vend'].includes(userAnswer)) {
+        return "Almost there! Keep going!";
       }
       break;
     case 'the final letter':
-      if (['remember', 'memories', 'recall', 'nostalgia'].includes(userAnswer)) {
-        return "So close! What's the specific word for fondly remembering the past?";
+      if (['wrong hand'].includes(userAnswer)) {
+        return "So close! It looks like you used the opposite hands.";
       }
       break;
   }

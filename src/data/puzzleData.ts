@@ -13,7 +13,7 @@ export const puzzleData: PuzzleData[] = [
       "The second cup with missing letters should have an R on the left side and an M on the right side.",
       "The third cup with missing letters should have a T on the left side and an H on the right side. Combine all the letters together to get the answer.",
     ],
-    answer: ["WARMTH", "WARM"],
+    answer: ["WARMTH"],
   },
   {
     title: "PIGS",
@@ -25,7 +25,7 @@ export const puzzleData: PuzzleData[] = [
       "The first footprint is an S.",
       "The letters on the left pig spell STATE. Decipher the rest of the symbols to get the answer."
     ],
-    answer: ["STATE FAIR", "STATEFAIR"],
+    answer: ["STATE FAIR"],
   },
   {
     title: "FISH",
@@ -38,7 +38,7 @@ export const puzzleData: PuzzleData[] = [
       "The fish pieces with the missing letters form a word, which is the solution to the puzzle.",
       "In the word CARP, the C does not have a designated fish, so it is part of the solution. Find all other missing letters to get the solution."
       ],
-    answer: "CREEK",
+    answer: ["CREEK"],
   },
   {
     title: "FLOWERS",
@@ -52,7 +52,7 @@ export const puzzleData: PuzzleData[] = [
      "Count the number of flowers in each bouquet and use that to index the correct letter. For example, There are 7 flowers in the Pincushion bouquet, which means you would extract the letter H since it is the 7th letter in Pincushion.",
      "For the first hybrid flower, the letters are H and I. Continue extracting the correct letter from each flower to get the solution."
     ],
-    answer: ["HIBISCUS", "HIBICUS"],
+    answer: ["HIBISCUS"],
   },
   {
     title: "PRODUCE",
@@ -65,7 +65,7 @@ export const puzzleData: PuzzleData[] = [
      "Continue this pattern with the other produce to get letters. The cut oranges form a V and the cut dragonfruit form a D.",
      "The top row of letters are V, E, and N. Follow the same patern for the bottom row to get the solution."
     ],
-    answer: ["VENDORS", "VENDOR"],
+    answer: ["VENDORS"],
   },
   {
     title: "CHEESE",
@@ -78,7 +78,7 @@ export const puzzleData: PuzzleData[] = [
      "Following the pattern of connecting cheese wheels that have 3 out of 4 characteristics the same, you get letters from the connections.",
      "The second shelf gives you the letter I. Follow this pattern for the rest of the letters to get the solution."
     ],
-    answer: "RIND",
+    answer: ["RIND"],
   },
   {
     title: "POST ALLEY",
@@ -100,7 +100,7 @@ export const puzzleData: PuzzleData[] = [
     "Hold the postcard perpendicular to your face to see a message hidden in the gum wall.",
     "The hidden message is THE WORD IS STICKING."
     ],
-    answer: ["STICKING", "STICK"],
+    answer: ["STICKING"],
   },
   {
     title: "FERRIS WHEEL",
@@ -111,7 +111,7 @@ export const puzzleData: PuzzleData[] = [
       "The boat gives you the pattern to follow, starting from red. The next letter would be A since it is orange.",
       "Keep going until all words in the ferris wheel are used once."
     ],
-    answer: ["PANORAMIC VIEWS", "PANORAMIC VIEW", "PANORAMA"],
+    answer: ["PANORAMIC VIEWS"],
   },
   {
     title: "THE FINAL LETTER",
@@ -125,6 +125,6 @@ export const puzzleData: PuzzleData[] = [
     "For the first sign (COFFEE), the arrow is short, which represents the hour hand on the clock, which is pointing to a 3. The 3rd letter in WARMTH is R.",
     "Following this pattern for all the puzzles, you get R, E, M, I, N, I, S, C, and E."
     ],
-    answer: ["REMINISCE", "REMINISCENCE"],
+    answer: ["REMINISCE"],
   }
 ];

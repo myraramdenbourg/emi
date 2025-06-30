@@ -62,7 +62,7 @@ const getCustomResponse = (answer: string, correctAnswers: string | string[], pu
       }
       break;
     case 'produce':
-      if (['vend'].includes(userAnswer)) {
+      if (['vend', 'vendor'].includes(userAnswer)) {
         return "Almost there! Keep going!";
       }
       break;

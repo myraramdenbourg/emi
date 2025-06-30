@@ -25,7 +25,7 @@ export const puzzleData: PuzzleData[] = [
       "The first footprint is an S.",
       "The letters on the left pig spell STATE. Decipher the rest of the symbols to get the answer."
     ],
-    answer: ["STATE FAIR"],
+    answer: ["STATE FAIR", "STATEFAIR"],
   },
   {
     title: "FISH",
@@ -111,7 +111,7 @@ export const puzzleData: PuzzleData[] = [
       "The boat gives you the pattern to follow, starting from red. The next letter would be A since it is orange.",
       "Keep going until all words in the ferris wheel are used once."
     ],
-    answer: ["PANORAMIC VIEWS"],
+    answer: ["PANORAMIC VIEWS", "PANORAMICVIEWS"],
   },
   {
     title: "THE FINAL LETTER",

@@ -72,6 +72,10 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
   const [showHints, setShowHints] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
 
+  const getDisplayAnswer = (answer: string | string[]): string => {
+    return Array.isArray(answer) ? answer[0] : answer;
+  };
+
   return (
     <>
      <Card className="relative overflow-hidden bg-gradient-to-br from-[#FFFDF5] to-[#F5D547]/10 border-2 border-[#F5D547] shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col">
@@ -125,7 +129,7 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
         <div className="mt-4 pt-4 border-t border-[#F5D547]/60">
           <div className="text-center">
             <p className="text-sm text-[#03404A] font-medium">Answer:</p>
-            <p className="text-lg font-bold text-[#2C2C2C] capitalize">{puzzle.answer}</p>
+            <p className="text-lg font-bold text-[#2C2C2C] capitalize">{getDisplayAnswer(puzzle.answer)}</p>
           </div>
           {puzzle.title.toLowerCase() === 'the final letter' && (
             <div className="mt-3 pt-3 border-t border-[#F5D547]/40">

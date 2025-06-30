@@ -15,9 +15,9 @@ interface AnswerModalProps {
   onSolved: () => void;
 }
 
-const getCustomResponse = (answer: string, correctAnswer: string, puzzleTitle: string): string | null => {
+const getCustomResponse = (answer: string, correctAnswers: string | string[], puzzleTitle: string): string | null => {
   const userAnswer = answer.toLowerCase().trim();
-  const correct = correctAnswer.toLowerCase().trim();
+  const correctList = Array.isArray(correctAnswers) ? correctAnswers : [correctAnswers];
   
   // Check for close answers based on puzzle context
   switch (puzzleTitle.toLowerCase()) {
@@ -76,6 +76,15 @@ const getCustomResponse = (answer: string, correctAnswer: string, puzzleTitle: s
   return null;
 };
 
+const checkAnswer = (userAnswer: string, correctAnswers: string | string[]): boolean => {
+  const userAnswerNormalized = userAnswer.toLowerCase().trim();
+  const correctList = Array.isArray(correctAnswers) ? correctAnswers : [correctAnswers];
+  
+  return correctList.some(correct => 
+    userAnswerNormalized === correct.toLowerCase().trim()
+  );
+};
+
 const AnswerModal = ({ isOpen, onClose, puzzle, puzzleIndex, onSolved }: AnswerModalProps) => {
   const [answer, setAnswer] = useState("");
   const [showError, setShowError] = useState(false);
@@ -85,7 +94,7 @@ const AnswerModal = ({ isOpen, onClose, puzzle, puzzleIndex, onSolved }: AnswerM
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (answer.toLowerCase().trim() === puzzle.answer.toLowerCase().trim()) {
+    if (checkAnswer(answer, puzzle.answer)) {
       setShowSuccess(true);
       onSolved();
       setAnswer("");

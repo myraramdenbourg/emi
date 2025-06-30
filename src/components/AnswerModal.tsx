@@ -16,7 +16,7 @@ interface AnswerModalProps {
 }
 
 const getCustomResponse = (answer: string, correctAnswers: string | string[], puzzleTitle: string): string | null => {
-  const userAnswer = answer.toLowerCase().trim();
+  const userAnswer = answer.toLowerCase().replace(/\s+/g, '');
   const correctList = Array.isArray(correctAnswers) ? correctAnswers : [correctAnswers];
   
   // Check for close answers based on puzzle context
@@ -32,7 +32,7 @@ const getCustomResponse = (answer: string, correctAnswers: string | string[], pu
       }
       break;
     case 'ferris wheel':
-      if (['panora', 'panoramic', 'panoramic view'].includes(userAnswer)) {
+      if (['panora', 'panoramic', 'panoramicview'].includes(userAnswer)) {
         return "Almost there! Keep going!";
       }
       break;
@@ -67,7 +67,7 @@ const getCustomResponse = (answer: string, correctAnswers: string | string[], pu
       }
       break;
     case 'the final letter':
-      if (['wrong hand'].includes(userAnswer)) {
+      if (['wronghand'].includes(userAnswer)) {
         return "So close! It looks like you used the opposite hands.";
       }
       break;
@@ -77,11 +77,11 @@ const getCustomResponse = (answer: string, correctAnswers: string | string[], pu
 };
 
 const checkAnswer = (userAnswer: string, correctAnswers: string | string[]): boolean => {
-  const userAnswerNormalized = userAnswer.toLowerCase().trim();
+  const userAnswerNormalized = userAnswer.toLowerCase().replace(/\s+/g, '');
   const correctList = Array.isArray(correctAnswers) ? correctAnswers : [correctAnswers];
   
   return correctList.some(correct => 
-    userAnswerNormalized === correct.toLowerCase().trim()
+    userAnswerNormalized === correct.toLowerCase().replace(/\s+/g, '')
   );
 };
 

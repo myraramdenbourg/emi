@@ -29,7 +29,7 @@ const HintModal = ({ isOpen, onClose, puzzle, puzzleIndex }: HintModalProps) => 
 
 return (
   <Dialog open={isOpen} onOpenChange={onClose}>
-    <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto bg-[#FFFDF5] border border-[#F5D547] shadow-lg">
+    <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto bg-[#FFFDF5] border-2 border-[#03404A] shadow-lg">
       <DialogHeader>
         <DialogTitle className="text-2xl font-bold text-[#03404A] font-serif">
           {puzzle.title}
@@ -37,7 +37,7 @@ return (
       </DialogHeader>
 
       <div className="space-y-4">
-        <div className="bg-[#FFFBEA] p-4 rounded-lg border border-[#F5D547]/60">
+        <div className="bg-[#FFFBEA] p-4 rounded-lg border-2 border-[#03404A]">
           <h3 className="font-semibold text-[#03404A] mb-2">Puzzle Clue:</h3>
           <p className="text-[#2C2C2C]">{puzzle.description}</p>
         </div>
@@ -46,7 +46,7 @@ return (
           <h3 className="font-semibold text-[#03404A] mb-3">Hints:</h3>
           <div className="space-y-3">
             {puzzle.hints.map((hint, index) => (
-              <Card key={index} className="border border-[#F5D547]/40 bg-white">
+              <Card key={index} className="border-2 border-[#03404A] bg-white">
                 <CardContent className="p-4">
                   {unlockedHints.includes(index) ? (
                     <div>
@@ -62,7 +62,7 @@ return (
                       <Button
                         onClick={unlockNextHint}
                         variant="outline"
-                        className="border-[#F5D547]/40 text-[#03404A] hover:bg-[#FFFBEA]"
+                        className="border-2 border-[#03404A] text-[#03404A] hover:bg-[#FFFBEA]"
                         disabled={index !== unlockedHints.length}
                       >
                         {`Unlock Hint ${index + 1}`}
@@ -96,11 +96,11 @@ return (
         
 
         {showAnswer && (
-          <div className="bg-[#FFF3F3] border border-red-200 p-4 rounded-lg">
+          <div className="bg-[#FFF3F3] border-2 border-red-800 p-4 rounded-lg">
             <h3 className="font-semibold text-red-900 mb-2">Answer:</h3>
             <p className="text-red-800 text-lg font-medium">{puzzle.answer}</p>
             {puzzle.title.toLowerCase() === 'the final letter' && (
-              <div className="mt-3 pt-3 border-t border-red-200">
+              <div className="mt-3 pt-3 border-t border-red-800">
                 <p className="text-sm text-red-700 font-medium italic">
                   Open the last envelope after solving this puzzle
                 </p>

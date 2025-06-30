@@ -78,7 +78,7 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
 
   return (
     <>
-     <Card className="relative overflow-hidden bg-gradient-to-br from-[#FFFDF5] to-[#F5D547]/10 border-2 border-[#F5D547] shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col">
+     <Card className="relative overflow-hidden bg-gradient-to-br from-[#FFFDF5] to-[#F5D547]/10 border-2 border-[#03404A] shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col">
   {isSolved && (
     <div className="absolute top-2 right-2 z-10">
       <Badge className="bg-green-700 hover:bg-green-700 text-white">
@@ -99,7 +99,7 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
     </div>
 
     <div className="flex-1 flex flex-col">
-      <div className="mb-4 rounded-lg overflow-hidden shadow-md bg-white w-full">
+      <div className="mb-4 rounded-lg overflow-hidden shadow-md bg-white w-full border border-[#03404A]">
         <img 
           src={getImageForPuzzle(puzzle.title)} 
           alt={puzzle.title}
@@ -126,13 +126,13 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
       </div>
 
       {isSolved && (
-        <div className="mt-4 pt-4 border-t border-[#F5D547]/60">
+        <div className="mt-4 pt-4 border-t border-[#03404A]">
           <div className="text-center">
             <p className="text-sm text-[#03404A] font-medium">Answer:</p>
             <p className="text-lg font-bold text-[#2C2C2C] capitalize">{getDisplayAnswer(puzzle.answer)}</p>
           </div>
           {puzzle.title.toLowerCase() === 'the final letter' && (
-            <div className="mt-3 pt-3 border-t border-[#F5D547]/40">
+            <div className="mt-3 pt-3 border-t border-[#03404A]">
               <p className="text-sm text-center text-[#03404A] font-medium italic">
                 Open the last envelope after solving this puzzle
               </p>
@@ -140,12 +140,6 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
           )}
         </div>
       )}
-
-      {/* <div className="mt-4 pt-4 border-t border-[#F5D547]/40">
-        <div className="text-xs text-[#03404A]/70 text-center">
-           Optional footer text 
-        </div>
-      </div> */}
     </div>
   </CardContent>
 </Card>

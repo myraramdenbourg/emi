@@ -14,7 +14,7 @@ interface SuccessModalProps {
 const SuccessModal = ({ isOpen, onClose, puzzle, puzzleIndex }: SuccessModalProps) => {
  return (
   <Dialog open={isOpen} onOpenChange={onClose}>
-    <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto bg-[#FFFDF5] border border-[#F5D547] shadow-md">
+    <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto bg-[#FFFDF5] border-2 border-[#03404A] shadow-md">
       <DialogHeader>
         <DialogTitle className="text-2xl font-bold text-[#03404A] font-serif flex items-center gap-2">
           <Trophy className="w-6 h-6 text-[#F5D547]" />
@@ -31,7 +31,7 @@ const SuccessModal = ({ isOpen, onClose, puzzle, puzzleIndex }: SuccessModalProp
             {puzzle.title} Solved!
           </h3>
           <p className="text-[#2C2C2C]">
-            You’ve successfully solved “{puzzle.title}”
+            You've successfully solved "{puzzle.title}"
           </p>
         </div>
 

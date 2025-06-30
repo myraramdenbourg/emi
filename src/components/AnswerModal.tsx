@@ -126,7 +126,7 @@ const AnswerModal = ({ isOpen, onClose, puzzle, puzzleIndex, onSolved }: AnswerM
   return (
   <>
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-md bg-[#FFFDF5] border border-[#F5D547] shadow-md">
+      <DialogContent className="max-w-md bg-[#FFFDF5] border-2 border-[#03404A] shadow-md">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold text-[#03404A] font-serif">
             Check Answer
@@ -134,7 +134,7 @@ const AnswerModal = ({ isOpen, onClose, puzzle, puzzleIndex, onSolved }: AnswerM
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="bg-[#FFFBEA] p-4 rounded-lg border border-[#F5D547]/60">
+          <div className="bg-[#FFFBEA] p-4 rounded-lg border-2 border-[#03404A]">
             <h3 className="font-semibold text-[#03404A] mb-2">
               {puzzle.title}
             </h3>
@@ -151,13 +151,13 @@ const AnswerModal = ({ isOpen, onClose, puzzle, puzzleIndex, onSolved }: AnswerM
               value={answer}
               onChange={(e) => setAnswer(e.target.value)}
               placeholder="Enter your answer..."
-              className="mt-1 border-[#F5D547]/40 focus:border-[#F5D547] text-[#2C2C2C]"
+              className="mt-1 border-2 border-[#03404A] focus:border-[#03404A] text-[#2C2C2C]"
               required
             />
           </div>
 
           {showError && (
-            <div className="bg-[#FFF3F3] border border-red-200 p-3 rounded-lg">
+            <div className="bg-[#FFF3F3] border-2 border-red-800 p-3 rounded-lg">
               <p className="text-red-800 text-sm text-center">
                 That's not quite right. Try again or check the hints!
               </p>
@@ -165,7 +165,7 @@ const AnswerModal = ({ isOpen, onClose, puzzle, puzzleIndex, onSolved }: AnswerM
           )}
 
           {customMessage && (
-            <div className="bg-[#E6F4FF] border border-blue-200 p-3 rounded-lg">
+            <div className="bg-[#E6F4FF] border-2 border-blue-800 p-3 rounded-lg">
               <p className="text-blue-800 text-sm text-center">
                 {customMessage}
               </p>
@@ -177,7 +177,7 @@ const AnswerModal = ({ isOpen, onClose, puzzle, puzzleIndex, onSolved }: AnswerM
               type="button"
               onClick={handleClose}
               variant="outline"
-              className="flex-1 border-[#F5D547]/40 text-[#03404A] hover:bg-[#FFFBEA]"
+              className="flex-1 border-2 border-[#03404A] text-[#03404A] hover:bg-[#FFFBEA]"
             >
               Cancel
             </Button>

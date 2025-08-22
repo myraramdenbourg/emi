@@ -109,7 +109,7 @@ export const puzzleData: PuzzleData[] = [
       "Do you notice the ferris wheel with letters, the red arrow, and the patterns on the ferris wheel and boat?",
       "If you start from the arrow pointing at the P, where do you go next?",
       "The boat gives you the pattern to follow, starting from red. The next letter would be A since it is orange.",
-      "Keep going until all words in the ferris wheel are used once."
+      "Keep going until all letters in the ferris wheel are used once."
     ],
     answer: ["PANORAMIC VIEWS", "PANORAMICVIEWS"],
   },

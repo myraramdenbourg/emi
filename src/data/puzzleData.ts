@@ -34,8 +34,8 @@ export const puzzleData: PuzzleData[] = [
       "Do you notice the letters on the fish pieces and the signs?",
       "This is similar to a crossword puzzle. Use the numbers and arrows on the signs to solve. For example, the top left sign has a 1 and an -> which means it is the word for the first row.",
       "The answers to the signs are CARP (1 across), HOOK (2 across), RINK (3 across), AHI (1 down), POKE (3 down).",
-      "Apply the answers to the crossword. Some letters will be missing a fish.",
-      "The fish pieces with the missing letters form a word, which is the solution to the puzzle.",
+      "Apply the answers to the crossword. Some letters will be missing a fish piece.",
+      "The fish pieces with the missing letters and the red E form a word, which is the solution to the puzzle.",
       "In the word CARP, the C does not have a designated fish, so it is part of the solution. Find all other missing letters to get the solution."
       ],
     answer: ["CREEK"],
@@ -104,7 +104,7 @@ export const puzzleData: PuzzleData[] = [
   },
   {
     title: "FERRIS WHEEL",
-    description: "When you start from the beginning, everything becomes clear. The wheel goes round and round, just lie our lives and stories.",
+    description: "When you start from the beginning, everything becomes clear. The wheel goes round and round, just like our lives and stories.",
     hints: [
       "Do you notice the ferris wheel with letters, the red arrow, and the patterns on the ferris wheel and boat?",
       "If you start from the arrow pointing at the P, where do you go next?",

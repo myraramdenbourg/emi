@@ -98,7 +98,9 @@ return (
         {showAnswer && (
           <div className="bg-[#FFF3F3] border-2 border-red-800 p-4 rounded-lg">
             <h3 className="font-semibold text-red-900 mb-2">Answer:</h3>
-            <p className="text-red-800 text-lg font-medium">{puzzle.answer}</p>
+            <p className="text-red-800 text-lg font-medium">
+              {Array.isArray(puzzle.answer) ? puzzle.answer[0] : puzzle.answer}
+            </p>
             {puzzle.title.toLowerCase() === 'the final letter' && (
               <div className="mt-3 pt-3 border-t border-red-800">
                 <p className="text-sm text-red-700 font-medium italic">

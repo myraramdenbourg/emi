@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
-import { BarChart3, LogOut, Eye, MousePointerClick, Users, CheckCircle2, Target } from "lucide-react";
+import { BarChart3, LogOut, Eye, MousePointerClick, Users, CheckCircle2, Target, HelpCircle } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { puzzleData } from "@/data/puzzleData";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { format, subDays, startOfDay, endOfDay } from "date-fns";
 
 interface AnalyticsEvent {
@@ -364,8 +365,16 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <Card className="bg-[#FFFDF5] border-2 border-[#F6DC9F]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-[#03404A]">
+              <CardTitle className="text-sm font-medium text-[#03404A] flex items-center gap-2">
                 Unique Users
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="h-4 w-4 cursor-help opacity-70" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p>Total number of distinct users who interacted with the hints site during the selected time period, based on unique session IDs.</p>
+                  </TooltipContent>
+                </Tooltip>
               </CardTitle>
               <Users className="h-4 w-4 text-[#03404A]" />
             </CardHeader>
@@ -377,8 +386,16 @@ const Dashboard = () => {
 
           <Card className="bg-[#FFFDF5] border-2 border-[#F6DC9F]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-[#03404A]">
+              <CardTitle className="text-sm font-medium text-[#03404A] flex items-center gap-2">
                 Hint Click Rate
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="h-4 w-4 cursor-help opacity-70" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p>Percentage of users who clicked at least one hint during their session. Higher rates may indicate puzzles are challenging or hints are easily discoverable.</p>
+                  </TooltipContent>
+                </Tooltip>
               </CardTitle>
               <MousePointerClick className="h-4 w-4 text-[#03404A]" />
             </CardHeader>
@@ -392,8 +409,16 @@ const Dashboard = () => {
 
           <Card className="bg-[#FFFDF5] border-2 border-[#F6DC9F]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-[#03404A]">
+              <CardTitle className="text-sm font-medium text-[#03404A] flex items-center gap-2">
                 Answer Correctness
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="h-4 w-4 cursor-help opacity-70" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p>Percentage of submitted answers that were correct. A lower rate may indicate puzzles are too difficult or hints need improvement.</p>
+                  </TooltipContent>
+                </Tooltip>
               </CardTitle>
               <CheckCircle2 className="h-4 w-4 text-[#03404A]" />
             </CardHeader>
@@ -407,8 +432,16 @@ const Dashboard = () => {
 
           <Card className="bg-[#FFFDF5] border-2 border-[#F6DC9F]">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-[#03404A]">
+              <CardTitle className="text-sm font-medium text-[#03404A] flex items-center gap-2">
                 Final Puzzle Complete
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="h-4 w-4 cursor-help opacity-70" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p>Percentage of users who successfully solved the final meta puzzle. This represents the overall completion rate of your puzzle hunt.</p>
+                  </TooltipContent>
+                </Tooltip>
               </CardTitle>
               <Target className="h-4 w-4 text-[#03404A]" />
             </CardHeader>
@@ -426,7 +459,17 @@ const Dashboard = () => {
           {/* Hint Usage Chart */}
           <Card className="bg-[#FFFDF5] border-2 border-[#F6DC9F]">
             <CardHeader>
-              <CardTitle className="text-[#03404A] font-serif">Hint Usage Over Time</CardTitle>
+              <CardTitle className="text-[#03404A] font-serif flex items-center gap-2">
+                Hint Usage Over Time
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="h-4 w-4 cursor-help opacity-70" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p>Shows daily trends of hint clicks and answer submissions. Spikes may correlate with puzzle releases or social media promotion.</p>
+                  </TooltipContent>
+                </Tooltip>
+              </CardTitle>
               <p className="text-sm text-[#2C2C2C]">Daily hint clicks and answer submissions</p>
             </CardHeader>
             <CardContent>
@@ -435,7 +478,7 @@ const Dashboard = () => {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="date" />
                   <YAxis />
-                  <Tooltip />
+                  <RechartsTooltip />
                   <Legend />
                   <Bar dataKey="hints" fill="#03404A" name="Hints" />
                   <Bar dataKey="answers" fill="#F6DC9F" name="Answers" />
@@ -447,7 +490,17 @@ const Dashboard = () => {
           {/* Answer Correctness */}
           <Card className="bg-[#FFFDF5] border-2 border-[#F6DC9F]">
             <CardHeader>
-              <CardTitle className="text-[#03404A] font-serif">Answer Correctness</CardTitle>
+              <CardTitle className="text-[#03404A] font-serif flex items-center gap-2">
+                Answer Correctness
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="h-4 w-4 cursor-help opacity-70" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p>Visual breakdown of all answer submissions. A high incorrect rate suggests puzzles may be too difficult or need clearer hints.</p>
+                  </TooltipContent>
+                </Tooltip>
+              </CardTitle>
               <p className="text-sm text-[#2C2C2C]">Breakdown of correct vs incorrect answers</p>
             </CardHeader>
             <CardContent>
@@ -468,7 +521,7 @@ const Dashboard = () => {
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
-                    <Tooltip />
+                    <RechartsTooltip />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
@@ -483,7 +536,17 @@ const Dashboard = () => {
         {/* Completion Funnel */}
         <Card className="bg-[#FFFDF5] border-2 border-[#F6DC9F] mb-6">
           <CardHeader>
-            <CardTitle className="text-[#03404A] font-serif">User Journey Funnel</CardTitle>
+            <CardTitle className="text-[#03404A] font-serif flex items-center gap-2">
+              User Journey Funnel
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <HelpCircle className="h-4 w-4 cursor-help opacity-70" />
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <p>Shows drop-off rates at each stage of user engagement. Identifies where users disengage from the puzzle hunt experience.</p>
+                </TooltipContent>
+              </Tooltip>
+            </CardTitle>
             <p className="text-sm text-[#2C2C2C]">Progression from site visit to final puzzle completion</p>
           </CardHeader>
           <CardContent>
@@ -515,7 +578,17 @@ const Dashboard = () => {
         {/* Puzzle-Level Breakdown */}
         <Card className="bg-[#FFFDF5] border-2 border-[#F6DC9F]">
           <CardHeader>
-            <CardTitle className="text-[#03404A] font-serif">Puzzle-Level Metrics</CardTitle>
+            <CardTitle className="text-[#03404A] font-serif flex items-center gap-2">
+              Puzzle-Level Metrics
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <HelpCircle className="h-4 w-4 cursor-help opacity-70" />
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <p>Detailed analytics for each individual puzzle. Compare metrics across puzzles to identify which ones are most challenging or engaging.</p>
+                </TooltipContent>
+              </Tooltip>
+            </CardTitle>
             <p className="text-sm text-[#2C2C2C]">Performance breakdown by puzzle</p>
           </CardHeader>
           <CardContent>

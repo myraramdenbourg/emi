@@ -6,6 +6,7 @@ import HintModal from "./HintModal";
 import AnswerModal from "./AnswerModal";
 import { PuzzleData } from "@/types/puzzle";
 import { Check, Coffee, Fish, FerrisWheel, Flower } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 interface PuzzleCardProps {
   puzzle: PuzzleData;
@@ -109,7 +110,10 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
 
       <div className="space-y-3 mt-auto">
         <Button
-          onClick={() => setShowHints(true)}
+          onClick={() => {
+            trackEvent('view_hints', {}, puzzleIndex, puzzle.title);
+            setShowHints(true);
+          }}
           className="w-full bg-[#F5D547] hover:bg-[#E87E04] text-[#03404A] font-semibold"
           variant="default"
         >
@@ -117,7 +121,10 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
         </Button>
 
         <Button
-          onClick={() => setShowAnswer(true)}
+          onClick={() => {
+            trackEvent('check_answer', {}, puzzleIndex, puzzle.title);
+            setShowAnswer(true);
+          }}
           className="w-full bg-[#03404A] hover:bg-[#022F37] text-white"
           variant="default"
         >

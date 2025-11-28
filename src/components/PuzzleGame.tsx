@@ -1,10 +1,11 @@
-
 import { useState } from "react";
 import PuzzleCard from "./PuzzleCard";
 import { puzzleData } from "@/data/puzzleData";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 const PuzzleGame = () => {
   const [solvedPuzzles, setSolvedPuzzles] = useState<number[]>([]);
+  useAnalytics();
 
   const handlePuzzleSolved = (puzzleIndex: number) => {
     if (!solvedPuzzles.includes(puzzleIndex)) {

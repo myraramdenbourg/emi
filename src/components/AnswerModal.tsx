@@ -95,15 +95,18 @@ const AnswerModal = ({ isOpen, onClose, puzzle, puzzleIndex, onSolved }: AnswerM
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (checkAnswer(answer, puzzle.answer)) {
-      trackEvent('puzzle_solved', { answer }, puzzleIndex, puzzle.title);
+    const isCorrect = checkAnswer(answer, puzzle.answer);
+    
+    // Track the check_answer event with correctness data
+    trackEvent('check_answer', { answer, correct: isCorrect }, puzzleIndex, puzzle.title);
+    
+    if (isCorrect) {
       setShowSuccess(true);
       onSolved();
       setAnswer("");
       setShowError(false);
       setCustomMessage("");
     } else {
-      trackEvent('wrong_answer', { answer }, puzzleIndex, puzzle.title);
       const customResponse = getCustomResponse(answer, puzzle.answer, puzzle.title);
       if (customResponse) {
         setCustomMessage(customResponse);

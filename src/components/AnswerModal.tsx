@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PuzzleData } from "@/types/puzzle";
 import SuccessModal from "./SuccessModal";
+import { trackEvent } from "@/lib/analytics";
 
 interface AnswerModalProps {
   isOpen: boolean;
@@ -95,12 +96,14 @@ const AnswerModal = ({ isOpen, onClose, puzzle, puzzleIndex, onSolved }: AnswerM
     e.preventDefault();
     
     if (checkAnswer(answer, puzzle.answer)) {
+      trackEvent('puzzle_solved', { answer }, puzzleIndex, puzzle.title);
       setShowSuccess(true);
       onSolved();
       setAnswer("");
       setShowError(false);
       setCustomMessage("");
     } else {
+      trackEvent('wrong_answer', { answer }, puzzleIndex, puzzle.title);
       const customResponse = getCustomResponse(answer, puzzle.answer, puzzle.title);
       if (customResponse) {
         setCustomMessage(customResponse);

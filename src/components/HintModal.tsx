@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PuzzleData } from "@/types/puzzle";
 import { Eye } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 interface HintModalProps {
   isOpen: boolean;
@@ -19,11 +20,13 @@ const HintModal = ({ isOpen, onClose, puzzle, puzzleIndex }: HintModalProps) => 
   const unlockNextHint = () => {
     const nextHintIndex = unlockedHints.length;
     if (nextHintIndex < puzzle.hints.length) {
+      trackEvent('unlock_hint', { hintIndex: nextHintIndex }, puzzleIndex, puzzle.title);
       setUnlockedHints([...unlockedHints, nextHintIndex]);
     }
   };
 
   const handleViewAnswer = () => {
+    trackEvent('view_answer', {}, puzzleIndex, puzzle.title);
     setShowAnswer(true);
   };
 

@@ -79,7 +79,7 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
 
   return (
     <>
-     <Card className="relative overflow-hidden bg-gradient-to-br from-[#FFFDF5] to-[#F5D547]/10 border-2 border-[#03404A] shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col">
+     <Card className={`relative overflow-hidden border-2 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex flex-col ${isSolved ? 'bg-green-50 border-green-600' : 'bg-gradient-to-br from-[#FFFDF5] to-[#F5D547]/10 border-[#03404A]'}`}>
   {isSolved && (
     <div className="absolute top-2 right-2 z-10">
       <Badge className="bg-green-700 hover:bg-green-700 text-white">

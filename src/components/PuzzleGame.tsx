@@ -21,7 +21,7 @@ const PuzzleGame = () => {
             ECHOES OF THE MARKET
           </h1>
           <p className="text-xl text-[#F6DC9F] max-w-2xl mx-auto opacity-90">
-            "I may not have all the answers, but I know my grandpa well and I may be able to provide a pointer in the right direction. Good luck players!"
+            "I may not have all the answers, but I know my grandpa well and I may be able to provide a pointer in the right direction. Good luck friend!"
           </p>
           <div className="mt-4 text-[#F6DC9F] opacity-80">
             {/* Puzzles Solved: {solvedPuzzles.length} / {puzzleData.length} */}

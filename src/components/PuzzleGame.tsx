@@ -13,9 +13,15 @@ const PuzzleGame = () => {
     }
   };
 
+  const finalLetterIndex = puzzleData.findIndex(
+    (p) => p.title.toLowerCase() === "the final letter"
+  );
+  const finalSolved =
+    finalLetterIndex !== -1 && solvedPuzzles.includes(finalLetterIndex);
+
   return (
     <div className="min-h-screen p-6 bg-[#03404A]">
-      <div className="max-w-7xl mx-auto">
+      <div className={`max-w-7xl mx-auto ${finalSolved ? "pb-20" : ""}`}>
         <header className="text-center mb-12">
           <h1 className="text-5xl font-bold text-[#F6DC9F] mb-4 font-serif">
             ECHOES OF THE MARKET
@@ -40,6 +46,12 @@ const PuzzleGame = () => {
           ))}
         </div>
       </div>
+
+      {finalSolved && (
+        <div className="fixed bottom-0 left-0 right-0 bg-green-600 text-white text-center py-4 px-6 shadow-2xl z-50 font-serif text-xl font-bold">
+          Open the final envelope.
+        </div>
+      )}
     </div>
   );
 };

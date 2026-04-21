@@ -100,12 +100,19 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
     </div>
 
     <div className="flex-1 flex flex-col">
-      <div className="mb-4 rounded-lg overflow-hidden shadow-md bg-white w-full border border-[#03404A]">
+      <div className="mb-4 rounded-lg overflow-hidden shadow-md bg-white w-full border border-[#03404A] relative">
         <img 
           src={getImageForPuzzle(puzzle.title)} 
           alt={puzzle.title}
           className="w-full object-contain"
         />
+        {isSolved && (
+          <div className="absolute inset-0 flex items-center justify-center bg-white/30">
+            <div className="bg-green-600 rounded-full p-4 shadow-xl">
+              <Check className="w-12 h-12 text-white" strokeWidth={3} />
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="space-y-3 mt-auto">

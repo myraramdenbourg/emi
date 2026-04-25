@@ -164,8 +164,8 @@ const AnswerModal = ({ isOpen, onClose, puzzle, puzzleIndex, onSolved }: AnswerM
 
           {showError && (
             <div className="bg-[#FFF3F3] border-2 border-red-800 p-3 rounded-lg">
-              <p className="text-red-800 text-sm text-center italic font-serif">
-                Not quite — the market keeps its secrets. Try again, or peek at a hint.
+              <p className="text-red-800 text-sm text-center">
+                That's not quite right. Try again or check the hints!
               </p>
             </div>
           )}

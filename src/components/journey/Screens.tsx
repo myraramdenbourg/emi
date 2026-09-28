@@ -1,9 +1,41 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft } from "lucide-react";
 import { actions, elapsedMs, formatTime, normalize, useGame, useNow } from "@/lib/gameState";
-import { journeyPuzzles, TIER_LABELS, JourneyPuzzle } from "@/lib/journeyData";
+import { journeyPuzzles, JourneyPuzzle } from "@/lib/journeyData";
 import { trackEvent } from "@/lib/analytics";
 import { EnvelopeMark, HandCheck, HandCircle, LockMark, Sprig } from "./Marks";
+
+// Levenshtein distance for "close answer" nudges
+const editDistance = (a: string, b: string): number => {
+  const m = a.length, n = b.length;
+  if (!m) return n;
+  if (!n) return m;
+  let prev = Array.from({ length: n + 1 }, (_, j) => j);
+  for (let i = 1; i <= m; i++) {
+    const cur = [i];
+    for (let j = 1; j <= n; j++) {
+      cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    }
+    prev = cur;
+  }
+  return prev[n];
+};
+
+// True when the guess is nearly right: small typo, shared long prefix
+// (e.g. "panorama" vs "panoramic views"), or one contains the other.
+const isClose = (guess: string, answers: string[]): boolean => {
+  const g = normalize(guess);
+  if (g.length < 4) return false;
+  return answers.some((a) => {
+    const t = normalize(a);
+    if (t === g) return false;
+    if (t.startsWith(g) || g.startsWith(t)) return true;
+    let prefix = 0;
+    while (prefix < Math.min(g.length, t.length) && g[prefix] === t[prefix]) prefix++;
+    if (prefix >= 5) return true;
+    return editDistance(g, t) <= 2;
+  });
+};
 
 const primaryBtn =
   "w-full min-h-[56px] bg-ink text-paper font-display uppercase tracking-[0.2em] text-sm hover:bg-ink/90 active:translate-y-px transition";

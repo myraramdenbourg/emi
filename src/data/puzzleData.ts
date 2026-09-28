@@ -17,7 +17,7 @@ export const puzzleData: PuzzleData[] = [
   },
   {
     title: "PIGS",
-    description: "There's a secret tucked away where people leave their spare change. Take a look and follow the shapes.",
+    description: "There's a secret tucked away where people leave their spare change. Follow the footsteps to show you the way.",
     hints: [
       "Do you notice the letters on the pigs and symbols on the ground?",
       "The pigs provide the key to help solve the symbols on the ground.",

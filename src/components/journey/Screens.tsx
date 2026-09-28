@@ -220,7 +220,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
           <input
             id="answer"
             value={value}
-            onChange={(e) => { setValue(e.target.value); if (status === "wrong") setStatus("idle"); }}
+            onChange={(e) => { setValue(e.target.value); if (status === "wrong" || status === "close") setStatus("idle"); }}
             placeholder="Enter your answer..."
             autoComplete="off"
             autoCapitalize="characters"
@@ -231,6 +231,12 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
             <div className="text-center pt-2 animate-fade-in">
               <p className="font-display text-ink">Not quite.</p>
               <p className="text-ink/75">Take another look at the postcard.</p>
+            </div>
+          )}
+          {status === "close" && (
+            <div className="text-center pt-2 animate-fade-in">
+              <p className="font-display text-ink">So close — you're onto something.</p>
+              <p className="text-ink/75">Look once more at the exact wording on the postcard.</p>
             </div>
           )}
           {wrongs >= 3 && (

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Check } from "lucide-react";
 import HintModal from "./HintModal";
 import AnswerModal from "./AnswerModal";
 import { PuzzleData } from "@/types/puzzle";
@@ -13,19 +14,18 @@ interface PuzzleCardProps {
   onSolved: () => void;
 }
 
-const getImageForPuzzle = (title: string) => {
+const getIconForPuzzle = (title: string) => {
   switch (title.toLowerCase()) {
-    case 'coffee': return '/assets/coffee_front.png';
-    case 'fish': return '/assets/fish_front.png';
-    case 'ferris wheel': return '/assets/ferris_front.png';
-    case 'cheese': return '/assets/cheese_front.png';
-    case 'gum wall': return '/assets/gum_front.png';
-    case 'flowers': return '/assets/flowers_front.png';
-    case 'pigs': return '/assets/pigs_front.png';
-    case 'post alley': return '/assets/postalley_front.png';
-    case 'produce': return '/assets/produce_front.png';
-    case 'the final letter': return '/assets/meta_front2.png';
-    default: return '/assets/cheese_front.png';
+    case 'coffee': return '/assets/icons/coffee.png';
+    case 'fish': return '/assets/icons/fish.png';
+    case 'ferris wheel': return '/assets/icons/ferris.png';
+    case 'cheese': return '/assets/icons/cheese.png';
+    case 'gum wall': return '/assets/icons/gum.png';
+    case 'flowers': return '/assets/icons/flowers.png';
+    case 'pigs': return '/assets/icons/pigs.png';
+    case 'post alley': return '/assets/icons/postalley.png';
+    case 'produce': return '/assets/icons/produce.png';
+    default: return '';
   }
 };
 
@@ -96,12 +96,25 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
           </div>
 
           <div className="flex-1 flex flex-col">
-            <div className={`mb-4 rounded-lg overflow-hidden shadow-md bg-white w-full border border-[#03404A] relative transition-transform duration-300 ${!isSolved ? 'group-hover:scale-[1.02]' : ''}`}>
-              <img
-                src={getImageForPuzzle(puzzle.title)}
-                alt={puzzle.title}
-                className={`w-full object-contain transition-all duration-500 ${isSolved ? 'saturate-50 opacity-90' : ''}`}
-              />
+            <div className={`mb-4 mx-auto w-full max-w-[220px] rounded-lg overflow-hidden shadow-md bg-[#FFFDF5] border-2 border-[#03404A] relative transition-transform duration-300 ${!isSolved ? 'group-hover:scale-[1.02]' : ''}`}>
+              <div className="aspect-square flex items-center justify-center p-4">
+                {puzzle.title.toLowerCase() === 'the final letter' ? (
+                  <span className={`text-7xl font-serif font-extrabold text-[#A6342B] transition-all duration-500 ${isSolved ? 'saturate-50 opacity-90' : ''}`}>?</span>
+                ) : (
+                  <img
+                    src={getIconForPuzzle(puzzle.title)}
+                    alt={puzzle.title}
+                    className={`max-w-full max-h-full object-contain transition-all duration-500 ${isSolved ? 'saturate-50 opacity-90' : ''}`}
+                  />
+                )}
+              </div>
+              {isSolved && (
+                <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white/20">
+                  <div className="w-16 h-16 rounded-full bg-green-600 flex items-center justify-center shadow-lg">
+                    <Check className="w-10 h-10 text-white" strokeWidth={3} />
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="space-y-2 mt-auto" onClick={(e) => e.stopPropagation()}>

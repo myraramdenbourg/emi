@@ -13,19 +13,18 @@ interface PuzzleCardProps {
   onSolved: () => void;
 }
 
-const getImageForPuzzle = (title: string) => {
+const getIconForPuzzle = (title: string) => {
   switch (title.toLowerCase()) {
-    case 'coffee': return '/assets/coffee_front.png';
-    case 'fish': return '/assets/fish_front.png';
-    case 'ferris wheel': return '/assets/ferris_front.png';
-    case 'cheese': return '/assets/cheese_front.png';
-    case 'gum wall': return '/assets/gum_front.png';
-    case 'flowers': return '/assets/flowers_front.png';
-    case 'pigs': return '/assets/pigs_front.png';
-    case 'post alley': return '/assets/postalley_front.png';
-    case 'produce': return '/assets/produce_front.png';
-    case 'the final letter': return '/assets/meta_front2.png';
-    default: return '/assets/cheese_front.png';
+    case 'coffee': return '/assets/icons/coffee.png';
+    case 'fish': return '/assets/icons/fish.png';
+    case 'ferris wheel': return '/assets/icons/ferris.png';
+    case 'cheese': return '/assets/icons/cheese.png';
+    case 'gum wall': return '/assets/icons/gum.png';
+    case 'flowers': return '/assets/icons/flowers.png';
+    case 'pigs': return '/assets/icons/pigs.png';
+    case 'post alley': return '/assets/icons/postalley.png';
+    case 'produce': return '/assets/icons/produce.png';
+    default: return '';
   }
 };
 

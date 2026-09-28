@@ -14,6 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
+      adventure_signups: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          reaction: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          reaction?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          reaction?: string | null
+        }
+        Relationships: []
+      }
       analytics_events: {
         Row: {
           created_at: string | null

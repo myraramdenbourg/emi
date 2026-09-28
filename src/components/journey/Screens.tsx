@@ -275,8 +275,8 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
 
       <section className="mt-10">
         <h2 className="font-display text-sm uppercase tracking-[0.25em] text-ink text-center pb-3">Need a hint?</h2>
-        {p.hints.map((_, t) => (
-          <HintCard key={t} p={p} hintIndex={t} opened={opened > t} available={opened >= t} />
+        {p.hints.slice(0, opened + 1).map((_, t) => (
+          <HintCard key={t} p={p} hintIndex={t} opened={opened > t} />
         ))}
         {opened >= p.hints.length && (
           <div className="border-t border-rule py-4 text-center animate-fade-in">

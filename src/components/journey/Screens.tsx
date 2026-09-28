@@ -3,7 +3,7 @@ import { ChevronLeft } from "lucide-react";
 import { actions, elapsedMs, formatTime, normalize, useGame, useNow } from "@/lib/gameState";
 import { allPuzzles, journeyPuzzles, JourneyPuzzle } from "@/lib/journeyData";
 import { trackEvent } from "@/lib/analytics";
-import { EnvelopeMark, HandCheck, HandCircle, LockMark, Sprig } from "./Marks";
+import { HandCheck, HandCircle, LockMark, Sprig } from "./Marks";
 import { Completion } from "./Completion";
 
 // Levenshtein distance for "close answer" nudges

@@ -3,7 +3,7 @@ import { ChevronLeft } from "lucide-react";
 import { actions, elapsedMs, formatTime, normalize, useGame, useNow } from "@/lib/gameState";
 import { allPuzzles, journeyPuzzles, JourneyPuzzle } from "@/lib/journeyData";
 import { trackEvent } from "@/lib/analytics";
-import { EnvelopeMark, HandCheck, HandCircle, LockMark, Sprig } from "./Marks";
+import { HandCheck, HandCircle, LockMark, Sprig } from "./Marks";
 import { Completion } from "./Completion";
 
 // Levenshtein distance for "close answer" nudges
@@ -118,9 +118,8 @@ export const MarketLog = () => {
               onClick={() => { trackEvent("open_final"); actions.go({ puzzle: "final" }); }}
               className="w-full flex items-center gap-4 min-h-[76px] py-2 text-left bg-rule/10 hover:bg-rule/15 transition"
             >
-              <span className={`w-11 h-11 shrink-0 flex items-center justify-center ${celebrating ? "animate-fade-in" : ""}`}>
-                <EnvelopeMark className="w-11" sealed />
-              </span>
+              <span className="w-11 shrink-0" aria-hidden="true" />
+
               <span className="flex-1">
                 <span className="block font-display text-lg sm:text-xl text-ink tracking-wide">FINAL LETTER</span>
                 <span className="block font-display text-xs tracking-[0.3em] text-rule">
@@ -318,8 +317,8 @@ export const FinalScreen = () => {
       </div>
       <Rule double />
       <div className="text-center py-10">
-        <EnvelopeMark className="w-44 mx-auto" sealed />
-        <p className="font-display text-3xl font-semibold tracking-[0.15em] text-rule mt-8">OPEN ENVELOPE 2</p>
+        <p className="font-display text-3xl font-semibold tracking-[0.15em] text-rule">OPEN ENVELOPE 2</p>
+
         <p className="font-hand text-2xl text-ink/85 mt-2">Inside, you'll find Emi's final letter.</p>
       </div>
       <Rule />

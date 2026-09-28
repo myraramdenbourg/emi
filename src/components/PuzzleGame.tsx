@@ -53,7 +53,7 @@ const PuzzleGame = () => {
               ))}
             </div>
             <span className="text-sm font-serif italic opacity-80">
-              {solvedCount} of {total} postcards explored
+              {solvedCount} of {total} postcards solved
             </span>
           </div>
         </header>

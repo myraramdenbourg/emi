@@ -72,7 +72,7 @@ export const Welcome = () => (
   </div>
 );
 
-export const MarketLog = () => {
+export const MarketLog = ({ compact = false }: { compact?: boolean }) => {
   const s = useGame();
   const count = journeyPuzzles.filter((p) => s.solved.includes(p.key)).length;
   const allDone = count === journeyPuzzles.length;
@@ -90,7 +90,7 @@ export const MarketLog = () => {
   return (
     <div className={`animate-fade-in relative ${celebrating ? "animate-brighten" : ""}`}>
       <Rule />
-      <h1 className="font-display text-3xl font-medium text-center text-ink tracking-wide py-7">MARKET LOG</h1>
+      <h1 className={`font-display font-medium text-center text-ink tracking-wide ${compact ? "text-xl py-5" : "text-3xl py-7"}`}>MARKET LOG</h1>
       <Rule double />
       <ul>
         {journeyPuzzles.map((p) => {

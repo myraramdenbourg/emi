@@ -116,9 +116,9 @@ async function makeCard(time: string): Promise<Blob> {
     g.drawImage(im, x + (size - im.width * r) / 2, y + (size - im.height * r) / 2, im.width * r, im.height * r);
   });
 
-  g.fillStyle = rule; g.font = "500 82px Caveat"; g.fillText("Your turn to explore.", W / 2, 1748);
-  g.fillStyle = ink; g.font = "600 42px Poppins"; g.fillText("echoesofthemarket.com", W / 2, 1798);
-  g.font = "25px Poppins"; g.fillText("By Origami Escape", W / 2, 1832);
+  g.fillStyle = rule; g.font = "500 82px Caveat"; g.fillText("Your turn to explore.", W / 2, 1700);
+  g.fillStyle = ink; g.font = "600 42px Poppins"; g.fillText("echoesofthemarket.com", W / 2, 1770);
+  g.font = "25px Poppins"; g.fillText("By Origami Escape", W / 2, 1812);
   return new Promise((res, rej) => c.toBlob((b) => (b ? res(b) : rej(new Error("toBlob failed"))), "image/png"));
 }
 

@@ -247,8 +247,8 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
 
       <section className="mt-10">
         <h2 className="font-display text-sm uppercase tracking-[0.25em] text-ink text-center pb-3">Need a hint?</h2>
-        {TIER_LABELS.map((_, t) => (
-          <HintCard key={t} p={p} tier={t} opened={opened > t} available={opened >= t} />
+        {p.hints.map((_, t) => (
+          <HintCard key={t} p={p} hintIndex={t} opened={opened > t} available={opened >= t} />
         ))}
         <Rule />
       </section>

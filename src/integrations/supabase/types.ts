@@ -68,6 +68,39 @@ export type Database = {
         }
         Relationships: []
       }
+      feedback: {
+        Row: {
+          contact_email: string | null
+          created_at: string
+          edit_token_hash: string
+          id: string
+          ip_hash: string | null
+          message: string | null
+          reaction: string | null
+          updated_at: string
+        }
+        Insert: {
+          contact_email?: string | null
+          created_at?: string
+          edit_token_hash: string
+          id?: string
+          ip_hash?: string | null
+          message?: string | null
+          reaction?: string | null
+          updated_at?: string
+        }
+        Update: {
+          contact_email?: string | null
+          created_at?: string
+          edit_token_hash?: string
+          id?: string
+          ip_hash?: string | null
+          message?: string | null
+          reaction?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string

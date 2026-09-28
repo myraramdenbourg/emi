@@ -151,16 +151,16 @@ export const MarketLog = () => {
   );
 };
 
-const HintCard = ({ p, hintIndex, opened, available }: { p: JourneyPuzzle; hintIndex: number; opened: boolean; available: boolean }) => (
-  <div className={`border-t border-rule ${!available ? "opacity-40" : ""}`}>
+const HintCard = ({ p, hintIndex, opened }: { p: JourneyPuzzle; hintIndex: number; opened: boolean }) => (
+  <div className="border-t border-rule">
     <button
-      disabled={!available || opened}
+      disabled={opened}
       onClick={() => { trackEvent("unlock_hint", { hintIndex }, p.index, p.name); actions.openHint(p.key, hintIndex + 1); }}
       className="w-full flex items-center gap-3 min-h-[52px] text-left disabled:cursor-default"
     >
-      <span className="font-hand text-2xl text-rule w-6 opacity-0 select-none">·</span>
-      <span className="flex-1 font-display text-sm uppercase tracking-[0.15em] text-ink">Hint</span>
-      {!opened && available && <span className="text-xs font-display tracking-widest text-rule">OPEN</span>}
+      <span className="font-hand text-2xl text-rule w-6">{hintIndex + 1}</span>
+      <span className="flex-1 font-display text-sm uppercase tracking-[0.15em] text-ink">Hint {hintIndex + 1}</span>
+      {!opened && <span className="text-xs font-display tracking-widest text-rule">OPEN</span>}
     </button>
     {opened && (
       <div className="animate-unfold origin-top pb-4 pl-9 pr-1 text-ink/90 text-[16px] leading-relaxed">
@@ -275,8 +275,8 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
 
       <section className="mt-10">
         <h2 className="font-display text-sm uppercase tracking-[0.25em] text-ink text-center pb-3">Need a hint?</h2>
-        {p.hints.map((_, t) => (
-          <HintCard key={t} p={p} hintIndex={t} opened={opened > t} available={opened >= t} />
+        {p.hints.slice(0, opened + 1).map((_, t) => (
+          <HintCard key={t} p={p} hintIndex={t} opened={opened > t} />
         ))}
         {opened >= p.hints.length && (
           <div className="border-t border-rule py-4 text-center animate-fade-in">

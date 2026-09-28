@@ -115,7 +115,7 @@ export const puzzleData: PuzzleData[] = [
   },
   {
     title: "THE FINAL LETTER",
-    description: "The market changes over time. What are the hands pointing at?",
+    description: "The market changes over time. Look at where the hands are pointing.",
     hints: [
     "Do you notice the sign with 9 arrows of varying lengths?",
     "Where have you seen those red arrows before?",

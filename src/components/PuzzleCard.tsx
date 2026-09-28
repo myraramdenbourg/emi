@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Check } from "lucide-react";
 import HintModal from "./HintModal";
 import AnswerModal from "./AnswerModal";
 import { PuzzleData } from "@/types/puzzle";

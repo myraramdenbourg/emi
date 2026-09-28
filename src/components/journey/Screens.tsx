@@ -148,20 +148,20 @@ export const MarketLog = () => {
   );
 };
 
-const HintCard = ({ p, tier, opened, available }: { p: JourneyPuzzle; tier: number; opened: boolean; available: boolean }) => (
+const HintCard = ({ p, hintIndex, opened, available }: { p: JourneyPuzzle; hintIndex: number; opened: boolean; available: boolean }) => (
   <div className={`border-t border-rule ${!available ? "opacity-40" : ""}`}>
     <button
       disabled={!available || opened}
-      onClick={() => { trackEvent("unlock_hint", { hintIndex: tier }, p.index, p.name); actions.openHint(p.key, tier + 1); }}
+      onClick={() => { trackEvent("unlock_hint", { hintIndex }, p.index, p.name); actions.openHint(p.key, hintIndex + 1); }}
       className="w-full flex items-center gap-3 min-h-[52px] text-left disabled:cursor-default"
     >
-      <span className="font-hand text-2xl text-rule w-6">{tier + 1}</span>
-      <span className="flex-1 font-display text-sm uppercase tracking-[0.15em] text-ink">{TIER_LABELS[tier]}</span>
+      <span className="font-hand text-2xl text-rule w-6">{hintIndex + 1}</span>
+      <span className="flex-1 font-display text-sm uppercase tracking-[0.15em] text-ink">Hint {hintIndex + 1}</span>
       {!opened && available && <span className="text-xs font-display tracking-widest text-rule">OPEN</span>}
     </button>
     {opened && (
-      <div className="animate-unfold origin-top pb-4 pl-9 pr-1 space-y-2 text-ink/90 text-[16px] leading-relaxed">
-        {p.tiers[tier].map((h, i) => <p key={i}>{h}</p>)}
+      <div className="animate-unfold origin-top pb-4 pl-9 pr-1 text-ink/90 text-[16px] leading-relaxed">
+        <p>{p.hints[hintIndex]}</p>
       </div>
     )}
   </div>

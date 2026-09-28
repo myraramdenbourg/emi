@@ -26,7 +26,7 @@ const BehindTheScenes = () => (
       {SECTIONS.map((s, i) => (
         <section key={s.id} id={s.id} className={`py-7 ${i % 2 ? "rotate-[0.6deg]" : "-rotate-[0.6deg]"}`}>
           <div className="bg-paper-deep/50 border-2 border-rule/50 rounded-sm p-5 shadow-paper">
-            <p className="font-hand text-xl text-rule">No. {i + 1}</p>
+            <p className="font-hand text-xl text-rule-text">No. {i + 1}</p>
             <h2 className="font-display text-sm uppercase tracking-[0.2em] text-ink font-semibold">{s.title}</h2>
             <p className="text-[16px] text-ink/85 mt-2">{s.text}</p>
             <div className="mt-4 h-40 border-2 border-dashed border-rule/40 rounded-sm flex items-center justify-center font-hand text-xl text-ink/50">

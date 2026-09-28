@@ -27,6 +27,7 @@ export default {
 			colors: {
 				paper: { DEFAULT: 'hsl(var(--paper))', deep: 'hsl(var(--paper-deep))' },
 				rule: 'hsl(var(--rule))',
+				'rule-text': 'hsl(var(--rule-text))',
 				ink: 'hsl(var(--ink))',
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',

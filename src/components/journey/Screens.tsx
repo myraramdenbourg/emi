@@ -3,7 +3,7 @@ import { ChevronLeft } from "lucide-react";
 import { actions, elapsedMs, formatTime, normalize, useGame, useNow } from "@/lib/gameState";
 import { allPuzzles, journeyPuzzles, JourneyPuzzle } from "@/lib/journeyData";
 import { trackEvent } from "@/lib/analytics";
-import { HandCheck, HandCircle, LockMark, Sprig } from "./Marks";
+import { HandCheck, HandCircle, LockMark } from "./Marks";
 import { Completion } from "./Completion";
 
 // Levenshtein distance for "close answer" nudges
@@ -160,11 +160,6 @@ export const MarketLog = ({ compact = false }: { compact?: boolean }) => {
       <p className="text-center font-hand text-2xl text-ink/80 pt-6">
         {count} of {journeyPuzzles.length} stalls explored
       </p>
-      {celebrating && (
-        <div className="flex justify-center gap-6 pt-4 animate-fade-in">
-          <Sprig className="w-14" /><Sprig className="w-14 -scale-x-100" /><Sprig className="w-14" />
-        </div>
-      )}
     </div>
   );
 };

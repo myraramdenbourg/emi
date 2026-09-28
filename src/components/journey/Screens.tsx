@@ -48,7 +48,7 @@ const Rule = ({ double = false }: { double?: boolean }) => (
 export const Welcome = () => (
   <div className="animate-fade-in">
     <div className="text-center pt-6 pb-8">
-      <p className="font-display text-xs tracking-[0.35em] text-rule uppercase">Echoes of the</p>
+      <p className="font-display text-xs tracking-[0.35em] text-rule-text uppercase">Echoes of the</p>
       <h1 className="font-display text-4xl font-semibold tracking-[0.12em] text-ink mt-1">MARKET</h1>
     </div>
     <Rule double />
@@ -60,7 +60,7 @@ export const Welcome = () => (
       <p>I hope you enjoy the journey.</p>
       <div className="pt-2">
         <p>With gratitude,</p>
-        <p className="font-hand text-4xl text-rule">Emi</p>
+        <p className="font-hand text-4xl text-rule-text">Emi</p>
       </div>
     </article>
     <Rule />
@@ -122,11 +122,11 @@ export const MarketLog = () => {
 
               <span className="flex-1">
                 <span className="block font-display text-lg sm:text-xl text-ink tracking-wide">FINAL LETTER</span>
-                <span className="block font-display text-xs tracking-[0.3em] text-rule">
+                <span className="block font-display text-xs tracking-[0.3em] text-rule-text">
                   {s.solved.includes("final") ? "SOLVED" : "UNLOCKED — OPEN ENVELOPE 1"}
                 </span>
               </span>
-              <span className="w-12 text-center text-rule text-xl">→</span>
+              <span className="w-12 text-center text-rule-text text-xl">→</span>
             </button>
           ) : (
             <div className="flex items-center gap-4 min-h-[68px] py-2 opacity-60" aria-disabled="true">
@@ -157,9 +157,9 @@ const HintCard = ({ p, hintIndex, opened }: { p: JourneyPuzzle; hintIndex: numbe
       onClick={() => { trackEvent("unlock_hint", { hintIndex }, p.index, p.name); actions.openHint(p.key, hintIndex + 1); }}
       className="w-full flex items-center gap-3 min-h-[52px] text-left disabled:cursor-default"
     >
-      <span className="font-hand text-2xl text-rule w-6">{hintIndex + 1}</span>
+      <span className="font-hand text-2xl text-rule-text w-6">{hintIndex + 1}</span>
       <span className="flex-1 font-display text-sm uppercase tracking-[0.15em] text-ink">Hint {hintIndex + 1}</span>
-      {!opened && <span className="text-xs font-display tracking-widest text-rule">OPEN</span>}
+      {!opened && <span className="text-xs font-display tracking-widest text-rule-text">OPEN</span>}
     </button>
     {opened && (
       <div className="animate-unfold origin-top pb-4 pl-9 pr-1 text-ink/90 text-[16px] leading-relaxed">
@@ -214,7 +214,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
       <Rule double />
       <p className="font-hand text-2xl text-center text-ink/85 py-6 leading-snug">{p.line}</p>
       {p.key === "final" && !alreadySolved && (
-        <p className="font-display text-sm uppercase tracking-[0.25em] text-rule text-center pb-6 animate-fade-in">
+        <p className="font-display text-sm uppercase tracking-[0.25em] text-rule-text text-center pb-6 animate-fade-in">
           Open envelope 1
         </p>
       )}
@@ -223,10 +223,10 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
         <div className="text-center py-6">
           <HandCheck className="w-20 h-20 mx-auto" animate={!alreadySolved || status === "right"} />
           <p className="font-display text-2xl text-ink mt-2">That's it!</p>
-          <p className="font-display text-sm uppercase tracking-[0.25em] text-ink/70 mt-3">Answer: <span className="text-rule tracking-[0.2em]">{p.answers[0]}</span></p>
+          <p className="font-display text-sm uppercase tracking-[0.25em] text-ink/70 mt-3">Answer: <span className="text-rule-text tracking-[0.2em]">{p.answers[0]}</span></p>
           {p.key === "final" ? (
             <>
-              <p className="font-display text-sm uppercase tracking-[0.25em] text-rule mt-3">Open envelope 2</p>
+              <p className="font-display text-sm uppercase tracking-[0.25em] text-rule-text mt-3">Open envelope 2</p>
               <button onClick={() => actions.go("final")} className="mt-4 min-h-[44px] font-display text-xs uppercase tracking-[0.2em] text-ink/70 underline underline-offset-4">
                 Continue →
               </button>
@@ -245,7 +245,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
             placeholder="Enter your answer..."
             autoComplete="off"
             autoCapitalize="characters"
-            className="w-full min-h-[56px] bg-transparent border-0 border-b-2 border-ink/60 focus:border-rule focus:outline-none px-1 text-[18px] font-display tracking-wider text-ink placeholder:text-ink/35"
+            className="w-full min-h-[56px] bg-transparent border-0 border-b-2 border-ink/60 focus:border-rule focus:outline-none px-1 text-[18px] font-display tracking-wider text-ink placeholder:text-ink/85"
           />
           <button type="submit" className={primaryBtn}>Enter Answer</button>
           {status === "wrong" && (
@@ -267,7 +267,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
             </div>
           )}
           {wrongs >= 3 && (
-            <p className="text-center font-hand text-xl text-rule pt-1">Still stuck? A hint might point you in the right direction.</p>
+            <p className="text-center font-hand text-xl text-rule-text pt-1">Still stuck? A hint might point you in the right direction.</p>
           )}
         </form>
       )}
@@ -282,7 +282,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
             {!revealed ? (
               <button
                 onClick={() => { trackEvent("reveal_answer", {}, p.index, p.name); setRevealed(true); }}
-                className="min-h-[44px] font-display text-sm uppercase tracking-[0.2em] text-rule underline underline-offset-4"
+                className="min-h-[44px] font-display text-sm uppercase tracking-[0.2em] text-rule-text underline underline-offset-4"
               >
                 Reveal answer
               </button>
@@ -317,7 +317,7 @@ export const FinalScreen = () => {
       </div>
       <Rule double />
       <div className="text-center py-10">
-        <p className="font-display text-3xl font-semibold tracking-[0.15em] text-rule">OPEN ENVELOPE 2</p>
+        <p className="font-display text-3xl font-semibold tracking-[0.15em] text-rule-text">OPEN ENVELOPE 2</p>
 
         <p className="font-hand text-2xl text-ink/85 mt-2">Inside, you'll find Emi's final letter.</p>
       </div>

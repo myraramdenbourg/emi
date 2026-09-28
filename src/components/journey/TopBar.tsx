@@ -22,7 +22,7 @@ const TopBar = () => {
       <div className="flex items-center gap-2 text-sm font-display tabular-nums">
         <Timer className="w-4 h-4 opacity-70" />
         <span className={paused ? "opacity-50" : ""}>{formatTime(elapsedMs(s, now))}</span>
-        {paused && <span className="font-hand text-lg text-rule leading-none">paused</span>}
+        {paused && <span className="font-hand text-lg text-rule-text leading-none">paused</span>}
         {!s.finishedMs && (
           <button
             onClick={running ? actions.pause : actions.resume}
@@ -50,7 +50,7 @@ const TopBar = () => {
                 {running ? "Pause Timer" : "Resume Timer"}
               </button>
             )}
-            <button className={`${item} text-rule`} onClick={() => { setMenu(false); setConfirm(true); }}>Reset Game</button>
+            <button className={`${item} text-rule-text`} onClick={() => { setMenu(false); setConfirm(true); }}>Reset Game</button>
           </nav>
         </SheetContent>
       </Sheet>
@@ -65,7 +65,7 @@ const TopBar = () => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel className="rounded-none border-ink/40 bg-transparent text-ink min-h-[44px]">Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={actions.reset} className="rounded-none bg-rule text-paper hover:bg-rule/90 min-h-[44px]">
+            <AlertDialogAction onClick={actions.reset} className="rounded-none bg-rule-text text-paper hover:bg-rule-text/90 min-h-[44px]">
               Reset Journey
             </AlertDialogAction>
           </AlertDialogFooter>

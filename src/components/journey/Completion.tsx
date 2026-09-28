@@ -162,17 +162,17 @@ export const Completion = ({ time }: { time: string }) => {
       return;
     }
     setSending(true);
-    const { data, error } = await supabase.functions.invoke("shopify-signup", { body: { email: v.toLowerCase() } });
-    if (error || !data?.status) {
-      setSending(false);
+    // Always save to the site's own list first; Shopify sync is best-effort.
+    const { error: localErr } = await supabase.from("adventure_signups").insert({ email: v.toLowerCase(), reaction });
+    const localDupe = localErr?.code === "23505";
+    const { data } = await supabase.functions.invoke("shopify-signup", { body: { email: v.toLowerCase() } }).catch(() => ({ data: null }));
+    setSending(false);
+    if (localErr && !localDupe && !data?.status) {
       setSignupError("We couldn't save your email. Please try again.");
       return;
     }
-    // Keep a local copy too; a duplicate here is fine.
-    await supabase.from("adventure_signups").insert({ email: v.toLowerCase(), reaction });
-    setSending(false);
     try { localStorage.setItem(SIGNUP_KEY, "1"); } catch { /* storage unavailable */ }
-    setSignedUp(data.status === "duplicate" ? "dupe" : "new");
+    setSignedUp(localDupe || data?.status === "duplicate" ? "dupe" : "new");
     trackEvent("adventure_signup");
   };
 

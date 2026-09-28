@@ -34,7 +34,7 @@ const ORDER: { title: string; key: string; icon: string; line: string; nudges?: 
   { title: "PRODUCE", key: "produce", icon: "produce", line: "He knew every stall owner by their first name." },
 ];
 
-export const journeyPuzzles: JourneyPuzzle[] = ORDER.map((o) => {
+const toJourney = (o: { title: string; key: string; icon: string; line: string; nudges?: JourneyPuzzle["nudges"] }): JourneyPuzzle => {
   const index = puzzleData.findIndex((p) => p.title.toUpperCase() === o.title);
   const p = puzzleData[index];
   return {
@@ -47,4 +47,15 @@ export const journeyPuzzles: JourneyPuzzle[] = ORDER.map((o) => {
     index,
     nudges: o.nudges,
   };
+};
+
+export const journeyPuzzles: JourneyPuzzle[] = ORDER.map(toJourney);
+
+export const finalPuzzle: JourneyPuzzle = toJourney({
+  title: "THE FINAL LETTER",
+  key: "final",
+  icon: "final",
+  line: "One last memory, saved for the very end.",
 });
+
+export const allPuzzles: JourneyPuzzle[] = [...journeyPuzzles, finalPuzzle];

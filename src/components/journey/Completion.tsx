@@ -162,17 +162,20 @@ export const Completion = ({ time }: { time: string }) => {
       return;
     }
     setSending(true);
-    // Always save to the site's own list first; Shopify sync is best-effort.
-    const { error: localErr } = await supabase.from("adventure_signups").insert({ email: v.toLowerCase(), reaction });
-    const localDupe = localErr?.code === "23505";
-    const { data } = await supabase.functions.invoke("shopify-signup", { body: { email: v.toLowerCase() } }).catch(() => ({ data: null }));
-    setSending(false);
-    if (localErr && !localDupe && !data?.status) {
-      setSignupError("We couldn't save your email. Please try again.");
+    // Success is shown only after Shopify confirms the customer + consent.
+    const { data, error: fnErr } = await supabase.functions.invoke("shopify-signup", { body: { email: v.toLowerCase() } });
+    const ok = ["created", "resubscribed", "duplicate"].includes(data?.status);
+    if (!ok) {
+      setSending(false);
+      if (fnErr) console.error("Newsletter signup failed", fnErr);
+      setSignupError("We couldn't add you to the list just now. Please try again in a moment.");
       return;
     }
+    // Keep a site-side record too (duplicates are fine to ignore).
+    await supabase.from("adventure_signups").insert({ email: v.toLowerCase(), reaction });
+    setSending(false);
     try { localStorage.setItem(SIGNUP_KEY, "1"); } catch { /* storage unavailable */ }
-    setSignedUp(localDupe || data?.status === "duplicate" ? "dupe" : "new");
+    setSignedUp(data?.status === "duplicate" ? "dupe" : "new");
     trackEvent("adventure_signup");
   };
 

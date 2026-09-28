@@ -171,7 +171,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
   const s = useGame();
   const p = journeyPuzzles.find((x) => x.key === puzzleKey)!;
   const [value, setValue] = useState("");
-  const [status, setStatus] = useState<"idle" | "wrong" | "right">(s.solved.includes(p.key) ? "right" : "idle");
+  const [status, setStatus] = useState<"idle" | "wrong" | "close" | "right">(s.solved.includes(p.key) ? "right" : "idle");
   const timer = useRef<ReturnType<typeof setTimeout>>();
   const opened = s.hintsOpened[p.key] ?? 0;
   const wrongs = s.wrongAttempts[p.key] ?? 0;
@@ -183,13 +183,14 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
     e.preventDefault();
     if (!value.trim()) return;
     const ok = p.answers.some((a) => normalize(a) === normalize(value));
-    trackEvent("check_answer", { answer: value, correct: ok }, p.index, p.name);
+    const close = !ok && isClose(value, p.answers);
+    trackEvent("check_answer", { answer: value, correct: ok, close }, p.index, p.name);
     if (ok) {
       setStatus("right");
       actions.solve(p.key);
       timer.current = setTimeout(() => actions.go("log"), 1800);
     } else {
-      setStatus("wrong");
+      setStatus(close ? "close" : "wrong");
       actions.wrong(p.key);
     }
   };

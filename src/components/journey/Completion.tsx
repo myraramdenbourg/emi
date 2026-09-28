@@ -323,9 +323,9 @@ export const Completion = ({ time }: { time: string }) => {
         <nav className="flex justify-center flex-wrap gap-x-3 mt-4 text-sm text-ink/70 font-display">
           <a href={REVIEW_URL || FEEDBACK_URL} target="_blank" rel="noreferrer" className="min-h-[44px] inline-flex items-center underline-offset-4 hover:underline">{REVIEW_URL ? "Leave a Review" : "Share Feedback"}</a>
           <span className="self-center">·</span>
-          <a href={FOLLOW_URL} target="_blank" rel="noreferrer" className="min-h-[44px] inline-flex items-center underline-offset-4 hover:underline">Follow Origami Escape</a>
+          <a href={FOLLOW_URL} target="_blank" rel="noreferrer" onClick={() => trackEvent("instagram_click")} className="min-h-[44px] inline-flex items-center underline-offset-4 hover:underline">Follow Origami Escape</a>
           {SHOW_BEHIND_SCENES && <><span className="self-center">·</span>
-          <Link to="/behind-the-scenes" className="min-h-[44px] inline-flex items-center underline-offset-4 hover:underline">Credits</Link></>}
+          <Link to="/behind-the-scenes" onClick={() => trackEvent("behind_scenes_click", { source: "credits" })} className="min-h-[44px] inline-flex items-center underline-offset-4 hover:underline">Credits</Link></>}
           {PRIVACY_READY && <><span className="self-center">·</span>
           <Link to="/privacy" className="min-h-[44px] inline-flex items-center underline-offset-4 hover:underline">Privacy Policy</Link></>}
         </nav>

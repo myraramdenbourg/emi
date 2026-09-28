@@ -1,32 +1,46 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { format, startOfDay, endOfDay, subDays } from "date-fns";
+import {
+  BarChart3,
+  BookOpen,
+  CheckCircle2,
+  Clock3,
+  HelpCircle,
+  Instagram,
+  LogOut,
+  MousePointerClick,
+  Share2,
+  Target,
+  Users,
+} from "lucide-react";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  Tooltip as RechartsTooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useToast } from "@/hooks/use-toast";
-import { BarChart3, LogOut, Eye, MousePointerClick, Users, CheckCircle2, Target, HelpCircle } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { puzzleData } from "@/data/puzzleData";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
-import { format, subDays, startOfDay, endOfDay } from "date-fns";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useToast } from "@/hooks/use-toast";
+import { allPuzzles } from "@/lib/journeyData";
 
 interface AnalyticsEvent {
   id: string;
   event_type: string;
-  event_data: any;
+  event_data: Record<string, unknown> | null;
   puzzle_index: number | null;
   puzzle_title: string | null;
   session_id: string | null;
   created_at: string;
-}
-
-interface KPIMetrics {
-  uniqueUsers: number;
-  hintClickRate: number;
-  answerCorrectness: number;
-  finalPuzzleCompletion: number;
 }
 
 interface PuzzleMetrics {
@@ -35,603 +49,290 @@ interface PuzzleMetrics {
   hintClickRate: number;
   correctnessRate: number;
   avgHintsPerUser: number;
-  finalCompletionRate: number;
+  commonWrongAnswers: { answer: string; count: number }[];
 }
 
-const COLORS = ['#03404A', '#F6DC9F', '#E74C3C', '#3498DB', '#2ECC71'];
+const chartInk = "hsl(var(--ink))";
+const chartRule = "hsl(var(--rule))";
+const chartPaper = "hsl(var(--paper))";
+
+const Rule = ({ double = false }: { double?: boolean }) => (
+  <div className={double ? "h-[6px] border-y-2 border-rule" : "border-t border-rule/70"} />
+);
+
+const MetricHelp = ({ children }: { children: string }) => (
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <span className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center cursor-help" aria-label="More information">
+        <HelpCircle className="h-4 w-4 text-rule-text" />
+      </span>
+    </TooltipTrigger>
+    <TooltipContent className="max-w-xs bg-ink text-paper"><p>{children}</p></TooltipContent>
+  </Tooltip>
+);
+
+const formatDuration = (milliseconds: number | null) => {
+  if (milliseconds == null || !Number.isFinite(milliseconds)) return "—";
+  const totalSeconds = Math.max(0, Math.round(milliseconds / 1000));
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  return hours > 0
+    ? `${hours}h ${String(minutes).padStart(2, "0")}m`
+    : `${minutes}m ${String(seconds).padStart(2, "0")}s`;
+};
+
+const normalizeWrongAnswer = (answer: string) => answer.trim().replace(/\s+/g, " ").toLocaleLowerCase();
 
 const Dashboard = () => {
   const [allEvents, setAllEvents] = useState<AnalyticsEvent[]>([]);
-  const [filteredEvents, setFilteredEvents] = useState<AnalyticsEvent[]>([]);
-  const [dateRange, setDateRange] = useState<string>("30");
-  const [selectedPuzzle, setSelectedPuzzle] = useState<string>("all");
-  const [kpiMetrics, setKpiMetrics] = useState<KPIMetrics>({
-    uniqueUsers: 0,
-    hintClickRate: 0,
-    answerCorrectness: 0,
-    finalPuzzleCompletion: 0,
-  });
-  const [puzzleMetrics, setPuzzleMetrics] = useState<PuzzleMetrics[]>([]);
+  const [dateRange, setDateRange] = useState("30");
+  const [selectedPuzzle, setSelectedPuzzle] = useState("all");
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
   useEffect(() => {
-    checkAuth();
-  }, []);
-
-  const checkAuth = async () => {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session) {
-        navigate("/auth");
-        return;
+    const load = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) {
+          navigate("/auth");
+          return;
+        }
+        const { data: roleData, error: roleError } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", session.user.id)
+          .eq("role", "admin")
+          .single();
+        if (roleError || !roleData) {
+          toast({ title: "Access denied", description: "You must be an admin to view the Market Log report.", variant: "destructive" });
+          navigate("/");
+          return;
+        }
+        setIsAdmin(true);
+        const { data, error } = await supabase.from("analytics_events").select("*").order("created_at", { ascending: false });
+        if (error) throw error;
+        setAllEvents((data ?? []) as AnalyticsEvent[]);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "The report could not be loaded.";
+        toast({ title: "Error loading analytics", description: message, variant: "destructive" });
+      } finally {
+        setLoading(false);
       }
+    };
+    void load();
+  }, [navigate, toast]);
 
-      // Check if user is admin
-      const { data: roleData, error: roleError } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", session.user.id)
-        .eq("role", "admin")
-        .single();
-
-      if (roleError || !roleData) {
-        toast({
-          title: "Access Denied",
-          description: "You must be an admin to access this page.",
-          variant: "destructive",
-        });
-        navigate("/");
-        return;
-      }
-
-      setIsAdmin(true);
-      loadAnalytics();
-    } catch (error) {
-      console.error("Auth check error:", error);
-      navigate("/auth");
-    }
-  };
-
-  const loadAnalytics = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("analytics_events")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (error) throw error;
-
-      setAllEvents(data || []);
-    } catch (error: any) {
-      toast({
-        title: "Error loading analytics",
-        description: error.message,
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (allEvents.length > 0) {
-      applyFilters();
-    }
-  }, [dateRange, selectedPuzzle, allEvents]);
-
-  const applyFilters = () => {
-    const daysAgo = parseInt(dateRange);
-    const startDate = startOfDay(subDays(new Date(), daysAgo));
-    const endDate = endOfDay(new Date());
-
-    let filtered = allEvents.filter(event => {
-      const eventDate = new Date(event.created_at);
-      return eventDate >= startDate && eventDate <= endDate;
+  const periodEvents = useMemo(() => {
+    const start = startOfDay(subDays(new Date(), Number.parseInt(dateRange, 10)));
+    const end = endOfDay(new Date());
+    return allEvents.filter((event) => {
+      const date = new Date(event.created_at);
+      return date >= start && date <= end;
     });
+  }, [allEvents, dateRange]);
 
-    if (selectedPuzzle !== "all") {
-      filtered = filtered.filter(event => event.puzzle_title === selectedPuzzle);
-    }
+  const filteredEvents = useMemo(
+    () => selectedPuzzle === "all" ? periodEvents : periodEvents.filter((event) => event.puzzle_title === selectedPuzzle),
+    [periodEvents, selectedPuzzle],
+  );
 
-    setFilteredEvents(filtered);
-    calculateMetrics(filtered);
-  };
+  const metrics = useMemo(() => {
+    const uniqueSessions = new Set(filteredEvents.flatMap((event) => event.session_id ? [event.session_id] : []));
+    const hintSessions = new Set(filteredEvents.filter((event) => ["unlock_hint", "view_hints"].includes(event.event_type)).flatMap((event) => event.session_id ? [event.session_id] : []));
+    const answers = filteredEvents.filter((event) => event.event_type === "check_answer");
+    const correct = answers.filter((event) => event.event_data?.correct === true).length;
+    const finalTitle = allPuzzles[allPuzzles.length - 1]?.name;
+    const finalSolvers = new Set(periodEvents.filter((event) => event.event_type === "check_answer" && event.event_data?.correct === true && event.puzzle_title === finalTitle).flatMap((event) => event.session_id ? [event.session_id] : []));
 
-  const calculateMetrics = (events: AnalyticsEvent[]) => {
-    // Get unique users
-    const uniqueSessionIds = new Set(events.filter(e => e.session_id).map(e => e.session_id));
-    const uniqueUsers = uniqueSessionIds.size;
+    const sessionStarts = new Map<string, number>();
+    periodEvents
+      .filter((event) => event.event_type === "begin_journey" && event.session_id)
+      .forEach((event) => sessionStarts.set(event.session_id as string, new Date(event.created_at).getTime()));
+    const durations = periodEvents
+      .filter((event) => event.event_type === "finish_journey")
+      .map((event) => {
+        const explicit = event.event_data?.durationMs;
+        if (typeof explicit === "number" && Number.isFinite(explicit) && explicit >= 0) return explicit;
+        if (!event.session_id) return null;
+        const start = sessionStarts.get(event.session_id);
+        return start == null ? null : Math.max(0, new Date(event.created_at).getTime() - start);
+      })
+      .filter((duration): duration is number => duration != null);
 
-    // Users who clicked at least one hint
-    const usersWithHints = new Set(
-      events.filter(e => e.event_type === "unlock_hint" || e.event_type === "view_hints")
-        .filter(e => e.session_id)
-        .map(e => e.session_id)
-    );
-    const hintClickRate = uniqueUsers > 0 ? (usersWithHints.size / uniqueUsers) * 100 : 0;
+    return {
+      uniqueUsers: uniqueSessions.size,
+      hintClickRate: uniqueSessions.size ? hintSessions.size / uniqueSessions.size * 100 : 0,
+      answerCorrectness: answers.length ? correct / answers.length * 100 : 0,
+      finalPuzzleCompletion: new Set(periodEvents.flatMap((event) => event.session_id ? [event.session_id] : [])).size
+        ? finalSolvers.size / new Set(periodEvents.flatMap((event) => event.session_id ? [event.session_id] : [])).size * 100
+        : 0,
+      averageCompletionMs: durations.length ? durations.reduce((sum, duration) => sum + duration, 0) / durations.length : null,
+      completedGames: durations.length,
+    };
+  }, [filteredEvents, periodEvents]);
 
-    // Answer correctness
-    const correctAnswers = events.filter(e => 
-      e.event_type === "check_answer" && e.event_data?.correct === true
-    ).length;
-    const totalAnswers = events.filter(e => e.event_type === "check_answer").length;
-    const answerCorrectness = totalAnswers > 0 ? (correctAnswers / totalAnswers) * 100 : 0;
-
-    // Final puzzle completion
-    const finalPuzzleTitle = puzzleData[puzzleData.length - 1].title;
-    const usersCompletedFinal = new Set(
-      events.filter(e => 
-        e.event_type === "check_answer" && 
-        e.event_data?.correct === true &&
-        e.puzzle_title === finalPuzzleTitle
-      ).filter(e => e.session_id).map(e => e.session_id)
-    );
-    const finalPuzzleCompletion = uniqueUsers > 0 ? (usersCompletedFinal.size / uniqueUsers) * 100 : 0;
-
-    setKpiMetrics({
-      uniqueUsers,
-      hintClickRate,
-      answerCorrectness,
-      finalPuzzleCompletion,
+  const puzzleMetrics = useMemo<PuzzleMetrics[]>(() => allPuzzles.map((puzzle) => {
+    const events = periodEvents.filter((event) => event.puzzle_title === puzzle.name);
+    const users = new Set(events.flatMap((event) => event.session_id ? [event.session_id] : []));
+    const hintUsers = new Set(events.filter((event) => ["unlock_hint", "view_hints"].includes(event.event_type)).flatMap((event) => event.session_id ? [event.session_id] : []));
+    const answers = events.filter((event) => event.event_type === "check_answer");
+    const correct = answers.filter((event) => event.event_data?.correct === true).length;
+    const hintClicks = events.filter((event) => event.event_type === "unlock_hint").length;
+    const answerCounts = new Map<string, { answer: string; count: number }>();
+    answers.filter((event) => event.event_data?.correct === false).forEach((event) => {
+      const raw = event.event_data?.answer;
+      if (typeof raw !== "string" || !raw.trim()) return;
+      const key = normalizeWrongAnswer(raw);
+      const current = answerCounts.get(key);
+      answerCounts.set(key, { answer: current?.answer ?? raw.trim().replace(/\s+/g, " "), count: (current?.count ?? 0) + 1 });
     });
+    return {
+      puzzleName: puzzle.name,
+      uniqueUsers: users.size,
+      hintClickRate: users.size ? hintUsers.size / users.size * 100 : 0,
+      correctnessRate: answers.length ? correct / answers.length * 100 : 0,
+      avgHintsPerUser: users.size ? hintClicks / users.size : 0,
+      commonWrongAnswers: [...answerCounts.values()].sort((a, b) => b.count - a.count || a.answer.localeCompare(b.answer)).slice(0, 3),
+    };
+  }), [periodEvents]);
 
-    // Calculate puzzle-level metrics
-    const metrics: PuzzleMetrics[] = puzzleData.map((puzzle) => {
-      const puzzleEvents = events.filter(e => e.puzzle_title === puzzle.title);
-      const puzzleUsers = new Set(puzzleEvents.filter(e => e.session_id).map(e => e.session_id));
-      const puzzleUsersWithHints = new Set(
-        puzzleEvents.filter(e => e.event_type === "unlock_hint" || e.event_type === "view_hints")
-          .filter(e => e.session_id)
-          .map(e => e.session_id)
-      );
-      const puzzleCorrectAnswers = puzzleEvents.filter(e => 
-        e.event_type === "check_answer" && e.event_data?.correct === true
-      ).length;
-      const puzzleTotalAnswers = puzzleEvents.filter(e => e.event_type === "check_answer").length;
-      const puzzleHintClicks = puzzleEvents.filter(e => e.event_type === "unlock_hint").length;
-      
-      const finalPuzzleTitle = puzzleData[puzzleData.length - 1].title;
-      const puzzleUsersCompletedFinal = new Set(
-        events.filter(e => 
-          e.event_type === "check_answer" && 
-          e.event_data?.correct === true &&
-          e.puzzle_title === finalPuzzleTitle &&
-          e.session_id &&
-          puzzleUsers.has(e.session_id)
-        ).map(e => e.session_id)
-      );
+  const engagement = useMemo(() => [
+    { label: "Shared time card", event: "share_time_click", icon: Clock3 },
+    { label: "Shared the game", event: "share_game_click", icon: Share2 },
+    { label: "Clicked Instagram", event: "instagram_click", icon: Instagram },
+    { label: "Behind the Scenes / Credits", event: "behind_scenes_click", icon: BookOpen },
+  ].map((item) => ({ ...item, count: periodEvents.filter((event) => event.event_type === item.event).length })), [periodEvents]);
 
-      return {
-        puzzleName: puzzle.title,
-        uniqueUsers: puzzleUsers.size,
-        hintClickRate: puzzleUsers.size > 0 ? (puzzleUsersWithHints.size / puzzleUsers.size) * 100 : 0,
-        correctnessRate: puzzleTotalAnswers > 0 ? (puzzleCorrectAnswers / puzzleTotalAnswers) * 100 : 0,
-        avgHintsPerUser: puzzleUsers.size > 0 ? puzzleHintClicks / puzzleUsers.size : 0,
-        finalCompletionRate: puzzleUsers.size > 0 ? (puzzleUsersCompletedFinal.size / puzzleUsers.size) * 100 : 0,
-      };
+  const dailyData = useMemo(() => {
+    const daily = new Map<string, { date: string; hints: number; answers: number }>();
+    filteredEvents.forEach((event) => {
+      const date = format(new Date(event.created_at), "MM/dd");
+      const row = daily.get(date) ?? { date, hints: 0, answers: 0 };
+      if (["unlock_hint", "view_hints"].includes(event.event_type)) row.hints += 1;
+      if (event.event_type === "check_answer") row.answers += 1;
+      daily.set(date, row);
     });
+    return [...daily.values()].sort((a, b) => a.date.localeCompare(b.date));
+  }, [filteredEvents]);
 
-    setPuzzleMetrics(metrics);
-  };
-
-  const getHintUsageChartData = () => {
-    const dailyData: { [key: string]: { date: string; hints: number; answers: number } } = {};
-    
-    filteredEvents.forEach(event => {
-      const date = format(new Date(event.created_at), 'MM/dd');
-      if (!dailyData[date]) {
-        dailyData[date] = { date, hints: 0, answers: 0 };
-      }
-      
-      if (event.event_type === "unlock_hint" || event.event_type === "view_hints") {
-        dailyData[date].hints++;
-      }
-      if (event.event_type === "check_answer") {
-        dailyData[date].answers++;
-      }
-    });
-
-    return Object.values(dailyData).sort((a, b) => {
-      const [aMonth, aDay] = a.date.split('/').map(Number);
-      const [bMonth, bDay] = b.date.split('/').map(Number);
-      return aMonth !== bMonth ? aMonth - bMonth : aDay - bDay;
-    });
-  };
-
-  const getAnswerCorrectnessData = () => {
-    const correct = filteredEvents.filter(e => 
-      e.event_type === "check_answer" && e.event_data?.correct === true
-    ).length;
-    const incorrect = filteredEvents.filter(e => 
-      e.event_type === "check_answer" && e.event_data?.correct === false
-    ).length;
-
-    return [
-      { name: 'Correct', value: correct },
-      { name: 'Incorrect', value: incorrect },
+  const funnel = useMemo(() => {
+    const sessions = new Set(periodEvents.flatMap((event) => event.session_id ? [event.session_id] : []));
+    const withEvent = (types: string[], correctFinal = false) => new Set(periodEvents.filter((event) => {
+      if (!types.includes(event.event_type) || !event.session_id) return false;
+      return !correctFinal || (event.event_data?.correct === true && event.puzzle_title === allPuzzles[allPuzzles.length - 1]?.name);
+    }).map((event) => event.session_id as string));
+    const rows = [
+      { step: "Visited site", count: sessions.size },
+      { step: "Opened a hint", count: withEvent(["unlock_hint", "view_hints"]).size },
+      { step: "Submitted an answer", count: withEvent(["check_answer"]).size },
+      { step: "Completed the journey", count: withEvent(["check_answer"], true).size },
     ];
-  };
+    return rows.map((row) => ({ ...row, percentage: sessions.size ? row.count / sessions.size * 100 : 0 }));
+  }, [periodEvents]);
 
-  const getFunnelData = () => {
-    const allSessionIds = new Set(filteredEvents.filter(e => e.session_id).map(e => e.session_id));
-    const hintClickers = new Set(
-      filteredEvents.filter(e => (e.event_type === "unlock_hint" || e.event_type === "view_hints") && e.session_id)
-        .map(e => e.session_id)
-    );
-    const answerSubmitters = new Set(
-      filteredEvents.filter(e => e.event_type === "check_answer" && e.session_id)
-        .map(e => e.session_id)
-    );
-    const finalPuzzleTitle = puzzleData[puzzleData.length - 1].title;
-    const finalSolvers = new Set(
-      filteredEvents.filter(e => 
-        e.event_type === "check_answer" && 
-        e.event_data?.correct === true &&
-        e.puzzle_title === finalPuzzleTitle &&
-        e.session_id
-      ).map(e => e.session_id)
-    );
-
-    const total = allSessionIds.size;
-    return [
-      { step: 'Visited Site', count: total, percentage: 100 },
-      { step: 'Clicked Hint', count: hintClickers.size, percentage: total > 0 ? (hintClickers.size / total) * 100 : 0 },
-      { step: 'Submitted Answer', count: answerSubmitters.size, percentage: total > 0 ? (answerSubmitters.size / total) * 100 : 0 },
-      { step: 'Completed Final', count: finalSolvers.size, percentage: total > 0 ? (finalSolvers.size / total) * 100 : 0 },
-    ];
-  };
-
-  const handleLogout = async () => {
+  const logout = async () => {
     await supabase.auth.signOut();
     navigate("/auth");
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#03404A] flex items-center justify-center">
-        <p className="text-[#F6DC9F] text-xl">Loading...</p>
-      </div>
-    );
-  }
-
-  if (!isAdmin) {
-    return null;
-  }
-
-  const hintUsageData = getHintUsageChartData();
-  const correctnessData = getAnswerCorrectnessData();
-  const funnelData = getFunnelData();
+  if (loading) return <main className="paper min-h-screen bg-paper flex items-center justify-center"><p className="font-hand text-3xl text-ink">Opening the ledger…</p></main>;
+  if (!isAdmin) return null;
 
   return (
-    <div className="min-h-screen bg-[#03404A] p-4 md:p-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-          <h1 className="text-3xl md:text-4xl font-bold text-[#F6DC9F] font-serif">
-            Hints Analytics Dashboard
-          </h1>
-          <Button
-            onClick={handleLogout}
-            variant="outline"
-            className="border-[#F6DC9F] text-[#F6DC9F] hover:bg-[#F6DC9F] hover:text-[#03404A]"
-          >
-            <LogOut className="mr-2 h-4 w-4" />
-            Logout
-          </Button>
-        </div>
-
-        {/* Filters */}
-        <Card className="bg-[#FFFDF5] border-2 border-[#F6DC9F] mb-6">
-          <CardContent className="pt-6">
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="flex-1">
-                <label className="text-sm font-medium text-[#03404A] mb-2 block">Date Range</label>
-                <Select value={dateRange} onValueChange={setDateRange}>
-                  <SelectTrigger className="border-[#03404A]">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="7">Last 7 days</SelectItem>
-                    <SelectItem value="30">Last 30 days</SelectItem>
-                    <SelectItem value="90">Last 90 days</SelectItem>
-                    <SelectItem value="365">Last year</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex-1">
-                <label className="text-sm font-medium text-[#03404A] mb-2 block">Puzzle</label>
-                <Select value={selectedPuzzle} onValueChange={setSelectedPuzzle}>
-                  <SelectTrigger className="border-[#03404A]">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Puzzles</SelectItem>
-                    {puzzleData.map((puzzle) => (
-                      <SelectItem key={puzzle.title} value={puzzle.title}>
-                        {puzzle.title}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+    <main className="paper min-h-screen bg-paper text-ink px-4 py-6 md:px-8 md:py-10">
+      <div className="mx-auto max-w-7xl">
+        <header className="mb-8">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="font-hand text-2xl text-rule-text">Origami Escape</p>
+              <h1 className="font-display text-3xl font-semibold tracking-[0.12em] md:text-5xl">MARKET REPORT</h1>
+              <p className="mt-2 text-lg text-ink/75">How players explore Echoes of the Market.</p>
             </div>
-          </CardContent>
-        </Card>
+            <Button onClick={logout} variant="outline" className="min-h-[44px] border-2 border-ink bg-transparent text-ink hover:bg-ink hover:text-paper">
+              <LogOut className="mr-2 h-4 w-4" /> Sign out
+            </Button>
+          </div>
+          <div className="mt-6"><Rule double /></div>
+        </header>
 
-        {/* KPI Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <Card className="bg-[#FFFDF5] border-2 border-[#F6DC9F]">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-[#03404A] flex items-center gap-2">
-                Unique Users
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <HelpCircle className="h-4 w-4 cursor-help opacity-70" />
-                  </TooltipTrigger>
-                  <TooltipContent className="max-w-xs">
-                    <p>Total number of distinct users who interacted with the hints site during the selected time period, based on unique session IDs.</p>
-                  </TooltipContent>
-                </Tooltip>
-              </CardTitle>
-              <Users className="h-4 w-4 text-[#03404A]" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-[#03404A]">{kpiMetrics.uniqueUsers}</div>
-              <p className="text-xs text-[#2C2C2C] mt-1">Total unique sessions</p>
-            </CardContent>
+        <section aria-label="Report filters" className="mb-8 grid gap-4 border-b border-rule pb-7 md:grid-cols-2">
+          <label className="font-display text-xs font-semibold uppercase tracking-[0.2em]">Date range
+            <Select value={dateRange} onValueChange={setDateRange}>
+              <SelectTrigger className="mt-2 min-h-[48px] border-2 border-ink/60 bg-paper/70 text-base text-ink"><SelectValue /></SelectTrigger>
+              <SelectContent className="bg-paper text-ink">
+                <SelectItem value="7">Last 7 days</SelectItem><SelectItem value="30">Last 30 days</SelectItem><SelectItem value="90">Last 90 days</SelectItem><SelectItem value="365">Last year</SelectItem>
+              </SelectContent>
+            </Select>
+          </label>
+          <label className="font-display text-xs font-semibold uppercase tracking-[0.2em]">Puzzle
+            <Select value={selectedPuzzle} onValueChange={setSelectedPuzzle}>
+              <SelectTrigger className="mt-2 min-h-[48px] border-2 border-ink/60 bg-paper/70 text-base text-ink"><SelectValue /></SelectTrigger>
+              <SelectContent className="bg-paper text-ink">
+                <SelectItem value="all">All puzzles</SelectItem>
+                {allPuzzles.map((puzzle) => <SelectItem key={puzzle.key} value={puzzle.name}>{puzzle.name}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </label>
+        </section>
+
+        <section aria-labelledby="overview-title" className="mb-10">
+          <div className="mb-4 flex items-end justify-between gap-3"><h2 id="overview-title" className="font-display text-xl font-semibold tracking-[0.1em]">AT A GLANCE</h2><p className="font-hand text-xl text-rule-text">selected period</p></div>
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+            {[
+              { label: "Unique sessions", value: metrics.uniqueUsers, note: "Anonymous browser sessions", icon: Users, help: "Distinct session IDs that recorded activity in this period." },
+              { label: "Hint click rate", value: `${metrics.hintClickRate.toFixed(1)}%`, note: "Sessions opening a hint", icon: MousePointerClick, help: "The share of sessions that opened at least one hint." },
+              { label: "Answer correctness", value: `${metrics.answerCorrectness.toFixed(1)}%`, note: "Correct submissions", icon: CheckCircle2, help: "Correct answers divided by every submitted answer." },
+              { label: "Journey completion", value: `${metrics.finalPuzzleCompletion.toFixed(1)}%`, note: "Sessions solving the finale", icon: Target, help: "The share of sessions that correctly solved the Final Letter." },
+              { label: "Average game time", value: formatDuration(metrics.averageCompletionMs), note: `${metrics.completedGames} completed ${metrics.completedGames === 1 ? "game" : "games"}`, icon: Clock3, help: "Average elapsed timer value when Finish Journey was selected. Older records use start-to-finish timestamps when available." },
+            ].map((item) => (
+              <Card key={item.label} className="rounded-sm border-2 border-rule/60 bg-paper-deep/45 text-ink shadow-paper">
+                <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
+                  <CardTitle className="font-display text-xs font-semibold uppercase tracking-[0.12em] text-ink">{item.label}</CardTitle>
+                  <item.icon className="h-5 w-5 shrink-0 text-rule-text" />
+                </CardHeader>
+                <CardContent><p className="font-display text-3xl font-semibold tabular-nums">{item.value}</p><div className="flex items-center justify-between gap-1"><p className="text-sm text-ink/70">{item.note}</p><MetricHelp>{item.help}</MetricHelp></div></CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        <section aria-labelledby="engagement-title" className="mb-10">
+          <div className="mb-4"><Rule /><h2 id="engagement-title" className="pt-5 font-display text-xl font-semibold tracking-[0.1em]">AFTER THE JOURNEY</h2><p className="mt-1 text-ink/70">Button clicks after players finish. These count intent, not confirmed posts or follows.</p></div>
+          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+            {engagement.map((item) => <Card key={item.event} className="rounded-sm border border-rule/60 bg-paper/60 text-ink"><CardContent className="flex min-h-[110px] items-center gap-4 p-4"><item.icon className="h-6 w-6 shrink-0 text-rule-text" /><div><p className="font-display text-3xl font-semibold tabular-nums">{item.count}</p><p className="text-sm text-ink/75">{item.label}</p></div></CardContent></Card>)}
+          </div>
+        </section>
+
+        <section className="mb-10 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+          <Card className="rounded-sm border-2 border-rule/60 bg-paper/65 text-ink shadow-paper">
+            <CardHeader><CardTitle className="flex items-center gap-2 font-display tracking-[0.08em] text-ink"><BarChart3 className="h-5 w-5 text-rule-text" /> HINTS & ANSWERS</CardTitle><p className="text-sm text-ink/70">Daily activity for the selected filters</p></CardHeader>
+            <CardContent><ResponsiveContainer width="100%" height={300}><BarChart data={dailyData}><CartesianGrid stroke={chartRule} strokeOpacity={0.25} vertical={false} /><XAxis dataKey="date" stroke={chartInk} /><YAxis stroke={chartInk} allowDecimals={false} /><RechartsTooltip contentStyle={{ background: chartPaper, borderColor: chartRule, color: chartInk }} /><Legend /><Bar dataKey="hints" fill={chartRule} name="Hints" /><Bar dataKey="answers" fill={chartInk} name="Answers" /></BarChart></ResponsiveContainer></CardContent>
           </Card>
-
-          <Card className="bg-[#FFFDF5] border-2 border-[#F6DC9F]">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-[#03404A] flex items-center gap-2">
-                Hint Click Rate
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <HelpCircle className="h-4 w-4 cursor-help opacity-70" />
-                  </TooltipTrigger>
-                  <TooltipContent className="max-w-xs">
-                    <p>Percentage of users who clicked at least one hint during their session. Higher rates may indicate puzzles are challenging or hints are easily discoverable.</p>
-                  </TooltipContent>
-                </Tooltip>
-              </CardTitle>
-              <MousePointerClick className="h-4 w-4 text-[#03404A]" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-[#03404A]">
-                {kpiMetrics.hintClickRate.toFixed(1)}%
-              </div>
-              <p className="text-xs text-[#2C2C2C] mt-1">Users who clicked ≥1 hint</p>
-            </CardContent>
+          <Card className="rounded-sm border-2 border-rule/60 bg-paper/65 text-ink shadow-paper">
+            <CardHeader><CardTitle className="font-display tracking-[0.08em] text-ink">JOURNEY FUNNEL</CardTitle><p className="text-sm text-ink/70">Progress through the companion</p></CardHeader>
+            <CardContent className="space-y-5">{funnel.map((item) => <div key={item.step}><div className="mb-2 flex justify-between gap-3 text-sm"><span className="font-display font-medium">{item.step}</span><span>{item.count} ({item.percentage.toFixed(1)}%)</span></div><div className="h-3 overflow-hidden bg-paper-deep"><div className="h-full bg-rule" style={{ width: `${Math.max(item.percentage, item.count ? 2 : 0)}%` }} /></div></div>)}</CardContent>
           </Card>
+        </section>
 
-          <Card className="bg-[#FFFDF5] border-2 border-[#F6DC9F]">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-[#03404A] flex items-center gap-2">
-                Answer Correctness
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <HelpCircle className="h-4 w-4 cursor-help opacity-70" />
-                  </TooltipTrigger>
-                  <TooltipContent className="max-w-xs">
-                    <p>Percentage of submitted answers that were correct. A lower rate may indicate puzzles are too difficult or hints need improvement.</p>
-                  </TooltipContent>
-                </Tooltip>
-              </CardTitle>
-              <CheckCircle2 className="h-4 w-4 text-[#03404A]" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-[#03404A]">
-                {kpiMetrics.answerCorrectness.toFixed(1)}%
-              </div>
-              <p className="text-xs text-[#2C2C2C] mt-1">Correct vs total answers</p>
-            </CardContent>
+        <section aria-labelledby="puzzles-title" className="mb-10">
+          <div className="mb-4"><Rule /><h2 id="puzzles-title" className="pt-5 font-display text-xl font-semibold tracking-[0.1em]">PUZZLE NOTES</h2><p className="mt-1 text-ink/70">Difficulty signals and the three most common incorrect submissions per puzzle.</p></div>
+          <Card className="rounded-sm border-2 border-rule/60 bg-paper/65 text-ink shadow-paper">
+            <CardContent className="p-0"><div className="overflow-x-auto"><Table>
+              <TableHeader><TableRow className="border-rule/60 hover:bg-transparent"><TableHead className="text-ink">Puzzle</TableHead><TableHead className="text-ink">Sessions</TableHead><TableHead className="text-ink">Hint rate</TableHead><TableHead className="text-ink">Correct</TableHead><TableHead className="text-ink">Avg. hints</TableHead><TableHead className="min-w-[240px] text-ink">Common incorrect answers</TableHead></TableRow></TableHeader>
+              <TableBody>{puzzleMetrics.map((puzzle) => <TableRow key={puzzle.puzzleName} className="border-rule/40"><TableCell className="font-display font-medium">{puzzle.puzzleName}</TableCell><TableCell>{puzzle.uniqueUsers}</TableCell><TableCell>{puzzle.hintClickRate.toFixed(1)}%</TableCell><TableCell>{puzzle.correctnessRate.toFixed(1)}%</TableCell><TableCell>{puzzle.avgHintsPerUser.toFixed(1)}</TableCell><TableCell>{puzzle.commonWrongAnswers.length ? <ol className="space-y-1">{puzzle.commonWrongAnswers.map((answer) => <li key={answer.answer}><span className="font-medium">“{answer.answer}”</span> <span className="text-ink/60">× {answer.count}</span></li>)}</ol> : <span className="text-ink/55">None recorded</span>}</TableCell></TableRow>)}</TableBody>
+            </Table></div></CardContent>
           </Card>
+        </section>
 
-          <Card className="bg-[#FFFDF5] border-2 border-[#F6DC9F]">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-[#03404A] flex items-center gap-2">
-                Final Puzzle Complete
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <HelpCircle className="h-4 w-4 cursor-help opacity-70" />
-                  </TooltipTrigger>
-                  <TooltipContent className="max-w-xs">
-                    <p>Percentage of users who successfully solved the final meta puzzle. This represents the overall completion rate of your puzzle hunt.</p>
-                  </TooltipContent>
-                </Tooltip>
-              </CardTitle>
-              <Target className="h-4 w-4 text-[#03404A]" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-[#03404A]">
-                {kpiMetrics.finalPuzzleCompletion.toFixed(1)}%
-              </div>
-              <p className="text-xs text-[#2C2C2C] mt-1">Completed final puzzle</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Charts Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          {/* Hint Usage Chart */}
-          <Card className="bg-[#FFFDF5] border-2 border-[#F6DC9F]">
-            <CardHeader>
-              <CardTitle className="text-[#03404A] font-serif flex items-center gap-2">
-                Hint Usage Over Time
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <HelpCircle className="h-4 w-4 cursor-help opacity-70" />
-                  </TooltipTrigger>
-                  <TooltipContent className="max-w-xs">
-                    <p>Shows daily trends of hint clicks and answer submissions. Spikes may correlate with puzzle releases or social media promotion.</p>
-                  </TooltipContent>
-                </Tooltip>
-              </CardTitle>
-              <p className="text-sm text-[#2C2C2C]">Daily hint clicks and answer submissions</p>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={hintUsageData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <RechartsTooltip />
-                  <Legend />
-                  <Bar dataKey="hints" fill="#03404A" name="Hints" />
-                  <Bar dataKey="answers" fill="#F6DC9F" name="Answers" />
-                </BarChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-
-          {/* Answer Correctness */}
-          <Card className="bg-[#FFFDF5] border-2 border-[#F6DC9F]">
-            <CardHeader>
-              <CardTitle className="text-[#03404A] font-serif flex items-center gap-2">
-                Answer Correctness
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <HelpCircle className="h-4 w-4 cursor-help opacity-70" />
-                  </TooltipTrigger>
-                  <TooltipContent className="max-w-xs">
-                    <p>Visual breakdown of all answer submissions. A high incorrect rate suggests puzzles may be too difficult or need clearer hints.</p>
-                  </TooltipContent>
-                </Tooltip>
-              </CardTitle>
-              <p className="text-sm text-[#2C2C2C]">Breakdown of correct vs incorrect answers</p>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-center">
-                <ResponsiveContainer width="100%" height={300}>
-                  <PieChart>
-                    <Pie
-                      data={correctnessData}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      label={({ name, value }) => `${name}: ${value}`}
-                      outerRadius={80}
-                      fill="#8884d8"
-                      dataKey="value"
-                    >
-                      {correctnessData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                      ))}
-                    </Pie>
-                    <RechartsTooltip />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="mt-4 text-center text-sm text-[#2C2C2C]">
-                <p>Total: {correctnessData.reduce((sum, d) => sum + d.value, 0)} answers</p>
-                <p>Correct: {correctnessData[0]?.value || 0} | Incorrect: {correctnessData[1]?.value || 0}</p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Completion Funnel */}
-        <Card className="bg-[#FFFDF5] border-2 border-[#F6DC9F] mb-6">
-          <CardHeader>
-            <CardTitle className="text-[#03404A] font-serif flex items-center gap-2">
-              User Journey Funnel
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <HelpCircle className="h-4 w-4 cursor-help opacity-70" />
-                </TooltipTrigger>
-                <TooltipContent className="max-w-xs">
-                  <p>Shows drop-off rates at each stage of user engagement. Identifies where users disengage from the puzzle hunt experience.</p>
-                </TooltipContent>
-              </Tooltip>
-            </CardTitle>
-            <p className="text-sm text-[#2C2C2C]">Progression from site visit to final puzzle completion</p>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {funnelData.map((item, index) => (
-                <div key={item.step} className="relative">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-[#03404A]">{item.step}</span>
-                    <span className="text-sm text-[#2C2C2C]">
-                      {item.count} users ({item.percentage.toFixed(1)}%)
-                    </span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-6 overflow-hidden">
-                    <div
-                      className="bg-[#03404A] h-6 rounded-full transition-all flex items-center justify-end pr-2"
-                      style={{ width: `${item.percentage}%` }}
-                    >
-                      <span className="text-xs text-[#F6DC9F] font-medium">
-                        {item.percentage.toFixed(0)}%
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Puzzle-Level Breakdown */}
-        <Card className="bg-[#FFFDF5] border-2 border-[#F6DC9F]">
-          <CardHeader>
-            <CardTitle className="text-[#03404A] font-serif flex items-center gap-2">
-              Puzzle-Level Metrics
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <HelpCircle className="h-4 w-4 cursor-help opacity-70" />
-                </TooltipTrigger>
-                <TooltipContent className="max-w-xs">
-                  <p>Detailed analytics for each individual puzzle. Compare metrics across puzzles to identify which ones are most challenging or engaging.</p>
-                </TooltipContent>
-              </Tooltip>
-            </CardTitle>
-            <p className="text-sm text-[#2C2C2C]">Performance breakdown by puzzle</p>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="text-[#03404A]">Puzzle</TableHead>
-                    <TableHead className="text-[#03404A]">Users</TableHead>
-                    <TableHead className="text-[#03404A]">Hint Click %</TableHead>
-                    <TableHead className="text-[#03404A]">Correctness %</TableHead>
-                    <TableHead className="text-[#03404A]">Avg Hints</TableHead>
-                    <TableHead className="text-[#03404A]">Final Complete %</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {puzzleMetrics.map((metric) => (
-                    <TableRow key={metric.puzzleName}>
-                      <TableCell className="font-medium text-[#2C2C2C]">
-                        {metric.puzzleName}
-                      </TableCell>
-                      <TableCell className="text-[#2C2C2C]">{metric.uniqueUsers}</TableCell>
-                      <TableCell className="text-[#2C2C2C]">
-                        {metric.hintClickRate.toFixed(1)}%
-                      </TableCell>
-                      <TableCell className="text-[#2C2C2C]">
-                        {metric.correctnessRate.toFixed(1)}%
-                      </TableCell>
-                      <TableCell className="text-[#2C2C2C]">
-                        {metric.avgHintsPerUser.toFixed(1)}
-                      </TableCell>
-                      <TableCell className="text-[#2C2C2C]">
-                        {metric.finalCompletionRate.toFixed(1)}%
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </CardContent>
-        </Card>
+        <aside className="border-y-2 border-rule py-5 text-sm text-ink/75">
+          <p><strong className="font-display text-ink">Data retention:</strong> analytics events currently have no automatic deletion date. They remain stored indefinitely unless manually deleted.</p>
+        </aside>
       </div>
-    </div>
+    </main>
   );
 };
 

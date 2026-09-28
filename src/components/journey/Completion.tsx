@@ -111,14 +111,14 @@ async function makeCard(time: string): Promise<Blob> {
   const startX = (W - (cols * size + (cols - 1) * gap)) / 2;
   imgs.forEach((im, i) => {
     if (!im) return;
-    const x = startX + (i % cols) * (size + gap), y = 1016 + Math.floor(i / cols) * (size + 52);
+    const x = startX + (i % cols) * (size + gap), y = 1000 + Math.floor(i / cols) * (size + 48);
     const r = Math.min(size / im.width, size / im.height);
     g.drawImage(im, x + (size - im.width * r) / 2, y + (size - im.height * r) / 2, im.width * r, im.height * r);
   });
 
-  g.fillStyle = rule; g.font = "500 82px Caveat"; g.fillText("Your turn to explore.", W / 2, 1700);
-  g.fillStyle = ink; g.font = "600 42px Poppins"; g.fillText("echoesofthemarket.com", W / 2, 1770);
-  g.font = "25px Poppins"; g.fillText("By Origami Escape", W / 2, 1812);
+  g.fillStyle = rule; g.font = "500 82px Caveat"; g.fillText("Your turn to explore.", W / 2, 1712);
+  g.fillStyle = ink; g.font = "600 42px Poppins"; g.fillText("echoesofthemarket.com", W / 2, 1764);
+  g.font = "25px Poppins"; g.fillText("By Origami Escape", W / 2, 1800);
   return new Promise((res, rej) => c.toBlob((b) => (b ? res(b) : rej(new Error("toBlob failed"))), "image/png"));
 }
 

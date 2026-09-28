@@ -289,7 +289,7 @@ const Dashboard = () => {
               { label: "Journey completion", value: `${metrics.finalPuzzleCompletion.toFixed(1)}%`, note: "Sessions solving the finale", icon: Target, help: "The share of sessions that correctly solved the Final Letter." },
               { label: "Average game time", value: formatDuration(metrics.averageCompletionMs), note: `${metrics.completedGames} completed ${metrics.completedGames === 1 ? "game" : "games"}`, icon: Clock3, help: "Average elapsed timer value when Finish Journey was selected. Older records use start-to-finish timestamps when available." },
             ].map((item) => (
-              <Card key={item.label} className="rounded-sm border-2 border-rule/60 bg-paper-deep/45 shadow-paper">
+              <Card key={item.label} className="rounded-sm border-2 border-rule/60 bg-paper-deep/45 text-ink shadow-paper">
                 <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
                   <CardTitle className="font-display text-xs font-semibold uppercase tracking-[0.12em] text-ink">{item.label}</CardTitle>
                   <item.icon className="h-5 w-5 shrink-0 text-rule-text" />
@@ -303,16 +303,16 @@ const Dashboard = () => {
         <section aria-labelledby="engagement-title" className="mb-10">
           <div className="mb-4"><Rule /><h2 id="engagement-title" className="pt-5 font-display text-xl font-semibold tracking-[0.1em]">AFTER THE JOURNEY</h2><p className="mt-1 text-ink/70">Button clicks after players finish. These count intent, not confirmed posts or follows.</p></div>
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-            {engagement.map((item) => <Card key={item.event} className="rounded-sm border border-rule/60 bg-paper/60"><CardContent className="flex min-h-[110px] items-center gap-4 p-4"><item.icon className="h-6 w-6 shrink-0 text-rule-text" /><div><p className="font-display text-3xl font-semibold tabular-nums">{item.count}</p><p className="text-sm text-ink/75">{item.label}</p></div></CardContent></Card>)}
+            {engagement.map((item) => <Card key={item.event} className="rounded-sm border border-rule/60 bg-paper/60 text-ink"><CardContent className="flex min-h-[110px] items-center gap-4 p-4"><item.icon className="h-6 w-6 shrink-0 text-rule-text" /><div><p className="font-display text-3xl font-semibold tabular-nums">{item.count}</p><p className="text-sm text-ink/75">{item.label}</p></div></CardContent></Card>)}
           </div>
         </section>
 
         <section className="mb-10 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-          <Card className="rounded-sm border-2 border-rule/60 bg-paper/65 shadow-paper">
+          <Card className="rounded-sm border-2 border-rule/60 bg-paper/65 text-ink shadow-paper">
             <CardHeader><CardTitle className="flex items-center gap-2 font-display tracking-[0.08em] text-ink"><BarChart3 className="h-5 w-5 text-rule-text" /> HINTS & ANSWERS</CardTitle><p className="text-sm text-ink/70">Daily activity for the selected filters</p></CardHeader>
             <CardContent><ResponsiveContainer width="100%" height={300}><BarChart data={dailyData}><CartesianGrid stroke={chartRule} strokeOpacity={0.25} vertical={false} /><XAxis dataKey="date" stroke={chartInk} /><YAxis stroke={chartInk} allowDecimals={false} /><RechartsTooltip contentStyle={{ background: chartPaper, borderColor: chartRule, color: chartInk }} /><Legend /><Bar dataKey="hints" fill={chartRule} name="Hints" /><Bar dataKey="answers" fill={chartInk} name="Answers" /></BarChart></ResponsiveContainer></CardContent>
           </Card>
-          <Card className="rounded-sm border-2 border-rule/60 bg-paper/65 shadow-paper">
+          <Card className="rounded-sm border-2 border-rule/60 bg-paper/65 text-ink shadow-paper">
             <CardHeader><CardTitle className="font-display tracking-[0.08em] text-ink">JOURNEY FUNNEL</CardTitle><p className="text-sm text-ink/70">Progress through the companion</p></CardHeader>
             <CardContent className="space-y-5">{funnel.map((item) => <div key={item.step}><div className="mb-2 flex justify-between gap-3 text-sm"><span className="font-display font-medium">{item.step}</span><span>{item.count} ({item.percentage.toFixed(1)}%)</span></div><div className="h-3 overflow-hidden bg-paper-deep"><div className="h-full bg-rule" style={{ width: `${Math.max(item.percentage, item.count ? 2 : 0)}%` }} /></div></div>)}</CardContent>
           </Card>
@@ -320,7 +320,7 @@ const Dashboard = () => {
 
         <section aria-labelledby="puzzles-title" className="mb-10">
           <div className="mb-4"><Rule /><h2 id="puzzles-title" className="pt-5 font-display text-xl font-semibold tracking-[0.1em]">PUZZLE NOTES</h2><p className="mt-1 text-ink/70">Difficulty signals and the three most common incorrect submissions per puzzle.</p></div>
-          <Card className="rounded-sm border-2 border-rule/60 bg-paper/65 shadow-paper">
+          <Card className="rounded-sm border-2 border-rule/60 bg-paper/65 text-ink shadow-paper">
             <CardContent className="p-0"><div className="overflow-x-auto"><Table>
               <TableHeader><TableRow className="border-rule/60 hover:bg-transparent"><TableHead className="text-ink">Puzzle</TableHead><TableHead className="text-ink">Sessions</TableHead><TableHead className="text-ink">Hint rate</TableHead><TableHead className="text-ink">Correct</TableHead><TableHead className="text-ink">Avg. hints</TableHead><TableHead className="min-w-[240px] text-ink">Common incorrect answers</TableHead></TableRow></TableHeader>
               <TableBody>{puzzleMetrics.map((puzzle) => <TableRow key={puzzle.puzzleName} className="border-rule/40"><TableCell className="font-display font-medium">{puzzle.puzzleName}</TableCell><TableCell>{puzzle.uniqueUsers}</TableCell><TableCell>{puzzle.hintClickRate.toFixed(1)}%</TableCell><TableCell>{puzzle.correctnessRate.toFixed(1)}%</TableCell><TableCell>{puzzle.avgHintsPerUser.toFixed(1)}</TableCell><TableCell>{puzzle.commonWrongAnswers.length ? <ol className="space-y-1">{puzzle.commonWrongAnswers.map((answer) => <li key={answer.answer}><span className="font-medium">“{answer.answer}”</span> <span className="text-ink/60">× {answer.count}</span></li>)}</ol> : <span className="text-ink/55">None recorded</span>}</TableCell></TableRow>)}</TableBody>

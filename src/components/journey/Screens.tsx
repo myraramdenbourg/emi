@@ -47,10 +47,12 @@ const Rule = ({ double = false }: { double?: boolean }) => (
 
 export const Welcome = () => (
   <div className="animate-fade-in">
-    <div className="text-center pt-6 pb-8">
-      <p className="font-display text-xs tracking-[0.35em] text-rule-text uppercase">Echoes of the</p>
-      <h1 tabIndex={-1} className="font-display text-4xl font-semibold tracking-[0.12em] text-ink mt-1">MARKET</h1>
-    </div>
+      <div className="text-center pt-6 pb-8">
+        <h1 tabIndex={-1} className="font-body text-ink leading-none">
+          <span className="block text-[24px] md:text-[30px] font-normal tracking-normal">Echoes of the</span>
+          <span className="block text-[48px] md:text-[68px] font-medium tracking-[0.06em] mt-[6px]">MARKET</span>
+        </h1>
+      </div>
     <Rule double />
     <article className="py-8 px-1 space-y-4 text-ink text-[17px] leading-relaxed">
       <p className="font-hand text-3xl">Dear friend,</p>

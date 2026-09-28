@@ -172,6 +172,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
   const p = journeyPuzzles.find((x) => x.key === puzzleKey)!;
   const [value, setValue] = useState("");
   const [status, setStatus] = useState<"idle" | "wrong" | "close" | "right">(s.solved.includes(p.key) ? "right" : "idle");
+  const [closeMsg, setCloseMsg] = useState<string | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout>>();
   const opened = s.hintsOpened[p.key] ?? 0;
   const wrongs = s.wrongAttempts[p.key] ?? 0;
@@ -183,7 +184,8 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
     e.preventDefault();
     if (!value.trim()) return;
     const ok = p.answers.some((a) => normalize(a) === normalize(value));
-    const close = !ok && isClose(value, p.answers);
+    const nudge = p.nudges?.find((n) => n.matches.some((m) => normalize(m) === normalize(value)));
+    const close = !ok && (!!nudge || isClose(value, p.answers));
     trackEvent("check_answer", { answer: value, correct: ok, close }, p.index, p.name);
     if (ok) {
       setStatus("right");
@@ -191,6 +193,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
       timer.current = setTimeout(() => actions.go("log"), 1800);
     } else {
       setStatus(close ? "close" : "wrong");
+      setCloseMsg(close && nudge ? nudge.message : null);
       actions.wrong(p.key);
     }
   };
@@ -220,7 +223,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
           <input
             id="answer"
             value={value}
-            onChange={(e) => { setValue(e.target.value); if (status === "wrong" || status === "close") setStatus("idle"); }}
+            onChange={(e) => { setValue(e.target.value); if (status === "wrong" || status === "close") { setStatus("idle"); setCloseMsg(null); } }}
             placeholder="Enter your answer..."
             autoComplete="off"
             autoCapitalize="characters"
@@ -235,8 +238,14 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
           )}
           {status === "close" && (
             <div className="text-center pt-2 animate-fade-in">
-              <p className="font-display text-ink">So close — you're onto something.</p>
-              <p className="text-ink/75">Look once more at the exact wording on the postcard.</p>
+              {closeMsg ? (
+                <p className="font-display text-ink">{closeMsg}</p>
+              ) : (
+                <>
+                  <p className="font-display text-ink">So close — you're onto something.</p>
+                  <p className="text-ink/75">Look once more at the exact wording on the postcard.</p>
+                </>
+              )}
             </div>
           )}
           {wrongs >= 3 && (

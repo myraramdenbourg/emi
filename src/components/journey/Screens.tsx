@@ -90,7 +90,11 @@ export const MarketLog = ({ compact = false }: { compact?: boolean }) => {
   return (
     <div className={`animate-fade-in relative ${celebrating ? "animate-brighten" : ""}`}>
       <Rule />
-      <h1 className={`font-display font-medium text-center text-ink tracking-wide ${compact ? "text-xl py-5" : "text-3xl py-7"}`}>MARKET LOG</h1>
+      {compact ? (
+        <h2 className="font-display font-medium text-center text-ink tracking-wide text-xl py-5">MARKET LOG</h2>
+      ) : (
+        <h1 className="font-display font-medium text-center text-ink tracking-wide text-3xl py-7">MARKET LOG</h1>
+      )}
       <Rule double />
       <ul>
         {journeyPuzzles.map((p) => {
@@ -99,7 +103,7 @@ export const MarketLog = ({ compact = false }: { compact?: boolean }) => {
             <li key={p.key} className="border-b border-rule">
               <button
                 onClick={() => { trackEvent("open_puzzle", {}, p.index, p.name); actions.go({ puzzle: p.key }); }}
-                aria-label={`${p.name}, ${done ? "explored" : "not yet explored"}`}
+                aria-label={`${p.name.charAt(0) + p.name.slice(1).toLowerCase()}, ${done ? "solved" : "not yet solved"}`}
                 className="w-full flex items-center gap-4 min-h-[68px] py-2 text-left group"
               >
                 <img src={p.icon} alt="" className="w-11 h-11 object-contain shrink-0 mix-blend-multiply" />
@@ -152,24 +156,34 @@ export const MarketLog = ({ compact = false }: { compact?: boolean }) => {
   );
 };
 
-const HintCard = ({ p, hintIndex, opened }: { p: JourneyPuzzle; hintIndex: number; opened: boolean }) => (
-  <div className="border-t border-rule">
-    <button
-      disabled={opened}
-      onClick={() => { trackEvent("unlock_hint", { hintIndex }, p.index, p.name); actions.openHint(p.key, hintIndex + 1); }}
-      className="w-full flex items-center gap-3 min-h-[52px] text-left disabled:cursor-default"
-    >
-      <span className="font-hand text-2xl text-rule-text w-6">{hintIndex + 1}</span>
-      <span className="flex-1 font-display text-sm uppercase tracking-[0.15em] text-ink">Hint {hintIndex + 1}</span>
-      {!opened && <span className="text-xs font-display tracking-widest text-rule-text">OPEN</span>}
-    </button>
-    {opened && (
-      <div className="animate-unfold origin-top pb-4 pl-9 pr-1 text-ink/90 text-[16px] leading-relaxed">
+const HintCard = ({ p, hintIndex, opened, onReveal }: { p: JourneyPuzzle; hintIndex: number; opened: boolean; onReveal: (text: string) => void }) => {
+  const [expanded, setExpanded] = useState(opened);
+  const contentId = `hint-${p.key}-${hintIndex}`;
+  return (
+    <div className="border-t border-rule">
+      <button
+        aria-expanded={opened && expanded}
+        aria-controls={contentId}
+        onClick={() => {
+          if (!opened) {
+            trackEvent("unlock_hint", { hintIndex }, p.index, p.name);
+            actions.openHint(p.key, hintIndex + 1);
+            onReveal(`Hint ${hintIndex + 1}: ${p.hints[hintIndex]}`);
+            setExpanded(true);
+          } else setExpanded((v) => !v);
+        }}
+        className="w-full flex items-center gap-3 min-h-[52px] text-left"
+      >
+        <span className="font-hand text-2xl text-rule-text w-6" aria-hidden="true">{hintIndex + 1}</span>
+        <span className="flex-1 font-display text-sm uppercase tracking-[0.15em] text-ink">Hint {hintIndex + 1}</span>
+        <span className="text-xs font-display tracking-widest text-rule-text" aria-hidden="true">{opened && expanded ? "CLOSE" : "OPEN"}</span>
+      </button>
+      <div id={contentId} hidden={!opened || !expanded} className="animate-unfold origin-top pb-4 pl-9 pr-1 text-ink/90 text-[16px] leading-relaxed">
         <p>{p.hints[hintIndex]}</p>
       </div>
-    )}
-  </div>
-);
+    </div>
+  );
+};
 
 export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
   const s = useGame();
@@ -178,12 +192,25 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
   const [status, setStatus] = useState<"idle" | "wrong" | "close" | "right">(s.solved.includes(p.key) ? "right" : "idle");
   const [closeMsg, setCloseMsg] = useState<string | null>(null);
   const [revealed, setRevealed] = useState(false);
+  const [hintAnnouncement, setHintAnnouncement] = useState("");
   const timer = useRef<ReturnType<typeof setTimeout>>();
+  const answerRef = useRef<HTMLInputElement>(null);
+  const successRef = useRef<HTMLHeadingElement>(null);
   const opened = s.hintsOpened[p.key] ?? 0;
   const wrongs = s.wrongAttempts[p.key] ?? 0;
   const alreadySolved = s.solved.includes(p.key);
 
   useEffect(() => () => clearTimeout(timer.current), []);
+  useEffect(() => {
+    if (status === "wrong" || status === "close") answerRef.current?.focus();
+    if (status === "right" && !alreadySolved) successRef.current?.focus();
+  }, [status, alreadySolved]);
+
+  const errorId = `answer-error-${p.key}`;
+  const error = status === "wrong" || status === "close";
+  const errorText = status === "wrong"
+    ? "Not quite. Take another look at the postcard."
+    : closeMsg ?? "So close — you're onto something. Look once more at the exact wording on the postcard.";
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -224,7 +251,8 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
       {status === "right" ? (
         <div className="text-center py-6">
           <HandCheck className="w-20 h-20 mx-auto" animate={!alreadySolved || status === "right"} />
-          <p className="font-display text-2xl text-ink mt-2">That's it!</p>
+          <h2 ref={successRef} tabIndex={-1} className="font-display text-2xl text-ink mt-2">That's it!</h2>
+          <p role="status" className="sr-only">Correct answer. {p.name} solved.{p.key === "final" ? " Open envelope 2." : " Added to your Market Log."}</p>
           <p className="font-display text-sm uppercase tracking-[0.25em] text-ink/70 mt-3">Answer: <span className="text-rule-text tracking-[0.2em]">{p.answers[0]}</span></p>
           {p.key === "final" ? (
             <>
@@ -241,7 +269,10 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
         <form onSubmit={submit} className="space-y-3">
           <input
             id="answer"
+            ref={answerRef}
             aria-label={`Answer for ${p.name}`}
+            aria-invalid={error}
+            aria-describedby={error ? errorId : undefined}
             value={value}
             onChange={(e) => { setValue(e.target.value); if (status === "wrong" || status === "close") { setStatus("idle"); setCloseMsg(null); } }}
             placeholder="Enter your answer..."
@@ -251,13 +282,13 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
           />
           <button type="submit" className={primaryBtn}>Enter Answer</button>
           {status === "wrong" && (
-            <div className="text-center pt-2 animate-fade-in">
+            <div id={errorId} role="status" className="text-center pt-2 animate-fade-in">
               <p className="font-display text-ink">Not quite.</p>
               <p className="text-ink/75">Take another look at the postcard.</p>
             </div>
           )}
           {status === "close" && (
-            <div className="text-center pt-2 animate-fade-in">
+            <div id={errorId} role="status" className="text-center pt-2 animate-fade-in">
               {closeMsg ? (
                 <p className="font-display text-ink">{closeMsg}</p>
               ) : (
@@ -276,8 +307,9 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
 
       <section className="mt-10">
         <h2 className="font-display text-sm uppercase tracking-[0.25em] text-ink text-center pb-3">Need a hint?</h2>
+        <p role="status" className="sr-only">{hintAnnouncement}</p>
         {p.hints.slice(0, opened + 1).map((_, t) => (
-          <HintCard key={t} p={p} hintIndex={t} opened={opened > t} />
+          <HintCard key={t} p={p} hintIndex={t} opened={opened > t} onReveal={setHintAnnouncement} />
         ))}
         {opened >= p.hints.length && (
           <div className="border-t border-rule py-4 text-center animate-fade-in">

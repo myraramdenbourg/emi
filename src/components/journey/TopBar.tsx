@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Menu, Pause, Play, Timer } from "lucide-react";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
@@ -21,7 +21,7 @@ const TopBar = () => {
     <div className="flex items-center justify-between gap-2 text-ink">
       <div className="flex items-center gap-2 text-sm font-display tabular-nums">
         <Timer className="w-4 h-4 opacity-70" />
-        <span className={paused ? "opacity-50" : ""}>{formatTime(elapsedMs(s, now))}</span>
+        <span aria-hidden="true" className={paused ? "opacity-50" : ""}>{formatTime(elapsedMs(s, now))}</span>
         {paused && <span className="font-hand text-lg text-rule-text leading-none">paused</span>}
         {!s.finishedMs && (
           <button
@@ -41,6 +41,7 @@ const TopBar = () => {
         <SheetContent className="paper bg-paper border-l-2 border-rule text-ink">
           <SheetHeader>
             <SheetTitle className="font-display tracking-[0.2em] uppercase text-ink text-left">Menu</SheetTitle>
+            <SheetDescription className="sr-only">Navigate the Market Log, manage the timer, or reset your journey.</SheetDescription>
           </SheetHeader>
           <nav className="mt-6 border-t border-rule/50">
             <button className={item} onClick={() => { actions.go("log"); setMenu(false); }}>Market Log</button>

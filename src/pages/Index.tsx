@@ -1,4 +1,6 @@
+import { useEffect, useRef, useState } from "react";
 import { useGame } from "@/lib/gameState";
+import { journeyPuzzles } from "@/lib/journeyData";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import TopBar from "@/components/journey/TopBar";
 import { FinalScreen, HowTo, MarketLog, PuzzlePage, Welcome } from "@/components/journey/Screens";
@@ -7,6 +9,26 @@ const Index = () => {
   useAnalytics();
   const s = useGame();
   const view = s.introDone ? s.view : "welcome";
+  const viewKey = typeof view === "object" ? `puzzle-${view.puzzle}` : view;
+  const previousView = useRef(viewKey);
+  const explored = journeyPuzzles.filter((p) => s.solved.includes(p.key)).length;
+  const previousExplored = useRef(explored);
+  const [unlockAnnouncement, setUnlockAnnouncement] = useState("");
+
+  useEffect(() => {
+    if (previousExplored.current < journeyPuzzles.length && explored === journeyPuzzles.length) {
+      setUnlockAnnouncement("All nine stalls explored. Final Letter unlocked.");
+    }
+    previousExplored.current = explored;
+  }, [explored]);
+
+  useEffect(() => {
+    if (previousView.current !== viewKey) {
+      const heading = document.querySelector<HTMLElement>("main h1");
+      heading?.focus();
+      previousView.current = viewKey;
+    }
+  }, [viewKey]);
 
   let body;
   if (view === "welcome") body = <Welcome />;
@@ -27,6 +49,7 @@ const Index = () => {
         }`}
         style={{ paddingTop: "max(env(safe-area-inset-top), 0.75rem)", paddingBottom: "max(env(safe-area-inset-bottom), 3rem)" }}
       >
+        <p role="status" className="sr-only">{unlockAnnouncement}</p>
         {s.introDone && <TopBar />}
         {isPuzzle ? (
           <div className="lg:grid lg:grid-cols-[300px_minmax(0,1fr)] lg:gap-10">

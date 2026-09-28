@@ -200,9 +200,10 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
   const s = useGame();
   const p = allPuzzles.find((x) => x.key === puzzleKey)!;
   const [value, setValue] = useState("");
-  const [status, setStatus] = useState<"idle" | "wrong" | "close" | "right">(s.solved.includes(p.key) ? "right" : "idle");
+  const [status, setStatus] = useState<"idle" | "empty" | "wrong" | "close" | "right">(s.solved.includes(p.key) ? "right" : "idle");
   const [closeMsg, setCloseMsg] = useState<string | null>(null);
   const [revealed, setRevealed] = useState(false);
+  const [confirmReveal, setConfirmReveal] = useState(false);
   const [hintAnnouncement, setHintAnnouncement] = useState("");
   const timer = useRef<ReturnType<typeof setTimeout>>();
   const answerRef = useRef<HTMLInputElement>(null);
@@ -214,16 +215,16 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
 
   useEffect(() => () => clearTimeout(timer.current), []);
   useEffect(() => {
-    if (status === "wrong" || status === "close") answerRef.current?.focus();
+    if (status === "wrong" || status === "close" || status === "empty") answerRef.current?.focus();
     if (status === "right" && submittedCorrect.current) successRef.current?.focus();
   }, [status]);
 
   const errorId = `answer-error-${p.key}`;
-  const error = status === "wrong" || status === "close";
+  const error = status === "wrong" || status === "close" || status === "empty";
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!value.trim()) return;
+    if (!value.trim()) { setStatus("empty"); return; }
     const ok = p.answers.some((a) => normalize(a) === normalize(value));
     const nudge = p.nudges?.find((n) => n.matches.some((m) => normalize(m) === normalize(value)));
     const close = !ok && (!!nudge || isClose(value, p.answers));
@@ -232,7 +233,6 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
       submittedCorrect.current = true;
       setStatus("right");
       actions.solve(p.key);
-      if (p.key !== "final") timer.current = setTimeout(() => actions.go("log"), 1800);
     } else {
       setStatus(close ? "close" : "wrong");
       setCloseMsg(close && nudge ? nudge.message : null);
@@ -272,7 +272,12 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
               </button>
             </>
           ) : (
-            <p className="text-ink/75 mt-1">{p.name.charAt(0) + p.name.slice(1).toLowerCase()} has been added to your Market Log.</p>
+            <>
+              <p className="text-ink/75 mt-1">{p.name.charAt(0) + p.name.slice(1).toLowerCase()} has been added to your Market Log.</p>
+              <button onClick={() => actions.go("log")} className="mt-5 min-h-[48px] px-6 border-2 border-ink text-ink font-display text-xs uppercase tracking-[0.2em] rounded-sm hover:bg-ink/5">
+                Return to Market Log
+              </button>
+            </>
           )}
         </div>
       ) : (
@@ -284,17 +289,22 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
             aria-invalid={error}
             aria-describedby={error ? errorId : undefined}
             value={value}
-            onChange={(e) => { setValue(e.target.value); if (status === "wrong" || status === "close") { setStatus("idle"); setCloseMsg(null); } }}
+            onChange={(e) => { setValue(e.target.value); if (status === "wrong" || status === "close" || status === "empty") { setStatus("idle"); setCloseMsg(null); } }}
             placeholder="Enter your answer..."
             autoComplete="off"
             autoCapitalize="characters"
             className="w-full min-h-[56px] bg-transparent border-0 border-b-2 border-ink/60 focus:border-rule focus:outline-none px-1 text-[18px] font-display tracking-wider text-ink placeholder:text-ink/85"
           />
           <button type="submit" className={primaryBtn}>Enter Answer</button>
+          {status === "empty" && (
+            <div id={errorId} role="status" className="text-center pt-2 animate-fade-in">
+              <p className="font-display text-ink">Enter your discovery first.</p>
+            </div>
+          )}
           {status === "wrong" && (
             <div key={wrongs} id={errorId} role="status" className="text-center pt-2 animate-fade-in">
               <p className="font-display text-ink">Not quite.</p>
-              <p className="text-ink/75">Take another look at the postcard.</p>
+              <p className="text-ink/75">You're on the right track — take another look at the postcard{opened < p.hints.length ? ", or open a hint below" : ""}.</p>
             </div>
           )}
           {status === "close" && (
@@ -323,13 +333,27 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
         ))}
         {opened >= p.hints.length && (
           <div className="border-t border-rule py-4 text-center animate-fade-in">
-            {!revealed ? (
+            {!revealed && !confirmReveal ? (
               <button
-                onClick={() => { trackEvent("reveal_answer", {}, p.index, p.name); setRevealed(true); }}
+                onClick={() => setConfirmReveal(true)}
                 className="min-h-[44px] font-display text-sm uppercase tracking-[0.2em] text-rule-text underline underline-offset-4"
               >
-                Reveal answer
+                Reveal Solution — Spoiler
               </button>
+            ) : !revealed ? (
+              <div role="group" aria-labelledby={`confirm-${p.key}`} className="animate-fade-in">
+                <p id={`confirm-${p.key}`} className="text-ink">Show the answer to {p.name.charAt(0) + p.name.slice(1).toLowerCase()}? This can't be hidden again.</p>
+                <div className="flex justify-center gap-3 mt-3">
+                  <button onClick={() => setConfirmReveal(false)} className="min-h-[44px] px-5 border-2 border-ink/50 text-ink font-display text-xs uppercase tracking-[0.2em] rounded-sm">Keep Trying</button>
+                  <button
+                    autoFocus
+                    onClick={() => { trackEvent("reveal_answer", {}, p.index, p.name); setRevealed(true); }}
+                    className="min-h-[44px] px-5 bg-ink text-paper font-display text-xs uppercase tracking-[0.2em] rounded-sm"
+                  >
+                    Yes, Reveal
+                  </button>
+                </div>
+              </div>
             ) : (
               <p className="font-display text-lg tracking-[0.2em] text-ink uppercase animate-unfold">{p.answers[0]}</p>
             )}

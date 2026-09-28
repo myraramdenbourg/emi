@@ -49,7 +49,7 @@ export const puzzleData: PuzzleData[] = [
      "Figure out what plants make up the hybrids.",
      "The hybrid flowers from left to right are PINCUSHION + DAHLIA, BLUEBELL + TULIP, SNAPDRAGON + CHOCOLATE COSMOS, and SUNFLOWER + ROSE.",
      "Each bouquet has a different number of flowers in it.",
-     "Count the number of flowers in each bouquet and use that to index the correct letter. For example, There are 7 flowers in the Pincushion bouquet, which means you would extract the letter H since it is the 7th letter in Pincushion.",
+     "Count the number of flowers in each bouquet and use that to index the correct letter. For example, there are 7 flowers in the Pincushion bouquet, which means you would extract the letter H since it is the 7th letter in Pincushion.",
      "For the first hybrid flower, the letters are H and I. Continue extracting the correct letter from each flower to get the solution."
     ],
     answer: ["HIBISCUS"],

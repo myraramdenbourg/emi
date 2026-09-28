@@ -58,8 +58,11 @@ export const useGame = () =>
     () => state,
   );
 
-export const elapsedMs = (s: GameState, now = Date.now()) =>
-  s.finishedMs ?? s.accumulatedMs + (s.runningSince ? now - s.runningSince : 0);
+export const elapsedMs = (s: GameState, now = Date.now()) => {
+  if (s.finishedMs != null) return Math.max(0, s.finishedMs);
+  const live = s.runningSince ? Math.max(0, now - s.runningSince) : 0;
+  return Math.max(0, (s.accumulatedMs || 0) + live);
+};
 
 export const actions = {
   begin: () =>
@@ -71,7 +74,10 @@ export const actions = {
   pause: () =>
     setGame((s) =>
       s.runningSince && !s.finishedMs
-        ? { ...s, accumulatedMs: s.accumulatedMs + Date.now() - s.runningSince, runningSince: null }
+        ? (() => {
+            const now = Date.now();
+            return { ...s, accumulatedMs: elapsedMs(s, now), runningSince: null };
+          })()
         : s,
     ),
   resume: () => setGame((s) => (!s.runningSince && !s.finishedMs && s.introDone ? { ...s, runningSince: Date.now() } : s)),
@@ -87,6 +93,8 @@ export const actions = {
 export const useNow = (active: boolean) => {
   const [now, setNow] = useState(Date.now());
   useEffect(() => {
+    // Refresh immediately so a stale "now" from before a pause never precedes runningSince.
+    setNow(Date.now());
     if (!active) return;
     const id = setInterval(() => setNow(Date.now()), 500);
     return () => clearInterval(id);
@@ -95,7 +103,7 @@ export const useNow = (active: boolean) => {
 };
 
 export const formatTime = (ms: number) => {
-  const t = Math.floor(ms / 1000);
+  const t = Math.max(0, Math.floor((Number.isFinite(ms) ? ms : 0) / 1000));
   const h = Math.floor(t / 3600);
   const m = Math.floor((t % 3600) / 60);
   const sec = t % 60;

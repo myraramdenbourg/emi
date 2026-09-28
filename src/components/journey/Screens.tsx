@@ -54,14 +54,14 @@ export const Welcome = () => (
         </h1>
       </div>
     <Rule double />
-    <article className="py-8 px-1 space-y-4 text-ink text-[17px] leading-relaxed">
+    <p className="text-[14px] text-ink/70 text-center pt-6">Read the introductory letter included with your game before you begin.</p>
+    <article className="py-6 px-1 space-y-4 text-ink text-[17px] leading-relaxed">
       <p className="font-hand text-3xl">Dear friend,</p>
-      <p>Welcome to Echoes of the Market.</p>
-      <p>These postcards are a collection of memories from my grandfather and our time at the market. As you solve each puzzle, you'll uncover more of his story — and mine.</p>
-      <p>Use this Market Log to keep track of what you discover. If you get stuck along the way, I'll be here to give you a hint.</p>
-      <p>I hope you enjoy the journey.</p>
+      <p>Something has changed at the market. The place I've known all my life feels different, and I believe Grandpa's postcards might hold the answers.</p>
+      <p>Will you help me solve the puzzles he left in them?</p>
+      <p>Use this Market Log to keep track of your answers. If you get stuck, I'll do my best to guide you.</p>
+      <p>Thank you for helping me.</p>
       <div className="pt-2">
-        <p>With gratitude,</p>
         <p className="font-hand text-4xl text-rule-text">Emi</p>
       </div>
     </article>
@@ -70,8 +70,9 @@ export const Welcome = () => (
       <h2 id="before-you-begin" className="font-display text-sm uppercase tracking-[0.2em] font-semibold">Before you begin</h2>
       <ul className="mt-3 pl-5 list-disc space-y-2 text-[16px] leading-snug">
         <li>Solve the nine postcards in any order.</li>
-        <li>Keep both envelopes sealed until this companion tells you to open them.</li>
+        <li>Select the matching postcard in the Market Log to check your answer.</li>
         <li>Hints are optional and become more specific as you open them.</li>
+        <li>Keep both envelopes sealed until the companion tells you to open them.</li>
         <li>You can pause the timer at any time.</li>
       </ul>
     </section>

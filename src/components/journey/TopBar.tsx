@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Menu, Pause, Play, Timer } from "lucide-react";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import {
@@ -52,6 +53,7 @@ const TopBar = () => {
               </button>
             )}
             <button className={`${item} text-rule-text`} onClick={() => { setMenu(false); setConfirm(true); }}>Reset Game</button>
+            <Link to="/privacy" className={item} onClick={() => setMenu(false)}>Privacy Policy</Link>
           </nav>
         </SheetContent>
       </Sheet>

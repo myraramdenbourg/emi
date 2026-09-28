@@ -68,7 +68,7 @@ export const MarketLog = () => {
                 onClick={() => { trackEvent("open_puzzle", {}, p.index, p.name); actions.go({ puzzle: p.key }); }}
                 className="w-full flex items-center gap-4 min-h-[68px] py-2 text-left group"
               >
-                <img src={p.icon} alt="" className="w-11 h-11 object-contain shrink-0" />
+                <img src={p.icon} alt="" className="w-11 h-11 object-contain shrink-0 mix-blend-multiply" />
                 <span className="flex-1 font-display text-lg sm:text-xl text-ink tracking-wide border-r border-rule self-stretch flex items-center pr-2">
                   {p.name}
                 </span>
@@ -169,7 +169,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
       </button>
       <Rule />
       <div className="flex items-center justify-center gap-4 py-7">
-        <img src={p.icon} alt="" className="w-14 h-14 object-contain" />
+        <img src={p.icon} alt="" className="w-14 h-14 object-contain mix-blend-multiply" />
         <h1 className="font-display text-3xl font-medium text-ink tracking-wide">{p.name}</h1>
       </div>
       <Rule double />

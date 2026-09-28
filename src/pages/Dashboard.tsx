@@ -182,13 +182,13 @@ const Dashboard = () => {
     const answers = events.filter((event) => event.event_type === "check_answer");
     const correct = answers.filter((event) => event.event_data?.correct === true).length;
     const hintClicks = events.filter((event) => event.event_type === "unlock_hint").length;
-    const answerCounts = new Map<string, { label: string; count: number }>();
+    const answerCounts = new Map<string, { answer: string; count: number }>();
     answers.filter((event) => event.event_data?.correct === false).forEach((event) => {
       const raw = event.event_data?.answer;
       if (typeof raw !== "string" || !raw.trim()) return;
       const key = normalizeWrongAnswer(raw);
       const current = answerCounts.get(key);
-      answerCounts.set(key, { label: current?.label ?? raw.trim().replace(/\s+/g, " "), count: (current?.count ?? 0) + 1 });
+      answerCounts.set(key, { answer: current?.answer ?? raw.trim().replace(/\s+/g, " "), count: (current?.count ?? 0) + 1 });
     });
     return {
       puzzleName: puzzle.name,
@@ -196,7 +196,7 @@ const Dashboard = () => {
       hintClickRate: users.size ? hintUsers.size / users.size * 100 : 0,
       correctnessRate: answers.length ? correct / answers.length * 100 : 0,
       avgHintsPerUser: users.size ? hintClicks / users.size : 0,
-      commonWrongAnswers: [...answerCounts.values()].sort((a, b) => b.count - a.count || a.label.localeCompare(b.label)).slice(0, 3),
+      commonWrongAnswers: [...answerCounts.values()].sort((a, b) => b.count - a.count || a.answer.localeCompare(b.answer)).slice(0, 3),
     };
   }), [periodEvents]);
 

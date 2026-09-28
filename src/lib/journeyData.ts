@@ -1,4 +1,5 @@
 import { puzzleData } from "@/data/puzzleData";
+import envelopeAsset from "@/assets/envelope.png.asset.json";
 
 export interface JourneyPuzzle {
   key: string;
@@ -50,10 +51,6 @@ const toJourney = (o: { title: string; key: string; icon: string; nudges?: Journ
 
 export const journeyPuzzles: JourneyPuzzle[] = ORDER.map(toJourney);
 
-export const finalPuzzle: JourneyPuzzle = toJourney({
-  title: "THE FINAL LETTER",
-  key: "final",
-  icon: "final",
-});
+export const finalPuzzle: JourneyPuzzle = { ...toJourney({ title: "THE FINAL LETTER", key: "final", icon: "final" }), icon: envelopeAsset.url };
 
 export const allPuzzles: JourneyPuzzle[] = [...journeyPuzzles, finalPuzzle];

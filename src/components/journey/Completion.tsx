@@ -325,7 +325,7 @@ export const Completion = ({ time }: { time: string }) => {
           <span className="self-center">·</span>
           <a href={FOLLOW_URL} target="_blank" rel="noreferrer" className="min-h-[44px] inline-flex items-center underline-offset-4 hover:underline">Follow Origami Escape</a>
           {SHOW_BEHIND_SCENES && <><span className="self-center">·</span>
-          <Link to="/behind-the-scenes#credits" className="min-h-[44px] inline-flex items-center underline-offset-4 hover:underline">Credits</Link></>}
+          <Link to="/behind-the-scenes" className="min-h-[44px] inline-flex items-center underline-offset-4 hover:underline">Credits</Link></>}
           {PRIVACY_READY && <><span className="self-center">·</span>
           <Link to="/privacy" className="min-h-[44px] inline-flex items-center underline-offset-4 hover:underline">Privacy Policy</Link></>}
         </nav>

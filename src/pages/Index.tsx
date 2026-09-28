@@ -17,7 +17,7 @@ const Index = () => {
 
   useEffect(() => {
     if (previousExplored.current < journeyPuzzles.length && explored === journeyPuzzles.length) {
-      setUnlockAnnouncement("All nine stalls explored. Final Letter unlocked.");
+      setUnlockAnnouncement("All nine postcards explored. Final Letter unlocked.");
     }
     previousExplored.current = explored;
   }, [explored]);

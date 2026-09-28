@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX IF NOT EXISTS adventure_signups_email_unique ON public.adventure_signups (lower(email));

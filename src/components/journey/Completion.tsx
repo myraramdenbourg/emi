@@ -38,6 +38,13 @@ const loadImg = (src: string) =>
 // Spoiler-free 1080x1920 share card. Only title, time, and icons — no answers.
 async function makeCard(time: string): Promise<Blob> {
   await document.fonts.ready;
+  await Promise.all([
+    document.fonts.load("500 96px 'EB Garamond'"),
+    document.fonts.load("48px 'EB Garamond'"),
+    document.fonts.load("600 240px Poppins"),
+    document.fonts.load("500 38px Poppins"),
+    document.fonts.load("500 78px Caveat"),
+  ]).catch(() => {});
   const W = 1080, H = 1920;
   const c = document.createElement("canvas");
   c.width = W; c.height = H;
@@ -45,34 +52,51 @@ async function makeCard(time: string): Promise<Blob> {
   const css = getComputedStyle(document.documentElement);
   const col = (v: string) => `hsl(${css.getPropertyValue(v).trim()})`;
   const paper = col("--paper"), ink = col("--ink"), rule = col("--rule");
+  const track = (v: string) => { try { (g as CanvasRenderingContext2D & { letterSpacing: string }).letterSpacing = v; } catch { /* unsupported */ } };
 
   g.fillStyle = paper; g.fillRect(0, 0, W, H);
   // speckle texture
   g.fillStyle = rule; g.globalAlpha = 0.05;
   for (let k = 0; k < 1400; k++) g.fillRect(Math.random() * W, Math.random() * H, 2, 2);
   g.globalAlpha = 1;
-  // border (inside IG safe area)
-  g.strokeStyle = rule; g.lineWidth = 6; g.strokeRect(70, 260, W - 140, H - 520);
-  g.lineWidth = 2; g.strokeRect(88, 278, W - 176, H - 556);
+  // full-page double frame
+  g.strokeStyle = rule; g.lineWidth = 8; g.strokeRect(52, 52, W - 104, H - 104);
+  g.lineWidth = 2; g.strokeRect(78, 78, W - 156, H - 156);
 
-  g.textAlign = "center"; g.fillStyle = ink;
-  g.font = "500 58px Poppins"; g.fillText("ECHOES OF THE MARKET", W / 2, 440);
-  g.fillStyle = rule; g.fillRect(260, 480, W - 520, 4);
-  g.fillStyle = ink; g.font = "68px Caveat"; g.fillText("I explored all 9 stalls.", W / 2, 620);
-  g.font = "500 190px Poppins"; g.fillText(time, W / 2, 880);
+  g.textAlign = "center";
+  // masthead
+  track("5px");
+  g.fillStyle = ink; g.font = "500 96px 'EB Garamond', serif";
+  g.fillText("ECHOES OF", W / 2, 240);
+  g.fillText("THE MARKET", W / 2, 352);
+  track("0px");
+  g.font = "48px 'EB Garamond', serif";
+  g.fillText("A postcard puzzle adventure", W / 2, 452);
+  g.fillStyle = rule; g.fillRect((W - 620) / 2, 516, 620, 5);
 
+  g.fillStyle = ink; g.font = "500 74px Caveat"; g.fillText("We explored all 9 stalls.", W / 2, 656);
+  track("16px");
+  g.font = "500 38px Poppins"; g.fillText("OUR TIME", W / 2, 772);
+  track("0px");
+  g.font = "600 240px Poppins";
+  const tw = g.measureText(time).width;
+  if (tw > 820) g.font = `600 ${Math.floor(240 * 820 / tw)}px Poppins`;
+  g.fillText(time, W / 2, 948);
+
+  // 3x3 stall sketch grid
   const imgs = await Promise.all(journeyPuzzles.map((p) => loadImg(p.icon).catch(() => null)));
-  const size = 170, gap = 50, cols = 3;
+  const size = 176, gap = 52, cols = 3;
   const startX = (W - (cols * size + (cols - 1) * gap)) / 2;
   imgs.forEach((im, i) => {
     if (!im) return;
-    const x = startX + (i % cols) * (size + gap), y = 990 + Math.floor(i / cols) * (size + 30);
+    const x = startX + (i % cols) * (size + gap), y = 1016 + Math.floor(i / cols) * (size + 52);
     const r = Math.min(size / im.width, size / im.height);
     g.drawImage(im, x + (size - im.width * r) / 2, y + (size - im.height * r) / 2, im.width * r, im.height * r);
   });
 
-  g.fillStyle = rule; g.font = "74px Caveat"; g.fillText("Our journey through the market", W / 2, 1640);
-  g.fillStyle = ink; g.font = "36px Poppins"; g.fillText("echoesofthemarket.com", W / 2, 1720);
+  g.fillStyle = rule; g.font = "500 82px Caveat"; g.fillText("Your turn to explore.", W / 2, 1748);
+  g.fillStyle = ink; g.font = "600 42px Poppins"; g.fillText("echoesofthemarket.com", W / 2, 1798);
+  g.font = "25px Poppins"; g.fillText("By Origami Escape", W / 2, 1832);
   return new Promise((res, rej) => c.toBlob((b) => (b ? res(b) : rej(new Error("toBlob failed"))), "image/png"));
 }
 

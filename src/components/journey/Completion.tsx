@@ -54,7 +54,7 @@ async function makeCard(time: string): Promise<Blob> {
   g.textAlign = "center"; g.fillStyle = ink;
   g.font = "500 58px Poppins"; g.fillText("ECHOES OF THE MARKET", W / 2, 440);
   g.fillStyle = rule; g.fillRect(260, 480, W - 520, 4);
-  g.fillStyle = ink; g.font = "68px Caveat"; g.fillText("I found all 9 memories.", W / 2, 620);
+  g.fillStyle = ink; g.font = "68px Caveat"; g.fillText("I explored all 9 stalls.", W / 2, 620);
   g.font = "500 190px Poppins"; g.fillText(time, W / 2, 880);
 
   const imgs = await Promise.all(journeyPuzzles.map((p) => loadImg(p.icon).catch(() => null)));
@@ -95,7 +95,7 @@ export const Completion = ({ time }: { time: string }) => {
 
   useEffect(() => () => { if (card) URL.revokeObjectURL(card.url); }, [card]);
 
-  const shareText = `I found all 9 memories in Echoes of the Market in ${time}. Can you beat my time?`;
+  const shareText = `I explored all 9 stalls in Echoes of the Market in ${time}. Can you beat my time?`;
   const picked = REACTIONS.find((r) => r.id === reaction);
 
   const react = (id: string) => {

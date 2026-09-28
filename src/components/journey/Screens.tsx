@@ -307,10 +307,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
               {closeMsg ? (
                 <p className="font-display text-ink">{closeMsg}</p>
               ) : (
-                <>
-                  <p className="font-display text-ink">So close — you're onto something.</p>
-                  <p className="text-ink/75">Look once more at the exact wording on the postcard.</p>
-                </>
+                <p className="font-display text-ink">So close — you're onto something.</p>
               )}
             </div>
           )}

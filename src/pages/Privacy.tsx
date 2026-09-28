@@ -70,6 +70,7 @@ const Privacy = () => {
 
         <H3>Messages and feedback</H3>
         <p>If you contact us or send feedback, we receive the information you choose to include, such as your email address and message. We use it to respond, provide support, and improve the game.</p>
+        <p>On the completion screen, choosing a reaction (such as “Loved it”) saves that reaction privately to our database right away. If you use “Tell us more,” we also save your written message and, only if you enter one, your email address so we can reply, along with the time it was sent. Changing your reaction updates the same record. To limit abuse, we store a one-way scrambled version of your network address (not the address itself). Feedback is stored with Lovable Cloud, our hosting and database provider, is visible only to Origami Escape, is never posted publicly, does not include your puzzle answers or hint history, and never signs you up for marketing emails.</p>
 
         <H3>Technical information</H3>
         <p>When your browser loads the companion and communicates with our servers, our hosting and backend providers receive standard request information such as your IP address, browser and device information, the pages and resources requested, and timestamps. This is used to deliver the site, keep it secure, and diagnose errors. The page’s fonts are loaded from Google Fonts, so Google also receives your IP address and browser information when fonts load.</p>

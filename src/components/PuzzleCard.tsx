@@ -95,12 +95,25 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
           </div>
 
           <div className="flex-1 flex flex-col">
-            <div className={`mb-4 rounded-lg overflow-hidden shadow-md bg-white w-full border border-[#03404A] relative transition-transform duration-300 ${!isSolved ? 'group-hover:scale-[1.02]' : ''}`}>
-              <img
-                src={getImageForPuzzle(puzzle.title)}
-                alt={puzzle.title}
-                className={`w-full object-contain transition-all duration-500 ${isSolved ? 'saturate-50 opacity-90' : ''}`}
-              />
+            <div className={`mb-4 mx-auto w-full max-w-[220px] rounded-lg overflow-hidden shadow-md bg-[#FFFDF5] border-2 border-[#03404A] relative transition-transform duration-300 ${!isSolved ? 'group-hover:scale-[1.02]' : ''}`}>
+              <div className="aspect-square flex items-center justify-center p-4">
+                {puzzle.title.toLowerCase() === 'the final letter' ? (
+                  <span className={`text-7xl font-serif font-extrabold text-[#A6342B] transition-all duration-500 ${isSolved ? 'saturate-50 opacity-90' : ''}`}>?</span>
+                ) : (
+                  <img
+                    src={getIconForPuzzle(puzzle.title)}
+                    alt={puzzle.title}
+                    className={`max-w-full max-h-full object-contain transition-all duration-500 ${isSolved ? 'saturate-50 opacity-90' : ''}`}
+                  />
+                )}
+              </div>
+              {isSolved && (
+                <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white/20">
+                  <div className="w-16 h-16 rounded-full bg-green-600 flex items-center justify-center shadow-lg">
+                    <Check className="w-10 h-10 text-white" strokeWidth={3} />
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="space-y-2 mt-auto" onClick={(e) => e.stopPropagation()}>

@@ -6,12 +6,12 @@ import { trackEvent } from "@/lib/analytics";
 import { journeyPuzzles } from "@/lib/journeyData";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { HandCheck, Sprig } from "./Marks";
+import { PRIVACY_READY } from "@/pages/Privacy";
 
 // Public links. Leave REVIEW_URL / PRIVACY_URL empty until a real destination exists;
 // empty values hide the related links rather than sending players somewhere generic.
 export const PRODUCT_URL = "https://echoesofthemarket.com";
 const REVIEW_URL = "";
-const PRIVACY_URL = "";
 const SHOW_BEHIND_SCENES = true;
 const FEEDBACK_URL = "mailto:hello@echoesofthemarket.com?subject=Echoes%20of%20the%20Market%20feedback";
 const FOLLOW_URL = "https://www.instagram.com/origamiescape";
@@ -282,7 +282,7 @@ export const Completion = ({ time }: { time: string }) => {
             {signupError && <p id="signup-error" role="alert" className="text-ink text-[15px]">{signupError}</p>}
             <p id="signup-note" className="text-[14px] text-ink/80">
               Occasional updates about new games. Unsubscribe anytime.
-              {PRIVACY_URL && <> <a href={PRIVACY_URL} target="_blank" rel="noreferrer" className="underline underline-offset-2">Privacy policy</a></>}
+              {PRIVACY_READY && <> <Link to="/privacy" className="underline underline-offset-2">Privacy Policy</Link></>}
             </p>
           </form>
         )}
@@ -301,6 +301,8 @@ export const Completion = ({ time }: { time: string }) => {
           <a href={FOLLOW_URL} target="_blank" rel="noreferrer" className="min-h-[44px] inline-flex items-center underline-offset-4 hover:underline">Follow Origami Escape</a>
           {SHOW_BEHIND_SCENES && <><span className="self-center">·</span>
           <Link to="/behind-the-scenes#credits" className="min-h-[44px] inline-flex items-center underline-offset-4 hover:underline">Credits</Link></>}
+          {PRIVACY_READY && <><span className="self-center">·</span>
+          <Link to="/privacy" className="min-h-[44px] inline-flex items-center underline-offset-4 hover:underline">Privacy Policy</Link></>}
         </nav>
       </footer>
     </div>

@@ -177,16 +177,18 @@ export const Completion = ({ time }: { time: string }) => {
           <p id="reaction-label" className="font-hand text-2xl text-ink">How was your journey?</p>
           <RadioGroup aria-labelledby="reaction-label" value={reaction ?? ""} onValueChange={react} className="grid grid-cols-2 gap-3 mt-3">
             {REACTIONS.map((r) => (
-              <RadioGroupItem
-                key={r.id}
-                value={r.id}
-                aria-label={r.label}
-                className={`w-full h-auto min-h-[56px] aspect-auto rounded-sm border-2 font-display text-sm text-ink transition-all ${
-                  reaction === r.id ? "border-rule bg-rule/15 scale-[1.02]" : "border-rule/40 bg-paper-deep/40"
-                }`}
-              >
-                <span className="text-xl mr-2" aria-hidden="true">{r.emoji}</span>{r.label}
-              </RadioGroupItem>
+              <div key={r.id} className="relative min-h-[56px]">
+                <RadioGroupItem
+                  value={r.id}
+                  aria-label={r.label}
+                  className={`w-full h-full min-h-[56px] aspect-auto rounded-sm border-2 transition-all [&>span]:hidden ${
+                    reaction === r.id ? "border-rule bg-rule/15 scale-[1.02]" : "border-rule/40 bg-paper-deep/40"
+                  }`}
+                />
+                <span aria-hidden="true" className="pointer-events-none absolute inset-0 flex items-center justify-center font-display text-sm text-ink">
+                  <span className="text-xl mr-2">{r.emoji}</span>{r.label}
+                </span>
+              </div>
             ))}
           </RadioGroup>
           {picked && (

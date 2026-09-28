@@ -158,8 +158,8 @@ const HintCard = ({ p, hintIndex, opened, available }: { p: JourneyPuzzle; hintI
       onClick={() => { trackEvent("unlock_hint", { hintIndex }, p.index, p.name); actions.openHint(p.key, hintIndex + 1); }}
       className="w-full flex items-center gap-3 min-h-[52px] text-left disabled:cursor-default"
     >
-      <span className="font-hand text-2xl text-rule w-6">{hintIndex + 1}</span>
-      <span className="flex-1 font-display text-sm uppercase tracking-[0.15em] text-ink">Hint {hintIndex + 1}</span>
+      <span className="font-hand text-2xl text-rule w-6 opacity-0 select-none">·</span>
+      <span className="flex-1 font-display text-sm uppercase tracking-[0.15em] text-ink">Hint</span>
       {!opened && available && <span className="text-xs font-display tracking-widest text-rule">OPEN</span>}
     </button>
     {opened && (

@@ -64,9 +64,20 @@ export const Welcome = () => (
       </div>
     </article>
     <Rule />
-    <div className="pt-8 pb-4">
+    <section className="py-6 text-ink" aria-labelledby="before-you-begin">
+      <h2 id="before-you-begin" className="font-display text-sm uppercase tracking-[0.2em] font-semibold">Before you begin</h2>
+      <ul className="mt-3 pl-5 list-disc space-y-2 text-[16px] leading-snug">
+        <li>Solve the nine postcards in any order.</li>
+        <li>Use one device as your group’s shared Market Log.</li>
+        <li>Keep both envelopes sealed until this companion tells you to open them.</li>
+        <li>Hints are optional and become more specific as you open them.</li>
+        <li>You can pause the timer at any time.</li>
+      </ul>
+    </section>
+    <Rule />
+    <div className="pt-6 pb-4">
       <button className={primaryBtn} onClick={() => { trackEvent("begin_journey"); actions.begin(); }}>
-        Begin the Journey →
+        Start Journey &amp; Timer
       </button>
     </div>
   </div>

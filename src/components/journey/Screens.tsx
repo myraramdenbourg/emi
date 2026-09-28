@@ -99,6 +99,7 @@ export const MarketLog = ({ compact = false }: { compact?: boolean }) => {
             <li key={p.key} className="border-b border-rule">
               <button
                 onClick={() => { trackEvent("open_puzzle", {}, p.index, p.name); actions.go({ puzzle: p.key }); }}
+                aria-label={`${p.name}, ${done ? "explored" : "not yet explored"}`}
                 className="w-full flex items-center gap-4 min-h-[68px] py-2 text-left group"
               >
                 <img src={p.icon} alt="" className="w-11 h-11 object-contain shrink-0 mix-blend-multiply" />
@@ -116,6 +117,7 @@ export const MarketLog = ({ compact = false }: { compact?: boolean }) => {
           {allDone ? (
             <button
               onClick={() => { trackEvent("open_final"); actions.go({ puzzle: "final" }); }}
+              aria-label={`Final Letter, ${s.solved.includes("final") ? "solved" : "unlocked"}`}
               className="w-full flex items-center gap-4 min-h-[76px] py-2 text-left bg-rule/10 hover:bg-rule/15 transition"
             >
               <span className="w-11 shrink-0" aria-hidden="true" />
@@ -129,7 +131,7 @@ export const MarketLog = ({ compact = false }: { compact?: boolean }) => {
               <span className="w-12 text-center text-rule-text text-xl">→</span>
             </button>
           ) : (
-            <div className="flex items-center gap-4 min-h-[68px] py-2 opacity-60" aria-disabled="true">
+            <div className="flex items-center gap-4 min-h-[68px] py-2 opacity-60" aria-label="Final Letter, locked">
               <LockMark className="w-10 h-10 shrink-0" />
               <span className="flex-1 font-display text-lg sm:text-xl text-ink tracking-wide">FINAL LETTER</span>
               <span className="w-12 text-center font-hand text-lg text-ink/70">locked</span>
@@ -139,7 +141,7 @@ export const MarketLog = ({ compact = false }: { compact?: boolean }) => {
       </ul>
       <div className="border-b-2 border-rule mt-[3px]" />
       <p className="text-center font-hand text-2xl text-ink/80 pt-6">
-        {count} of {journeyPuzzles.length} discoveries found
+        {count} of {journeyPuzzles.length} stalls explored
       </p>
       {celebrating && (
         <div className="flex justify-center gap-6 pt-4 animate-fade-in">
@@ -237,9 +239,9 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
         </div>
       ) : (
         <form onSubmit={submit} className="space-y-3">
-          <label htmlFor="answer" className="block font-display text-sm uppercase tracking-[0.2em] text-ink">What did you discover?</label>
           <input
             id="answer"
+            aria-label={`Answer for ${p.name}`}
             value={value}
             onChange={(e) => { setValue(e.target.value); if (status === "wrong" || status === "close") { setStatus("idle"); setCloseMsg(null); } }}
             placeholder="Enter your answer..."

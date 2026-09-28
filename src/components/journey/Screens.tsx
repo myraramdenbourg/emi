@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft } from "lucide-react";
 import { actions, elapsedMs, formatTime, normalize, useGame, useNow } from "@/lib/gameState";
-import { journeyPuzzles, JourneyPuzzle } from "@/lib/journeyData";
+import { allPuzzles, journeyPuzzles, JourneyPuzzle } from "@/lib/journeyData";
 import { trackEvent } from "@/lib/analytics";
 import { EnvelopeMark, HandCheck, HandCircle, LockMark, Sprig } from "./Marks";
 

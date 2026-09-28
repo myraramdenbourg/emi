@@ -47,7 +47,7 @@ export const puzzleData: PuzzleData[] = [
      "Do you notice the flowers and their labels?",
      "There are 4 bouquets with blue labels and 4 bouquets with pink labels. The hybrids have a blue and pink label.",
      "Figure out what plants make up the hybrids.",
-     "The hybrid flowers from left to right are PINCUSION + DAHLIA, BLUEBELL + TULIP, SNAPDRAGON + CHOCOLATE COSMOS, and SUNFLOWER + ROSE.",
+     "The hybrid flowers from left to right are PINCUSHION + DAHLIA, BLUEBELL + TULIP, SNAPDRAGON + CHOCOLATE COSMOS, and SUNFLOWER + ROSE.",
      "Each bouquet has a different number of flowers in it.",
      "Count the number of flowers in each bouquet and use that to index the correct letter. For example, There are 7 flowers in the Pincushion bouquet, which means you would extract the letter H since it is the 7th letter in Pincushion.",
      "For the first hybrid flower, the letters are H and I. Continue extracting the correct letter from each flower to get the solution."
@@ -63,7 +63,7 @@ export const puzzleData: PuzzleData[] = [
      "For the top left container with the oranges, the top numbers represent the number of cut fruit in that container column. The left numbers represent the number of cut fruit in that row.",
      "For the oranges, the top numbers are all 2, which means that there are 2 oranges in each column.",
      "Continue this pattern with the other produce to get letters. The cut oranges form a V and the cut dragonfruit form a D.",
-     "The top row of letters are V, E, and N. Follow the same patern for the bottom row to get the solution."
+     "The top row of letters are V, E, and N. Follow the same pattern for the bottom row to get the solution."
     ],
     answer: ["VENDORS"],
   },

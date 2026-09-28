@@ -4,6 +4,7 @@ import { actions, elapsedMs, formatTime, normalize, useGame, useNow } from "@/li
 import { allPuzzles, journeyPuzzles, JourneyPuzzle } from "@/lib/journeyData";
 import { trackEvent } from "@/lib/analytics";
 import { EnvelopeMark, HandCheck, HandCircle, LockMark, Sprig } from "./Marks";
+import { Completion } from "./Completion";
 
 // Levenshtein distance for "close answer" nudges
 const editDistance = (a: string, b: string): number => {
@@ -302,20 +303,7 @@ export const FinalScreen = () => {
   const now = useNow(!!s.runningSince && !s.finishedMs);
   const time = formatTime(elapsedMs(s, now));
 
-  if (s.finishedMs) {
-    return (
-      <div className="animate-fade-in text-center py-10 space-y-6">
-        <Sprig className="w-16 mx-auto" />
-        <p className="font-display text-sm uppercase tracking-[0.25em] text-ink/80">Your journey through the market</p>
-        <p className="font-display text-6xl font-medium text-ink tabular-nums">{time}</p>
-        <Rule double />
-        <p className="font-hand text-3xl text-ink">Thank you for playing Echoes of the Market.</p>
-        <button onClick={() => actions.go("log")} className="min-h-[44px] font-display text-xs uppercase tracking-[0.2em] text-ink/70">
-          Back to Market Log
-        </button>
-      </div>
-    );
-  }
+  if (s.finishedMs) return <Completion time={time} />;
 
   return (
     <div className="animate-fade-in">

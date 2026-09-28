@@ -29,7 +29,7 @@ export const puzzleData: PuzzleData[] = [
   },
   {
     title: "FISH",
-    description: "Fish are always flying at the market. Sometimes they go missing.",
+    description: "Fish are constantly flying at the market. I found one with an E on it, but the others have gone missing.",
     hints: [
       "Do you notice the letters on the fish pieces and the signs?",
       "This is similar to a crossword puzzle. Use the numbers and arrows on the signs to solve. For example, the top left sign has a 1 and an -> which means it is the word for the first row.",
@@ -104,7 +104,7 @@ export const puzzleData: PuzzleData[] = [
   },
   {
     title: "FERRIS WHEEL",
-    description: "When you start from the beginning, everything becomes clear. The wheel goes round and round, just like our lives and stories.",
+    description: "When you start from the beginning, everything becomes clear. The wheel goes round and round until every cabin is part of the journey.",
     hints: [
       "Do you notice the ferris wheel with letters, the red arrow, and the patterns on the ferris wheel and boat?",
       "If you start from the arrow pointing at the P, where do you go next?",

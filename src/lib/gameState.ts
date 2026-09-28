@@ -41,11 +41,27 @@ const load = (): GameState => {
 };
 
 let state: GameState = load();
+let storageOk = (() => {
+  try {
+    localStorage.setItem("eotm_probe", "1");
+    localStorage.removeItem("eotm_probe");
+    return true;
+  } catch {
+    return false;
+  }
+})();
+export const isStorageOk = () => storageOk;
 const listeners = new Set<() => void>();
 
 export const setGame = (fn: (s: GameState) => GameState) => {
   state = fn(state);
-  localStorage.setItem(KEY, JSON.stringify(state));
+  try {
+    localStorage.setItem(KEY, JSON.stringify(state));
+    storageOk = true;
+  } catch {
+    // Private mode, disabled, or full storage: keep playing in memory, but tell the player.
+    storageOk = false;
+  }
   listeners.forEach((l) => l());
 };
 

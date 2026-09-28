@@ -229,7 +229,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
             autoCapitalize="characters"
             className="w-full min-h-[56px] bg-transparent border-0 border-b-2 border-ink/60 focus:border-rule focus:outline-none px-1 text-[18px] font-display tracking-wider text-ink placeholder:text-ink/35"
           />
-          <button type="submit" className={primaryBtn}>Check Answer</button>
+          <button type="submit" className={primaryBtn}>Enter Answer</button>
           {status === "wrong" && (
             <div className="text-center pt-2 animate-fade-in">
               <p className="font-display text-ink">Not quite.</p>

@@ -385,7 +385,16 @@ export const FinalScreen = () => {
       </div>
       <Rule />
       <div className="pt-8">
-        <button className={primaryBtn} onClick={() => { trackEvent("finish_journey"); actions.finish(); }}>Finish Journey</button>
+        <button
+          className={primaryBtn}
+          onClick={() => {
+            const durationMs = elapsedMs(s);
+            trackEvent("finish_journey", { durationMs });
+            actions.finish();
+          }}
+        >
+          Finish Journey
+        </button>
       </div>
     </div>
   );

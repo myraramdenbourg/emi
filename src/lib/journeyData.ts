@@ -1,4 +1,5 @@
 import { puzzleData } from "@/data/puzzleData";
+import envelopeAsset from "@/assets/envelope.png.asset.json";
 
 export interface JourneyPuzzle {
   key: string;

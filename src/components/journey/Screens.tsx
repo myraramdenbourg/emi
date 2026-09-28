@@ -173,6 +173,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
   const [value, setValue] = useState("");
   const [status, setStatus] = useState<"idle" | "wrong" | "close" | "right">(s.solved.includes(p.key) ? "right" : "idle");
   const [closeMsg, setCloseMsg] = useState<string | null>(null);
+  const [revealed, setRevealed] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout>>();
   const opened = s.hintsOpened[p.key] ?? 0;
   const wrongs = s.wrongAttempts[p.key] ?? 0;
@@ -259,6 +260,20 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
         {p.hints.map((_, t) => (
           <HintCard key={t} p={p} hintIndex={t} opened={opened > t} available={opened >= t} />
         ))}
+        {opened >= p.hints.length && (
+          <div className="border-t border-rule py-4 text-center animate-fade-in">
+            {!revealed ? (
+              <button
+                onClick={() => { trackEvent("reveal_answer", {}, p.index, p.name); setRevealed(true); }}
+                className="min-h-[44px] font-display text-sm uppercase tracking-[0.2em] text-rule underline underline-offset-4"
+              >
+                Reveal answer
+              </button>
+            ) : (
+              <p className="font-display text-lg tracking-[0.2em] text-ink uppercase animate-unfold">{p.answers[0]}</p>
+            )}
+          </div>
+        )}
         <Rule />
       </section>
     </div>

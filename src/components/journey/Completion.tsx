@@ -7,9 +7,12 @@ import { journeyPuzzles } from "@/lib/journeyData";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { HandCheck, Sprig } from "./Marks";
 
-// Public links — replace with the real destinations when ready.
+// Public links. Leave REVIEW_URL / PRIVACY_URL empty until a real destination exists;
+// empty values hide the related links rather than sending players somewhere generic.
 export const PRODUCT_URL = "https://echoesofthemarket.com";
-const REVIEW_URL = "https://echoesofthemarket.com";
+const REVIEW_URL = "";
+const PRIVACY_URL = "";
+const SHOW_BEHIND_SCENES = false;
 const FEEDBACK_URL = "mailto:hello@echoesofthemarket.com?subject=Echoes%20of%20the%20Market%20feedback";
 const FOLLOW_URL = "https://www.instagram.com/origamiescape";
 
@@ -68,13 +71,13 @@ async function makeCard(time: string): Promise<Blob> {
     g.drawImage(im, x + (size - im.width * r) / 2, y + (size - im.height * r) / 2, im.width * r, im.height * r);
   });
 
-  g.fillStyle = rule; g.font = "74px Caveat"; g.fillText("Can you beat my time?", W / 2, 1640);
+  g.fillStyle = rule; g.font = "74px Caveat"; g.fillText("Our journey through the market", W / 2, 1640);
   g.fillStyle = ink; g.font = "36px Poppins"; g.fillText("echoesofthemarket.com", W / 2, 1720);
-  return new Promise((res) => c.toBlob((b) => res(b!), "image/png"));
+  return new Promise((res, rej) => c.toBlob((b) => (b ? res(b) : rej(new Error("toBlob failed"))), "image/png"));
 }
 
 const SecondaryCard = ({ lead, title, text, children }: { lead: string; title: string; text: string; children: React.ReactNode }) => (
-  <section className="py-8">
+  <section className="py-5">
     <p className="font-hand text-2xl text-ink/80 text-center mb-3">{lead}</p>
     <div className="bg-paper-deep/60 border-2 border-rule/60 rounded-sm p-5 shadow-paper">
       <h2 className="font-display text-sm uppercase tracking-[0.2em] text-ink font-semibold">{title}</h2>
@@ -87,36 +90,45 @@ const SecondaryCard = ({ lead, title, text, children }: { lead: string; title: s
 const linkBtn = "inline-flex items-center min-h-[44px] font-display text-xs uppercase tracking-[0.2em] text-rule-text font-semibold";
 
 export const Completion = ({ time }: { time: string }) => {
-  const [reaction, setReaction] = useState<string | null>(() => localStorage.getItem(REACTION_KEY));
+  const [reaction, setReaction] = useState<string | null>(() => { try { return localStorage.getItem(REACTION_KEY); } catch { return null; } });
+  const [shareError, setShareError] = useState(false);
   const [card, setCard] = useState<{ url: string; blob: Blob } | null>(null);
   const [busy, setBusy] = useState(false);
   const [email, setEmail] = useState("");
-  const [signedUp, setSignedUp] = useState(() => localStorage.getItem(SIGNUP_KEY) === "1");
+  const [signedUp, setSignedUp] = useState<null | "new" | "dupe">(() => { try { return localStorage.getItem(SIGNUP_KEY) === "1" ? "new" : null; } catch { return null; } });
+  const [signupError, setSignupError] = useState<string | null>(null);
   const [sending, setSending] = useState(false);
 
   useEffect(() => () => { if (card) URL.revokeObjectURL(card.url); }, [card]);
 
-  const shareText = `I explored all 9 stalls in Echoes of the Market in ${time}. Can you beat my time?`;
+  const shareText = `I explored all 9 stalls in Echoes of the Market in ${time}. Our journey through the market.`;
   const picked = REACTIONS.find((r) => r.id === reaction);
 
   const react = (id: string) => {
     setReaction(id);
-    localStorage.setItem(REACTION_KEY, id);
+    try { localStorage.setItem(REACTION_KEY, id); } catch { /* storage unavailable */ }
     trackEvent("journey_reaction", { reaction: id });
   };
 
   const shareTime = async () => {
     setBusy(true);
+    setShareError(false);
     trackEvent("share_time_click");
+    let blob: Blob;
     try {
-      const blob = await makeCard(time);
-      const file = new File([blob], "echoes-of-the-market.png", { type: "image/png" });
-      if (navigator.canShare?.({ files: [file] })) {
-        try { await navigator.share({ files: [file], text: shareText }); } catch { /* cancelled */ }
-      }
+      blob = await makeCard(time);
       setCard({ url: URL.createObjectURL(blob), blob });
     } catch {
-      toast.error("Couldn't create your card. Please try again.");
+      setShareError(true);
+      setBusy(false);
+      return;
+    }
+    try {
+      const file = new File([blob], "echoes-of-the-market.png", { type: "image/png" });
+      if (navigator.canShare?.({ files: [file] })) await navigator.share({ files: [file], text: shareText });
+    } catch (err) {
+      // Cancelling the share sheet is fine; anything else falls back to Save / Copy below.
+      if ((err as DOMException)?.name !== "AbortError") toast("Sharing isn't available here — save the card or copy the link instead.");
     } finally {
       setBusy(false);
     }
@@ -133,26 +145,28 @@ export const Completion = ({ time }: { time: string }) => {
     trackEvent("share_game_click");
     const text = "I just finished Echoes of the Market and thought you'd love it.";
     if (navigator.share) {
-      try { await navigator.share({ text, url: PRODUCT_URL }); } catch { /* cancelled */ }
-    } else {
-      await navigator.clipboard.writeText(`${text} ${PRODUCT_URL}`).catch(() => {});
-      toast.success("Link copied — send it to a friend.");
+      try { await navigator.share({ text, url: PRODUCT_URL }); return; } catch (err) { if ((err as DOMException)?.name === "AbortError") return; }
     }
+    try {
+      await navigator.clipboard.writeText(`${text} ${PRODUCT_URL}`);
+      toast.success("Link copied — send it to a friend.");
+    } catch { toast.error(`Couldn't copy the link. Share ${PRODUCT_URL} instead.`); }
   };
 
   const signUp = async (e: React.FormEvent) => {
     e.preventDefault();
     const v = email.trim();
+    setSignupError(null);
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v) || v.length > 255) {
-      toast.error("That email doesn't look quite right.");
+      setSignupError("That email doesn't look quite right.");
       return;
     }
     setSending(true);
-    const { error } = await supabase.from("adventure_signups").insert({ email: v, reaction });
+    const { error } = await supabase.from("adventure_signups").insert({ email: v.toLowerCase(), reaction });
     setSending(false);
-    if (error) { toast.error("Something went wrong. Please try again."); return; }
-    localStorage.setItem(SIGNUP_KEY, "1");
-    setSignedUp(true);
+    if (error && error.code !== "23505") { setSignupError("We couldn't save your email. Please try again."); return; }
+    try { localStorage.setItem(SIGNUP_KEY, "1"); } catch { /* storage unavailable */ }
+    setSignedUp(error ? "dupe" : "new");
     trackEvent("adventure_signup");
   };
 
@@ -162,70 +176,37 @@ export const Completion = ({ time }: { time: string }) => {
       <Sprig className="absolute -left-2 top-4 w-14 opacity-0 animate-[fade-in_1.6s_ease-out_0.6s_forwards] -rotate-12" />
       <Sprig className="absolute -right-2 top-40 w-14 opacity-0 animate-[fade-in_1.6s_ease-out_1.2s_forwards] rotate-[160deg]" />
 
-      {/* 1. Completion moment — the first viewport */}
-      <section className="min-h-[82svh] flex flex-col justify-center text-center animate-fade-in">
+      {/* 1. Result, thank-you, and primary share */}
+      <section className="pt-8 pb-6 text-center animate-fade-in">
         <HandCheck className="w-14 h-14 mx-auto" />
-        <h1 tabIndex={-1} className="font-display text-3xl font-medium tracking-[0.15em] text-ink mt-5">JOURNEY COMPLETE</h1>
+        <h1 tabIndex={-1} className="font-display text-3xl font-medium tracking-[0.15em] text-ink mt-4">JOURNEY COMPLETE</h1>
         <p className="font-hand text-3xl text-ink/85 mt-1">You made it through the market.</p>
         <Rule />
-        <p className="font-display text-xs uppercase tracking-[0.3em] text-ink/70 mt-6">Your time</p>
+        <p className="font-display text-xs uppercase tracking-[0.3em] text-ink/70 mt-4">Your time</p>
         <p className="font-display text-6xl font-medium text-ink tabular-nums mt-1">{time}</p>
-        <p className="text-[17px] text-ink mt-5">Thank you for following Emi's story.</p>
+        <p className="text-[18px] text-ink mt-4">Thank you for following Emi's story.</p>
 
-        {/* 2. Quick reaction */}
-        <div className="mt-10">
-          <p id="reaction-label" className="font-hand text-2xl text-ink">How was your journey?</p>
-          <RadioGroup aria-labelledby="reaction-label" value={reaction ?? ""} onValueChange={react} className="grid grid-cols-2 gap-3 mt-3">
-            {REACTIONS.map((r) => (
-              <div key={r.id} className="relative min-h-[56px]">
-                <RadioGroupItem
-                  value={r.id}
-                  aria-label={r.label}
-                  className={`w-full h-full min-h-[56px] aspect-auto rounded-sm border-2 transition-all [&>span]:hidden ${
-                    reaction === r.id ? "border-rule bg-rule/15 scale-[1.02]" : "border-rule/40 bg-paper-deep/40"
-                  }`}
-                />
-                <span aria-hidden="true" className="pointer-events-none absolute inset-0 flex items-center justify-center font-display text-sm text-ink">
-                  <span className="text-xl mr-2">{r.emoji}</span>{r.label}
-                </span>
-              </div>
-            ))}
-          </RadioGroup>
-          {picked && (
-            <div className="mt-4 animate-fade-in">
-              <p className="text-[16px] text-ink/85">
-                {picked.good ? "We're so glad you enjoyed your time at the market." : "Thanks for playing. We'd love to hear what we could improve."}
-              </p>
-              <a
-                href={picked.good ? REVIEW_URL : FEEDBACK_URL}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => trackEvent(picked.good ? "review_click" : "feedback_click")}
-                className={linkBtn}
-              >
-                {picked.good ? "Leave a Review →" : "Share Feedback →"}
-              </a>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* 3. Primary CTA */}
-      <section className="py-10 text-center">
-        <Rule />
-        <p className="font-hand text-2xl text-ink/80 mt-6">Share your journey</p>
         <button
           onClick={shareTime}
           disabled={busy}
-          className="w-full min-h-[60px] mt-3 bg-ink text-paper font-display text-base uppercase tracking-[0.2em] rounded-sm shadow-paper disabled:opacity-60"
+          className="w-full min-h-[60px] mt-6 bg-ink text-paper font-display text-base uppercase tracking-[0.2em] rounded-sm shadow-paper disabled:opacity-60"
         >
           {busy ? "Making your card…" : "Share Your Time"}
         </button>
-        <p className="text-[15px] text-ink/75 mt-3">Made it through the market? Share your journey — without spoiling the puzzles.</p>
+        <p className="text-[15px] text-ink/75 mt-2">A spoiler-free card — no answers or hints.</p>
+        {shareError && (
+          <div role="alert" className="mt-3 animate-fade-in">
+            <p className="text-ink">We couldn't make your card just now.</p>
+            <div className="flex justify-center gap-6">
+              <button onClick={shareTime} className={linkBtn}>Try Again</button>
+              <button onClick={copyLink} className={linkBtn}>Copy Link</button>
+            </div>
+          </div>
+        )}
         {card && (
-          <div className="mt-6 animate-fade-in">
+          <div className="mt-5 animate-fade-in">
             <img src={card.url} alt="Your spoiler-free completion card" className="w-2/3 mx-auto border-2 border-rule/50 shadow-paper" />
-            <div className="flex justify-center gap-6 mt-3">
+            <div className="flex justify-center gap-6 mt-2">
               <a href={card.url} download="echoes-of-the-market.png" className={linkBtn}>Save Share Card</a>
               <button onClick={copyLink} className={linkBtn}>Copy Link</button>
             </div>
@@ -233,29 +214,70 @@ export const Completion = ({ time }: { time: string }) => {
         )}
       </section>
 
+      {/* 2. Optional reaction — same follow-up for everyone */}
+      <section className="py-6 text-center">
+        <Rule />
+        <p id="reaction-label" className="font-hand text-2xl text-ink mt-4">How was your journey? <span className="font-body text-base text-ink/70">(optional)</span></p>
+        <RadioGroup aria-labelledby="reaction-label" value={reaction ?? ""} onValueChange={react} className="grid grid-cols-2 gap-3 mt-3">
+          {REACTIONS.map((r) => (
+            <div key={r.id} className="relative min-h-[56px]">
+              <RadioGroupItem
+                value={r.id}
+                aria-label={r.label}
+                className={`w-full h-full min-h-[56px] aspect-auto rounded-sm border-2 transition-all [&>span]:hidden ${
+                  reaction === r.id ? "border-rule bg-rule/15 scale-[1.02]" : "border-rule/40 bg-paper-deep/40"
+                }`}
+              />
+              <span aria-hidden="true" className="pointer-events-none absolute inset-0 flex items-center justify-center font-display text-sm text-ink">
+                <span className="text-xl mr-2">{r.emoji}</span>{r.label}
+              </span>
+            </div>
+          ))}
+        </RadioGroup>
+        {picked && (
+          <p className="text-[16px] text-ink/85 mt-3 animate-fade-in" role="status">
+            {picked.good ? "We're so glad you enjoyed your time at the market." : "Thanks for playing. We'd love to hear what we could improve."}
+          </p>
+        )}
+        <div className="flex justify-center flex-wrap gap-x-6 mt-2">
+          {REVIEW_URL && (
+            <a href={REVIEW_URL} target="_blank" rel="noreferrer" onClick={() => trackEvent("review_click")} className={linkBtn}>Leave a Review →</a>
+          )}
+          <a href={FEEDBACK_URL} target="_blank" rel="noreferrer" onClick={() => trackEvent("feedback_click")} className={linkBtn}>Share Feedback →</a>
+        </div>
+      </section>
+
       {/* 4–6. Secondary actions */}
-      <SecondaryCard lead="Want to see how it was made?" title="🎨 Behind the Scenes" text="See how Echoes of the Market went from sketches and puzzle prototypes to the game in your hands.">
+      {SHOW_BEHIND_SCENES && <SecondaryCard lead="Want to see how it was made?" title="🎨 Behind the Scenes" text="See how Echoes of the Market went from sketches and puzzle prototypes to the game in your hands.">
         <Link to="/behind-the-scenes" onClick={() => trackEvent("behind_scenes_click")} className={linkBtn}>Take a look →</Link>
-      </SecondaryCard>
+      </SecondaryCard>}
 
       <SecondaryCard lead="The market may have more stories to tell…" title="💌 Get the Next Adventure" text="Be the first to hear about the next Origami Escape experience.">
         {signedUp ? (
-          <p className="font-hand text-2xl text-ink animate-fade-in">You're in. See you on the next adventure.</p>
+          <p role="status" className="font-hand text-2xl text-ink animate-fade-in">{signedUp === "dupe" ? "You're already on the list — see you on the next adventure." : "You're in. See you on the next adventure."}</p>
         ) : (
-          <form onSubmit={signUp} className="flex flex-col gap-2">
+          <form onSubmit={signUp} className="flex flex-col gap-2" noValidate>
+            <label htmlFor="signup-email" className="font-display text-xs uppercase tracking-[0.2em] text-ink">Email address</label>
             <input
+              id="signup-email"
+              aria-invalid={!!signupError}
+              aria-describedby={`signup-note${signupError ? " signup-error" : ""}`}
               type="email"
               required
               maxLength={255}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
-              aria-label="Email address"
               className="min-h-[48px] px-3 bg-paper border-b-2 border-rule/60 text-ink text-[17px] outline-none placeholder:text-ink/85 focus:border-rule"
             />
             <button disabled={sending} className="min-h-[48px] border-2 border-ink text-ink font-display text-xs uppercase tracking-[0.2em] rounded-sm disabled:opacity-60">
-              {sending ? "Sending…" : "Keep Me in the Loop"}
+              {sending ? "Saving…" : "Keep Me in the Loop"}
             </button>
+            {signupError && <p id="signup-error" role="alert" className="text-ink text-[15px]">{signupError}</p>}
+            <p id="signup-note" className="text-[14px] text-ink/80">
+              Occasional updates about new games. Unsubscribe anytime.
+              {PRIVACY_URL && <> <a href={PRIVACY_URL} target="_blank" rel="noreferrer" className="underline underline-offset-2">Privacy policy</a></>}
+            </p>
           </form>
         )}
       </SecondaryCard>
@@ -268,11 +290,11 @@ export const Completion = ({ time }: { time: string }) => {
       <footer className="pt-6 pb-10 text-center">
         <Rule />
         <nav className="flex justify-center flex-wrap gap-x-3 mt-4 text-sm text-ink/70 font-display">
-          <a href={REVIEW_URL} target="_blank" rel="noreferrer" className="min-h-[44px] inline-flex items-center underline-offset-4 hover:underline">Leave a Review</a>
+          <a href={REVIEW_URL || FEEDBACK_URL} target="_blank" rel="noreferrer" className="min-h-[44px] inline-flex items-center underline-offset-4 hover:underline">{REVIEW_URL ? "Leave a Review" : "Share Feedback"}</a>
           <span className="self-center">·</span>
           <a href={FOLLOW_URL} target="_blank" rel="noreferrer" className="min-h-[44px] inline-flex items-center underline-offset-4 hover:underline">Follow Origami Escape</a>
-          <span className="self-center">·</span>
-          <Link to="/behind-the-scenes#credits" className="min-h-[44px] inline-flex items-center underline-offset-4 hover:underline">Credits</Link>
+          {SHOW_BEHIND_SCENES && <><span className="self-center">·</span>
+          <Link to="/behind-the-scenes#credits" className="min-h-[44px] inline-flex items-center underline-offset-4 hover:underline">Credits</Link></>}
         </nav>
       </footer>
     </div>

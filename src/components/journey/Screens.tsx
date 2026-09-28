@@ -224,7 +224,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!value.trim()) { setStatus("empty"); return; }
+    if (!value.trim()) return;
     const ok = p.answers.some((a) => normalize(a) === normalize(value));
     const nudge = p.nudges?.find((n) => n.matches.some((m) => normalize(m) === normalize(value)));
     const close = !ok && (!!nudge || isClose(value, p.answers));
@@ -296,11 +296,6 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
             className="w-full min-h-[56px] bg-transparent border-0 border-b-2 border-ink/60 focus:border-rule focus:outline-none px-1 text-[18px] font-display tracking-wider text-ink placeholder:text-ink/85"
           />
           <button type="submit" className={primaryBtn}>Enter Answer</button>
-          {status === "empty" && (
-            <div id={errorId} role="status" className="text-center pt-2 animate-fade-in">
-              <p className="font-display text-ink">Enter your discovery first.</p>
-            </div>
-          )}
           {status === "wrong" && (
             <div key={wrongs} id={errorId} role="status" className="text-center pt-2 animate-fade-in">
               <p className="font-display text-ink">Not quite.</p>

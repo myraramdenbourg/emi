@@ -3,28 +3,20 @@ import { Link } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { Sprig } from "@/components/journey/Marks";
 
-// Real photos, captions, and credits go here once supplied. Until then the page stays
-// minimal (no placeholders) and is kept out of search results.
-const setMeta = (selector: string, attr: string, value: string) => {
-  const el = document.head.querySelector(selector);
-  const prev = el?.getAttribute(attr) ?? null;
-  el?.setAttribute(attr, value);
-  return () => { if (el && prev !== null) el.setAttribute(attr, prev); };
-};
+const SECTIONS = [
+  { id: "idea", title: "The First Idea", text: "How Echoes of the Market began." },
+  { id: "puzzles", title: "Designing the Puzzles", text: "Early puzzle concepts, prototypes, and iterations." },
+  { id: "art", title: "Bringing the Market to Life", text: "Concept sketches, illustration development, and artwork." },
+  { id: "playtest", title: "Playtesting", text: "Photos and stories from testing and iteration." },
+  { id: "physical", title: "Making the Physical Game", text: "Production samples, packaging iterations, printing, and manufacturing." },
+  { id: "credits", title: "The People Behind Echoes", text: "Credits and short creator/artist information." },
+];
 
 const BehindTheScenes = () => {
   useEffect(() => {
-    const prevTitle = document.title;
+    const prev = document.title;
     document.title = "Behind the Scenes — Echoes of the Market";
-    const undo = [
-      setMeta('meta[name="description"]', "content", "How Echoes of the Market was made."),
-      setMeta('link[rel="canonical"]', "href", "https://guide.echoesofthemarket.com/behind-the-scenes"),
-    ];
-    const robots = document.createElement("meta");
-    robots.name = "robots";
-    robots.content = "noindex";
-    document.head.appendChild(robots);
-    return () => { document.title = prevTitle; undo.forEach((u) => u()); robots.remove(); };
+    return () => { document.title = prev; };
   }, []);
 
   return (
@@ -34,11 +26,23 @@ const BehindTheScenes = () => {
           <ChevronLeft className="w-4 h-4" /> Back
         </Link>
         <div className="border-t-2 border-rule/70" />
-        <header className="text-center py-10">
+        <header className="text-center py-8">
           <Sprig className="w-14 mx-auto" />
           <h1 className="font-display text-3xl font-medium tracking-[0.12em] text-ink mt-3">BEHIND THE SCENES</h1>
-          <p className="font-hand text-2xl text-ink/80 mt-2">This page is still being written.</p>
+          <p className="font-hand text-2xl text-ink/80 mt-1">Pages from the sketchbook.</p>
         </header>
+        {SECTIONS.map((s, i) => (
+          <section key={s.id} id={s.id} className={`py-7 ${i % 2 ? "rotate-[0.6deg]" : "-rotate-[0.6deg]"}`}>
+            <div className="bg-paper-deep/50 border-2 border-rule/50 rounded-sm p-5 shadow-paper">
+              <p className="font-hand text-xl text-rule-text">No. {i + 1}</p>
+              <h2 className="font-display text-sm uppercase tracking-[0.2em] text-ink font-semibold">{s.title}</h2>
+              <p className="text-[16px] text-ink/85 mt-2">{s.text}</p>
+              <div className="mt-4 h-40 border-2 border-dashed border-rule/40 rounded-sm flex items-center justify-center font-hand text-xl text-ink/50">
+                sketches coming soon
+              </div>
+            </div>
+          </section>
+        ))}
       </div>
     </main>
   );

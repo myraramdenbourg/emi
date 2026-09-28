@@ -191,7 +191,7 @@ const AnswerModal = ({ isOpen, onClose, puzzle, puzzleIndex, onSolved }: AnswerM
               type="submit"
               className="flex-1 bg-[#F5D547] hover:bg-[#e8c734] text-[#03404A] font-semibold"
             >
-              Check Answer
+              Enter Answer
             </Button>
           </div>
         </form>

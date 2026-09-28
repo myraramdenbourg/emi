@@ -18,7 +18,16 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				display: ['Poppins', 'sans-serif'],
+				body: ['"EB Garamond"', 'Georgia', 'serif'],
+				hand: ['Caveat', 'cursive'],
+			},
+			boxShadow: { paper: '0 2px 24px -8px hsl(var(--ink) / 0.25)' },
 			colors: {
+				paper: { DEFAULT: 'hsl(var(--paper))', deep: 'hsl(var(--paper-deep))' },
+				rule: 'hsl(var(--rule))',
+				ink: 'hsl(var(--ink))',
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
@@ -82,6 +91,15 @@ export default {
 					'60%': { transform: 'rotate(-12deg) scale(0.92)', opacity: '1' },
 					'100%': { transform: 'rotate(-12deg) scale(1)', opacity: '1' }
 				},
+				draw: { to: { strokeDashoffset: '0' } },
+				unfold: {
+					'0%': { opacity: '0', transform: 'scaleY(0.6) translateY(-4px)' },
+					'100%': { opacity: '1', transform: 'scaleY(1) translateY(0)' }
+				},
+				brighten: {
+					'0%,100%': { filter: 'brightness(1)' },
+					'40%': { filter: 'brightness(1.06)' }
+				},
 				'fade-in': {
 					'0%': { opacity: '0', transform: 'translateY(6px)' },
 					'100%': { opacity: '1', transform: 'translateY(0)' }
@@ -91,7 +109,10 @@ export default {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'stamp-in': 'stamp-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
-				'fade-in': 'fade-in 0.4s ease-out'
+				'fade-in': 'fade-in 0.4s ease-out',
+				draw: 'draw 0.7s ease-out 0.15s forwards',
+				unfold: 'unfold 0.35s ease-out',
+				brighten: 'brighten 3s ease-in-out'
 			}
 		}
 	},

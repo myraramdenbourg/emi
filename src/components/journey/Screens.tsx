@@ -366,16 +366,11 @@ export const FinalScreen = () => {
         <ChevronLeft className="w-4 h-4" /> Market Log
       </button>
       <Rule />
-      <div className="text-center py-8 space-y-3 text-ink">
-        <h1 tabIndex={-1} className="font-display text-3xl font-medium">You found them all.</h1>
-        <p className="text-[17px]">Grandpa's postcards have led you as far as they can.</p>
-        <p className="text-[17px]">There's one last thing waiting for you.</p>
-      </div>
-      <Rule double />
       <div className="text-center py-10">
-        <p className="font-display text-3xl font-semibold tracking-[0.15em] text-rule-text">OPEN ENVELOPE 2</p>
+        <h1 tabIndex={-1} className="font-display text-3xl font-semibold tracking-[0.15em] text-rule-text">OPEN ENVELOPE 2</h1>
 
-        <p className="font-hand text-2xl text-ink/85 mt-2">Inside, you'll find Emi's final letter.</p>
+        <p className="font-hand text-2xl text-ink/85 mt-2">There's a letter from me inside. Take your time.</p>
+        <p className="font-hand text-2xl text-ink/85">— Emi</p>
       </div>
       <Rule />
       <div className="pt-8">
@@ -389,6 +384,7 @@ export const FinalScreen = () => {
         >
           Finish Journey
         </button>
+        <p className="text-sm text-ink/70 pt-3">This stops your timer and shows your final time.</p>
       </div>
     </div>
   );

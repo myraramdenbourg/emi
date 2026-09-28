@@ -158,7 +158,7 @@ export const MarketLog = ({ compact = false }: { compact?: boolean }) => {
       </ul>
       <div className="border-b-2 border-rule mt-[3px]" />
       <p className="text-center font-hand text-2xl text-ink/80 pt-6">
-        {count} of {journeyPuzzles.length} postcards explored
+        {count} of {journeyPuzzles.length} postcards solved
       </p>
     </div>
   );

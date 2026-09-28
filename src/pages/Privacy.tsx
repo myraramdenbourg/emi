@@ -41,6 +41,11 @@ const Privacy = () => {
   }, []);
 
   const email = <T v={PRIVACY.contactEmail} label="privacy contact email" />;
+  const view = useGame((s) => s.view);
+  // "/" restores the saved screen, so a player who opened the policy from a
+  // puzzle would land back on that puzzle. Send them to the Market Log instead
+  // (but don't disturb the welcome or finished screens).
+  const returnToLog = () => { if (typeof view === "object") actions.go("log"); };
 
   return (
     <main className="min-h-screen bg-paper px-5 py-10">

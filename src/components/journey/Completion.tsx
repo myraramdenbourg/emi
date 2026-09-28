@@ -248,7 +248,7 @@ export const Completion = ({ time }: { time: string }) => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
               aria-label="Email address"
-              className="min-h-[48px] px-3 bg-paper border-b-2 border-rule/60 text-ink text-[17px] outline-none placeholder:text-ink/70 focus:border-rule"
+              className="min-h-[48px] px-3 bg-paper border-b-2 border-rule/60 text-ink text-[17px] outline-none placeholder:text-ink/85 focus:border-rule"
             />
             <button disabled={sending} className="min-h-[48px] border-2 border-ink text-ink font-display text-xs uppercase tracking-[0.2em] rounded-sm disabled:opacity-60">
               {sending ? "Sending…" : "Keep Me in the Loop"}

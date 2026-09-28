@@ -245,7 +245,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
             placeholder="Enter your answer..."
             autoComplete="off"
             autoCapitalize="characters"
-            className="w-full min-h-[56px] bg-transparent border-0 border-b-2 border-ink/60 focus:border-rule focus:outline-none px-1 text-[18px] font-display tracking-wider text-ink placeholder:text-ink/70"
+            className="w-full min-h-[56px] bg-transparent border-0 border-b-2 border-ink/60 focus:border-rule focus:outline-none px-1 text-[18px] font-display tracking-wider text-ink placeholder:text-ink/85"
           />
           <button type="submit" className={primaryBtn}>Enter Answer</button>
           {status === "wrong" && (

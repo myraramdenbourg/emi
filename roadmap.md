@@ -12,3 +12,4 @@
 - [ ] Real review URL, privacy policy URL, confirmed feedback mailbox — waiting on user.
 - [ ] Gum Wall viewing-angle hint — verify against physical postcard (user).
 - [ ] Behind the Scenes images/credits — waiting on user content.
+- [x] Restyle admin sign-in to match the Market Log and remove public account creation.

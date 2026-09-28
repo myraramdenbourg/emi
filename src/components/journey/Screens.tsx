@@ -196,6 +196,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
   const timer = useRef<ReturnType<typeof setTimeout>>();
   const answerRef = useRef<HTMLInputElement>(null);
   const successRef = useRef<HTMLHeadingElement>(null);
+  const submittedCorrect = useRef(false);
   const opened = s.hintsOpened[p.key] ?? 0;
   const wrongs = s.wrongAttempts[p.key] ?? 0;
   const alreadySolved = s.solved.includes(p.key);
@@ -203,8 +204,8 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
   useEffect(() => () => clearTimeout(timer.current), []);
   useEffect(() => {
     if (status === "wrong" || status === "close") answerRef.current?.focus();
-    if (status === "right" && !alreadySolved) successRef.current?.focus();
-  }, [status, alreadySolved]);
+    if (status === "right" && submittedCorrect.current) successRef.current?.focus();
+  }, [status]);
 
   const errorId = `answer-error-${p.key}`;
   const error = status === "wrong" || status === "close";
@@ -217,6 +218,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
     const close = !ok && (!!nudge || isClose(value, p.answers));
     trackEvent("check_answer", { answer: value, correct: ok, close }, p.index, p.name);
     if (ok) {
+      submittedCorrect.current = true;
       setStatus("right");
       actions.solve(p.key);
       if (p.key !== "final") timer.current = setTimeout(() => actions.go("log"), 1800);

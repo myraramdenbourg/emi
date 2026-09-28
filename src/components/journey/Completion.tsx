@@ -172,7 +172,7 @@ export const Completion = ({ time }: { time: string }) => {
       return;
     }
     // Keep a site-side record too (duplicates are fine to ignore).
-    await supabase.from("adventure_signups").insert({ email: v.toLowerCase(), reaction });
+    await supabase.from("adventure_signups").insert({ email: v.toLowerCase() });
     setSending(false);
     try { localStorage.setItem(SIGNUP_KEY, "1"); } catch { /* storage unavailable */ }
     setSignedUp(data?.status === "duplicate" ? "dupe" : "new");

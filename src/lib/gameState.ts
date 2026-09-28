@@ -103,7 +103,10 @@ export const actions = {
   openHint: (key: string, n: number) =>
     setGame((s) => ({ ...s, hintsOpened: { ...s.hintsOpened, [key]: Math.max(s.hintsOpened[key] ?? 0, n) } })),
   celebrate: () => setGame((s) => ({ ...s, celebrated: true })),
-  reset: () => setGame(() => ({ ...initial })),
+  reset: () => {
+    try { localStorage.removeItem("eotm_reaction_v1"); localStorage.removeItem("eotm_signed_up_v1"); } catch { /* storage unavailable */ }
+    setGame(() => ({ ...initial }));
+  },
 };
 
 export const useNow = (active: boolean) => {

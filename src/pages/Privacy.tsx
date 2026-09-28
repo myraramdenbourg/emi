@@ -7,17 +7,16 @@ import { Link } from "react-router-dom";
  * until PRIVACY_READY is true.
  */
 export const PRIVACY = {
-  effectiveDate: "",
-  legalName: "", // e.g. "Jane Doe, trading as Origami Escape"
-  contactEmail: "", // a mailbox you monitor
-  address: "",
-  emailProvider: "", // who actually sends your newsletter
-  retentionEmail: "",
-  retentionFeedback: "",
-  retentionAnalytics: "",
-  audience: "", // children's-privacy statement
-  saleStatement: "", // your confirmed sale/sharing practice
-  international: "", // where you are based and where data is processed
+  effectiveDate: "September 28, 2026",
+  legalName: "Origami Escape LLC",
+  contactEmail: "hello@origamiescape.com",
+  address: "Seattle, Washington, USA",
+  retentionEmail: "kept until you unsubscribe and ask us to delete it. We do not currently delete signup records automatically.",
+  retentionFeedback: "kept until you ask us to delete them. We do not currently delete them automatically.",
+  retentionAnalytics: "gameplay events are kept indefinitely and are not deleted automatically. Technical logs and backups are kept by our hosting provider under its own retention schedule.",
+  audience: "The game is intended for players aged 14 and older. The companion is not directed to children under 13, and we do not knowingly collect personal information from children under 13. If you believe a child has provided us information, contact us and we will delete it.",
+  saleStatement: "We do not sell personal information. The companion site does not share information for targeted advertising. Subscriber records held in our Shopify store are also processed by Shopify under its own privacy policy.",
+  international: "We are based in Seattle, Washington, USA. Our backend stores gameplay events and the signup list on servers in Ireland (EU). Shopify and Google may process information in the United States and other countries. If you are in the EEA or UK, we rely on your consent for email updates (which you can withdraw at any time) and on our legitimate interest in operating and improving the game for gameplay events.",
 };
 export const PRIVACY_READY = Object.values(PRIVACY).every((v) => v.trim() !== "");
 
@@ -59,9 +58,9 @@ const Privacy = () => {
         <p>We use this information to operate the companion, maintain your game progress, and improve the puzzles and hints.</p>
 
         <H3>Email updates</H3>
-        <p>If you subscribe to updates, we collect your email address, along with the optional reaction you chose, to send news about Origami Escape games and upcoming adventures. Your email is stored in our own signup list and is also sent to our Shopify store (origamiescape.com) to be added as a subscriber.</p>
-        <p>Our mailing list is managed through <strong><T v={PRIVACY.emailProvider} label="email service provider" /></strong>.</p>
-        <p>Signing up is optional. You can unsubscribe using the link in our emails or by contacting us at the address above.</p>
+        <p>If you subscribe to updates, we collect your email address to send news about Origami Escape games and upcoming adventures. Your email is stored in our own signup list and is also sent to our Shopify store (origamiescape.com) to be added as a subscriber.</p>
+        <p>We have not yet chosen a service to send our emails. Before we begin sending, we will update this policy to name it and explain whether it measures email opens or clicks.</p>
+        <p>Signing up is optional. You can unsubscribe using the link in our emails or by contacting us at the address above; we will then update both our Shopify store and our own signup list.</p>
 
         <H3>Messages and feedback</H3>
         <p>If you contact us or send feedback, we receive the information you choose to include, such as your email address and message. We use it to respond, provide support, and improve the game.</p>
@@ -71,14 +70,14 @@ const Privacy = () => {
 
         <H2>Browser storage, cookies, and tracking</H2>
         <p>The companion uses your browser’s local storage to remember your saved game, your optional reaction, and your signup status, and session storage to hold the random analytics session ID. Player pages do not set cookies.</p>
-        <p>You can clear browser-stored information through your browser settings or with “Reset Game” in the menu. Doing so may remove your saved game progress.</p>
+        <p>You can clear browser-stored information through your browser settings or with “Reset Game” in the menu. “Reset Game” removes your saved progress, timer, reaction, and signup status from this browser; it does not delete information already sent to us — email us for that.</p>
         <p>We do not use advertising cookies, tracking pixels, or third-party analytics services. The gameplay events described above are collected by us for our own use. We do not currently respond differently to Do Not Track signals. Apart from Google Fonts and our service providers listed below, we do not allow third parties to collect information about you on the companion.</p>
 
         <H2>When we share information</H2>
         <p>We use service providers to help operate the companion and communicate with players:</p>
         <ul>
           <li><strong>Website hosting and backend:</strong> Lovable, which hosts the site and stores gameplay events and the signup list.</li>
-          <li><strong>Email subscriptions:</strong> Shopify (email address and subscription status){PRIVACY.emailProvider && PRIVACY.emailProvider.toLowerCase() !== "shopify" ? <>, and {PRIVACY.emailProvider}</> : null}.</li>
+          <li><strong>Email subscriptions:</strong> Shopify (email address and subscription status).</li>
           <li><strong>Fonts:</strong> Google Fonts (IP address and browser information when fonts load).</li>
         </ul>
         <p><T v={PRIVACY.saleStatement} label="sale / sharing / targeted-advertising statement" /></p>

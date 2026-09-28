@@ -86,6 +86,7 @@ const normalizeWrongAnswer = (answer: string) => answer.trim().replace(/\s+/g, "
 
 const Dashboard = () => {
   const [allEvents, setAllEvents] = useState<AnalyticsEvent[]>([]);
+  const [feedback, setFeedback] = useState<{ id: string; reaction: string | null; message: string | null; contact_email: string | null; created_at: string; updated_at: string }[]>([]);
   const [dateRange, setDateRange] = useState("30");
   const [selectedPuzzle, setSelectedPuzzle] = useState("all");
   const [loading, setLoading] = useState(true);
@@ -116,6 +117,8 @@ const Dashboard = () => {
         const { data, error } = await supabase.from("analytics_events").select("*").order("created_at", { ascending: false });
         if (error) throw error;
         setAllEvents((data ?? []) as AnalyticsEvent[]);
+        const fb = await supabase.from("feedback").select("id, reaction, message, contact_email, created_at, updated_at").order("updated_at", { ascending: false });
+        if (!fb.error) setFeedback(fb.data ?? []);
       } catch (error) {
         const message = error instanceof Error ? error.message : "The report could not be loaded.";
         toast({ title: "Error loading analytics", description: message, variant: "destructive" });
@@ -324,6 +327,16 @@ const Dashboard = () => {
             <CardContent className="p-0"><div className="overflow-x-auto"><Table>
               <TableHeader><TableRow className="border-rule/60 hover:bg-transparent"><TableHead className="text-ink">Puzzle</TableHead><TableHead className="text-ink">Sessions</TableHead><TableHead className="text-ink">Hint rate</TableHead><TableHead className="text-ink">Correct</TableHead><TableHead className="text-ink">Avg. hints</TableHead><TableHead className="min-w-[240px] text-ink">Common incorrect answers</TableHead></TableRow></TableHeader>
               <TableBody>{puzzleMetrics.map((puzzle) => <TableRow key={puzzle.puzzleName} className="border-rule/40"><TableCell className="font-display font-medium">{puzzle.puzzleName}</TableCell><TableCell>{puzzle.uniqueUsers}</TableCell><TableCell>{puzzle.hintClickRate.toFixed(1)}%</TableCell><TableCell>{puzzle.correctnessRate.toFixed(1)}%</TableCell><TableCell>{puzzle.avgHintsPerUser.toFixed(1)}</TableCell><TableCell>{puzzle.commonWrongAnswers.length ? <ol className="space-y-1">{puzzle.commonWrongAnswers.map((answer) => <li key={answer.answer}><span className="font-medium">“{answer.answer}”</span> <span className="text-ink/60">× {answer.count}</span></li>)}</ol> : <span className="text-ink/55">None recorded</span>}</TableCell></TableRow>)}</TableBody>
+            </Table></div></CardContent>
+          </Card>
+        </section>
+
+        <section aria-labelledby="feedback-title" className="mb-10">
+          <div className="mb-4"><Rule /><h2 id="feedback-title" className="pt-5 font-display text-xl font-semibold tracking-[0.1em]">PLAYER FEEDBACK</h2><p className="mt-1 text-ink/70">Private reactions and messages from the completion screen ({feedback.length} total). Visible only to admins.</p></div>
+          <Card className="rounded-sm border-2 border-rule/60 bg-paper/65 text-ink shadow-paper">
+            <CardContent className="p-0"><div className="overflow-x-auto"><Table>
+              <TableHeader><TableRow className="border-rule/60 hover:bg-transparent"><TableHead className="text-ink">Updated</TableHead><TableHead className="text-ink">Reaction</TableHead><TableHead className="min-w-[280px] text-ink">Message</TableHead><TableHead className="text-ink">Reply email</TableHead></TableRow></TableHeader>
+              <TableBody>{feedback.length ? feedback.map((f) => <TableRow key={f.id} className="border-rule/40"><TableCell className="whitespace-nowrap">{format(new Date(f.updated_at), "MMM d, yyyy h:mm a")}</TableCell><TableCell>{f.reaction ?? "—"}</TableCell><TableCell className="whitespace-pre-wrap">{f.message ?? <span className="text-ink/55">Reaction only</span>}</TableCell><TableCell>{f.contact_email ? <a className="underline" href={`mailto:${f.contact_email}`}>{f.contact_email}</a> : "—"}</TableCell></TableRow>) : <TableRow><TableCell colSpan={4} className="text-ink/60">No feedback yet.</TableCell></TableRow>}</TableBody>
             </Table></div></CardContent>
           </Card>
         </section>

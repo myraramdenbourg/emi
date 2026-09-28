@@ -109,7 +109,7 @@ const PuzzleCard = ({ puzzle, puzzleIndex, isSolved, onSolved }: PuzzleCardProps
                 onClick={openAnswer}
                 className="w-full bg-[#F5D547] hover:bg-[#e8c734] text-[#03404A] font-semibold shadow-sm h-11"
               >
-                {isSolved ? 'Revisit Answer' : 'Check Answer'}
+                {isSolved ? 'Revisit Answer' : 'Enter Answer'}
               </Button>
 
               <Button

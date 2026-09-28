@@ -114,7 +114,7 @@ export const MarketLog = () => {
         <li className="border-b border-rule">
           {allDone ? (
             <button
-              onClick={() => { trackEvent("open_final"); actions.go("final"); }}
+              onClick={() => { trackEvent("open_final"); actions.go({ puzzle: "final" }); }}
               className="w-full flex items-center gap-4 min-h-[76px] py-2 text-left bg-rule/10 hover:bg-rule/15 transition"
             >
               <span className={`w-11 h-11 shrink-0 flex items-center justify-center ${celebrating ? "animate-fade-in" : ""}`}>
@@ -122,7 +122,9 @@ export const MarketLog = () => {
               </span>
               <span className="flex-1">
                 <span className="block font-display text-lg sm:text-xl text-ink tracking-wide">FINAL LETTER</span>
-                <span className="block font-display text-xs tracking-[0.3em] text-rule">UNLOCKED</span>
+                <span className="block font-display text-xs tracking-[0.3em] text-rule">
+                  {s.solved.includes("final") ? "SOLVED" : "UNLOCKED — OPEN ENVELOPE 1"}
+                </span>
               </span>
               <span className="w-12 text-center text-rule text-xl">→</span>
             </button>
@@ -169,7 +171,7 @@ const HintCard = ({ p, hintIndex, opened, available }: { p: JourneyPuzzle; hintI
 
 export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
   const s = useGame();
-  const p = journeyPuzzles.find((x) => x.key === puzzleKey)!;
+  const p = allPuzzles.find((x) => x.key === puzzleKey)!;
   const [value, setValue] = useState("");
   const [status, setStatus] = useState<"idle" | "wrong" | "close" | "right">(s.solved.includes(p.key) ? "right" : "idle");
   const [closeMsg, setCloseMsg] = useState<string | null>(null);

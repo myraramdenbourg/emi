@@ -8,12 +8,24 @@ export interface JourneyPuzzle {
   answers: string[];
   hints: string[];
   index: number;
+  nudges?: { matches: string[]; message: string }[];
 }
 
-const ORDER: { title: string; key: string; icon: string; line: string }[] = [
+const ORDER: { title: string; key: string; icon: string; line: string; nudges?: JourneyPuzzle["nudges"] }[] = [
   { title: "COFFEE", key: "coffee", icon: "coffee", line: "The market always smelled like fresh beginnings." },
   { title: "FISH", key: "fish", icon: "fish", line: "Grandpa swore he once caught one mid-air." },
-  { title: "FERRIS WHEEL", key: "ferris", icon: "ferris", line: "From the top, the whole city felt small enough to hold." },
+  {
+    title: "FERRIS WHEEL",
+    key: "ferris",
+    icon: "ferris",
+    line: "From the top, the whole city felt small enough to hold.",
+    nudges: [
+      {
+        matches: ["panora", "panoramic", "panoramic view"],
+        message: "So close — keep going round and round!",
+      },
+    ],
+  },
   { title: "CHEESE", key: "cheese", icon: "cheese", line: "He always asked for a taste before he bought a thing." },
   { title: "GUM WALL", key: "gum", icon: "gum", line: "Every color on that wall was somebody's moment." },
   { title: "FLOWERS", key: "flowers", icon: "flowers", line: "He never left without a bundle for Grandma." },
@@ -33,5 +45,6 @@ export const journeyPuzzles: JourneyPuzzle[] = ORDER.map((o) => {
     answers: Array.isArray(p.answer) ? p.answer : [p.answer],
     hints: p.hints,
     index,
+    nudges: o.nudges,
   };
 });

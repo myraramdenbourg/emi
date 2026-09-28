@@ -223,6 +223,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
         <div className="text-center py-6">
           <HandCheck className="w-20 h-20 mx-auto" animate={!alreadySolved || status === "right"} />
           <p className="font-display text-2xl text-ink mt-2">That's it! ✓</p>
+          <p className="font-display text-sm uppercase tracking-[0.25em] text-ink/70 mt-3">Answer: <span className="text-rule tracking-[0.2em]">{p.answers[0]}</span></p>
           {p.key === "final" ? (
             <>
               <p className="font-display text-sm uppercase tracking-[0.25em] text-rule mt-3">Open envelope 2</p>

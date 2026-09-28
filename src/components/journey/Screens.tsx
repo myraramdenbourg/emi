@@ -300,7 +300,6 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
           {status === "wrong" && (
             <div key={wrongs} id={errorId} role="status" className="text-center pt-2 animate-fade-in">
               <p className="font-display text-ink">Not quite.</p>
-              <p className="text-ink/75">You're on the right track — take another look at the postcard{opened < p.hints.length ? ", or open a hint below" : ""}.</p>
             </div>
           )}
           {status === "close" && (

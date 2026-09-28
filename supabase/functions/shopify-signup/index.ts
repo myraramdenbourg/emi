@@ -77,8 +77,8 @@ serve(async (req) => {
         });
       }
       console.error(`Shopify 422: ${body}`);
-      return new Response(JSON.stringify({ error: "shopify_rejected", details: body }), {
-        status: 502,
+      return new Response(JSON.stringify({ status: "saved_locally", shopify_status: 422 }), {
+        status: 200,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
@@ -86,8 +86,9 @@ serve(async (req) => {
     if (!res.ok) {
       const body = await res.text();
       console.error(`Shopify customer create failed [${res.status}]: ${body}`);
-      return new Response(JSON.stringify({ error: "shopify_error", status: res.status, details: body }), {
-        status: 502,
+      // Don't fail the player's signup: the site keeps its own copy of the email.
+      return new Response(JSON.stringify({ status: "saved_locally", shopify_status: res.status }), {
+        status: 200,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }

@@ -193,7 +193,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
     if (ok) {
       setStatus("right");
       actions.solve(p.key);
-      timer.current = setTimeout(() => actions.go("log"), 1800);
+      timer.current = setTimeout(() => actions.go(p.key === "final" ? "final" : "log"), 1800);
     } else {
       setStatus(close ? "close" : "wrong");
       setCloseMsg(close && nudge ? nudge.message : null);
@@ -213,12 +213,21 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
       </div>
       <Rule double />
       <p className="font-hand text-2xl text-center text-ink/85 py-6 leading-snug">{p.line}</p>
+      {p.key === "final" && !alreadySolved && (
+        <p className="font-display text-sm uppercase tracking-[0.25em] text-rule text-center pb-6 animate-fade-in">
+          Open envelope 1
+        </p>
+      )}
 
       {status === "right" ? (
         <div className="text-center py-6">
           <HandCheck className="w-20 h-20 mx-auto" animate={!alreadySolved || status === "right"} />
           <p className="font-display text-2xl text-ink mt-2">That's it! ✓</p>
-          <p className="text-ink/75 mt-1">{p.name.charAt(0) + p.name.slice(1).toLowerCase()} has been added to your Market Log.</p>
+          {p.key === "final" ? (
+            <p className="font-display text-sm uppercase tracking-[0.25em] text-rule mt-3">Open envelope 2</p>
+          ) : (
+            <p className="text-ink/75 mt-1">{p.name.charAt(0) + p.name.slice(1).toLowerCase()} has been added to your Market Log.</p>
+          )}
         </div>
       ) : (
         <form onSubmit={submit} className="space-y-3">

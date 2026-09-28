@@ -132,6 +132,33 @@ export const Completion = ({ time }: { time: string }) => {
     setReaction(id);
     try { localStorage.setItem(REACTION_KEY, id); } catch { /* storage unavailable */ }
     trackEvent("journey_reaction", { reaction: id });
+    void saveFeedback({ reaction: id }).catch(() => { /* reaction stays local; retried with written feedback */ });
+  };
+
+  // Private feedback: one record per browser, updated in place via id + secret token.
+  const [fbOpen, setFbOpen] = useState(false);
+  const [fbMsg, setFbMsg] = useState("");
+  const [fbEmail, setFbEmail] = useState("");
+  const [fbHp, setFbHp] = useState("");
+  const [fbState, setFbState] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [fbFieldErr, setFbFieldErr] = useState<string | null>(null);
+  const [fbEmailErr, setFbEmailErr] = useState<string | null>(null);
+
+  const sendFeedback = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (fbState === "sending") return;
+    setFbFieldErr(null); setFbEmailErr(null);
+    const m = fbMsg.trim(), em = fbEmail.trim();
+    if (!m) { setFbFieldErr("Please write a message before sending."); return; }
+    if (em && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { setFbEmailErr("That email doesn't look quite right."); return; }
+    setFbState("sending");
+    try {
+      await saveFeedback({ reaction: reaction ?? undefined, message: m, email: em, website: fbHp });
+      setFbState("sent");
+      trackEvent("feedback_submit");
+    } catch {
+      setFbState("error");
+    }
   };
 
   const shareTime = async () => {
@@ -266,16 +293,82 @@ export const Completion = ({ time }: { time: string }) => {
           ))}
         </RadioGroup>
         {picked && (
-          <p className="text-[16px] text-ink/85 mt-3 animate-fade-in" role="status">
+          <p className="text-[16px] text-ink/85 mt-3 animate-fade-in motion-reduce:animate-none" role="status">
             {picked.good ? "We're so glad you enjoyed your time at the market." : "Thanks for playing. We'd love to hear what we could improve."}
           </p>
         )}
-        <div className="flex justify-center flex-wrap gap-x-6 mt-2">
-          {REVIEW_URL && (
+        <button
+          type="button"
+          aria-expanded={fbOpen}
+          aria-controls="feedback-form"
+          onClick={() => setFbOpen((o) => !o)}
+          className={`${linkBtn} mt-2`}
+        >
+          {fbOpen ? "Hide feedback form" : "Tell us more"}
+        </button>
+        {fbOpen && (
+          <div id="feedback-form" className="text-left mt-2 animate-fade-in motion-reduce:animate-none">
+            {fbState === "sent" ? (
+              <p role="status" className="font-hand text-2xl text-ink text-center">Thank you for helping us improve Echoes of the Market.</p>
+            ) : (
+              <form onSubmit={sendFeedback} noValidate className="flex flex-col gap-2">
+                <label htmlFor="fb-msg" className="font-display text-xs uppercase tracking-[0.2em] text-ink">What would you like us to know?</label>
+                <p id="fb-msg-help" className="text-[14px] text-ink/80">A favorite moment, a confusing puzzle, or something we could improve.</p>
+                <textarea
+                  id="fb-msg"
+                  value={fbMsg}
+                  onChange={(e) => setFbMsg(e.target.value)}
+                  maxLength={2000}
+                  rows={4}
+                  required
+                  aria-invalid={!!fbFieldErr}
+                  aria-describedby={`fb-msg-help fb-msg-count${fbFieldErr ? " fb-msg-err" : ""}`}
+                  className="w-full px-3 py-2 bg-paper border-2 border-rule/60 text-ink text-[17px] rounded-sm outline-none focus:border-rule"
+                />
+                <p id="fb-msg-count" className="text-[13px] text-ink/70 text-right">{fbMsg.length}/2000</p>
+                {fbFieldErr && <p id="fb-msg-err" role="alert" className="text-ink text-[15px]">{fbFieldErr}</p>}
+
+                <label htmlFor="fb-email" className="font-display text-xs uppercase tracking-[0.2em] text-ink mt-2">Email address — optional</label>
+                <p id="fb-email-help" className="text-[14px] text-ink/80">Only if you'd like a reply.</p>
+                <input
+                  id="fb-email"
+                  type="email"
+                  maxLength={255}
+                  value={fbEmail}
+                  onChange={(e) => setFbEmail(e.target.value)}
+                  aria-invalid={!!fbEmailErr}
+                  aria-describedby={`fb-email-help${fbEmailErr ? " fb-email-err" : ""}`}
+                  className="min-h-[48px] px-3 bg-paper border-b-2 border-rule/60 text-ink text-[17px] outline-none focus:border-rule"
+                />
+                {fbEmailErr && <p id="fb-email-err" role="alert" className="text-ink text-[15px]">{fbEmailErr}</p>}
+
+                {/* honeypot — hidden from people and assistive tech */}
+                <div aria-hidden="true" className="absolute -left-[9999px] w-px h-px overflow-hidden">
+                  <label>Website<input tabIndex={-1} autoComplete="off" value={fbHp} onChange={(e) => setFbHp(e.target.value)} name="website" /></label>
+                </div>
+
+                <p className="text-[14px] text-ink/80 mt-1">
+                  Your feedback goes privately to Origami Escape. It won't be posted publicly.{" "}
+                  <Link to="/privacy" className="underline underline-offset-2">Privacy Policy</Link>
+                </p>
+                <button type="submit" disabled={fbState === "sending"} aria-disabled={fbState === "sending"} className="min-h-[48px] border-2 border-ink text-ink font-display text-xs uppercase tracking-[0.2em] rounded-sm disabled:opacity-60">
+                  {fbState === "sending" ? "Sending…" : "Send Feedback"}
+                </button>
+                {fbState === "error" && (
+                  <p role="alert" className="text-ink text-[15px]">
+                    We couldn't send your feedback. Please try again, or email{" "}
+                    <a href="mailto:hello@origamiescape.com" className="underline underline-offset-2">hello@origamiescape.com</a>.
+                  </p>
+                )}
+              </form>
+            )}
+          </div>
+        )}
+        {REVIEW_URL && (
+          <div className="flex justify-center mt-2">
             <a href={REVIEW_URL} target="_blank" rel="noreferrer" onClick={() => trackEvent("review_click")} className={linkBtn}>Leave a Review →</a>
-          )}
-          <a href={FEEDBACK_URL} target="_blank" rel="noreferrer" onClick={() => trackEvent("feedback_click")} className={linkBtn}>Share Feedback →</a>
-        </div>
+          </div>
+        )}
       </section>
 
       {/* 4–6. Secondary actions */}

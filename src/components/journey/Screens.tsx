@@ -193,7 +193,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
     if (ok) {
       setStatus("right");
       actions.solve(p.key);
-      timer.current = setTimeout(() => actions.go(p.key === "final" ? "final" : "log"), 1800);
+      if (p.key !== "final") timer.current = setTimeout(() => actions.go("log"), 1800);
     } else {
       setStatus(close ? "close" : "wrong");
       setCloseMsg(close && nudge ? nudge.message : null);

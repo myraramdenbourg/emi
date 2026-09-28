@@ -17,6 +17,7 @@ export const PRIVACY = {
   retentionAnalytics: "",
   audience: "", // children's-privacy statement
   saleStatement: "", // your confirmed sale/sharing practice
+  international: "", // where you are based and where data is processed
 };
 export const PRIVACY_READY = Object.values(PRIVACY).every((v) => v.trim() !== "");
 
@@ -104,7 +105,7 @@ const Privacy = () => {
         <p><T v={PRIVACY.audience} label="intended age group and practices" /></p>
 
         <H2>International visitors</H2>
-        <p>We are based in the United States, and our service providers may process information in the United States and other countries. By using the companion, you understand your information may be processed outside your country.</p>
+        <p><T v={PRIVACY.international} label="where you are based, where data is processed, and any EEA/UK details" /></p>
 
         <H2>Other websites</H2>
         <p>The companion may link to our store, social profiles, or other websites. Their privacy practices may differ. This policy covers the companion site; please review the policy provided by any other service you use.</p>

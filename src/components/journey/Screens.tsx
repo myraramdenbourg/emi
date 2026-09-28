@@ -225,6 +225,11 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
           <p className="font-display text-2xl text-ink mt-2">That's it! ✓</p>
           {p.key === "final" ? (
             <p className="font-display text-sm uppercase tracking-[0.25em] text-rule mt-3">Open envelope 2</p>
+          )}
+          {p.key === "final" && (
+            <button onClick={() => actions.go("final")} className="mt-4 min-h-[44px] font-display text-xs uppercase tracking-[0.2em] text-ink/70 underline underline-offset-4">
+              Continue →
+            </button>
           ) : (
             <p className="text-ink/75 mt-1">{p.name.charAt(0) + p.name.slice(1).toLowerCase()} has been added to your Market Log.</p>
           )}

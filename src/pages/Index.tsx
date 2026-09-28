@@ -55,10 +55,10 @@ const Index = () => {
         {s.introDone && <TopBar />}
         {isPuzzle ? (
           <div className="lg:grid lg:grid-cols-[300px_minmax(0,1fr)] lg:gap-10">
-            <aside className="hidden lg:block border-r border-rule pr-8">
+            <aside className="hidden lg:block lg:col-start-1 lg:row-start-1 border-r border-rule pr-8">
               <MarketLog compact />
             </aside>
-            <div className="min-w-0">{body}</div>
+            <div className="min-w-0 lg:col-start-2 lg:row-start-1">{body}</div>
           </div>
         ) : (
           body

@@ -281,13 +281,13 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
           />
           <button type="submit" className={primaryBtn}>Enter Answer</button>
           {status === "wrong" && (
-            <div id={errorId} role="status" className="text-center pt-2 animate-fade-in">
+            <div key={wrongs} id={errorId} role="status" className="text-center pt-2 animate-fade-in">
               <p className="font-display text-ink">Not quite.</p>
               <p className="text-ink/75">Take another look at the postcard.</p>
             </div>
           )}
           {status === "close" && (
-            <div id={errorId} role="status" className="text-center pt-2 animate-fade-in">
+            <div key={wrongs} id={errorId} role="status" className="text-center pt-2 animate-fade-in">
               {closeMsg ? (
                 <p className="font-display text-ink">{closeMsg}</p>
               ) : (

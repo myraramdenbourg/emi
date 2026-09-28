@@ -107,7 +107,7 @@
     @apply bg-paper-deep text-ink font-body antialiased;
   }
 
-  :is(button, a, input, [role="radio"]):focus-visible,
+  :is(button, a, input, select, textarea, summary, [role="radio"]):focus-visible,
   h1:focus-visible,
   h2:focus-visible {
     outline: 3px solid hsl(var(--ink));

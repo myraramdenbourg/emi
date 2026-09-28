@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { trackEvent } from "@/lib/analytics";
 import { journeyPuzzles } from "@/lib/journeyData";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { HandCheck, Sprig } from "./Marks";
+import { HandCheck } from "./Marks";
 import { PRIVACY_READY } from "@/pages/Privacy";
 
 // Public links. Leave REVIEW_URL / PRIVACY_URL empty until a real destination exists;
@@ -182,8 +182,6 @@ export const Completion = ({ time }: { time: string }) => {
   return (
     <div className="relative">
       {/* hand-drawn sprigs growing in at the corners */}
-      <Sprig className="absolute -left-2 top-4 w-14 opacity-0 animate-[fade-in_1.6s_ease-out_0.6s_forwards] -rotate-12" />
-      <Sprig className="absolute -right-2 top-40 w-14 opacity-0 animate-[fade-in_1.6s_ease-out_1.2s_forwards] rotate-[160deg]" />
 
       {/* 1. Result, thank-you, and primary share */}
       <section className="pt-8 pb-6 text-center animate-fade-in">

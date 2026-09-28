@@ -4,7 +4,7 @@ import { PuzzleData } from "@/types/puzzle";
 export const puzzleData: PuzzleData[] = [
   {
     title: "COFFEE",
-    description: "You loved asking the baristas to make cool latte art. There may be more to it than you think. The secret lies in the last 3 sips.",
+    description: "You loved asking the baristas to make cool latte art. There may be more to it than you think. The secret lies in the last three cups.",
     hints: [
       "Do you notice something missing with the bottom 3 cups of coffee?",
       "You need to find the correct letters that match the latte art pattern.",
@@ -56,7 +56,7 @@ export const puzzleData: PuzzleData[] = [
   },
   {
     title: "PRODUCE",
-    description: "I always loved when vendors at the market would slice open fruit for you. Looks like the oranges and dragon fruit are already cut! With help from the numbers, line by line, something familiar will start to take shape.",
+    description: "It delighted me when the shopkeepers would slice open fruit for you. Looks like the oranges and dragon fruit are already cut! With help from the numbers, line by line, something familiar will start to take shape.",
     hints: [
      "Do you notice the cut produce, and numbers on the top, left, and bottom of the produce?",
      "The cut produce (oranges and dragonfruit) show you how to solve the puzzle.",

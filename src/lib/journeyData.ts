@@ -6,7 +6,7 @@ export interface JourneyPuzzle {
   icon: string;
   line: string;
   answers: string[];
-  tiers: string[][];
+  hints: string[];
   index: number;
 }
 
@@ -22,14 +22,6 @@ const ORDER: { title: string; key: string; icon: string; line: string }[] = [
   { title: "PRODUCE", key: "produce", icon: "produce", line: "He knew every stall owner by their first name." },
 ];
 
-// Split a puzzle's hints into three progressive tiers.
-const toTiers = (hints: string[]): string[][] => {
-  const n = hints.length;
-  const a = Math.ceil(n / 3);
-  const b = Math.ceil((n - a) / 2);
-  return [hints.slice(0, a), hints.slice(a, a + b), hints.slice(a + b)];
-};
-
 export const journeyPuzzles: JourneyPuzzle[] = ORDER.map((o) => {
   const index = puzzleData.findIndex((p) => p.title.toUpperCase() === o.title);
   const p = puzzleData[index];
@@ -39,9 +31,7 @@ export const journeyPuzzles: JourneyPuzzle[] = ORDER.map((o) => {
     icon: `/assets/icons/${o.icon}.png`,
     line: o.line,
     answers: Array.isArray(p.answer) ? p.answer : [p.answer],
-    tiers: toTiers(p.hints),
+    hints: p.hints,
     index,
   };
 });
-
-export const TIER_LABELS = ["A gentle nudge", "A bigger hint", "One last push"];

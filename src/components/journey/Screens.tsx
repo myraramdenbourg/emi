@@ -1,9 +1,41 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft } from "lucide-react";
 import { actions, elapsedMs, formatTime, normalize, useGame, useNow } from "@/lib/gameState";
-import { journeyPuzzles, TIER_LABELS, JourneyPuzzle } from "@/lib/journeyData";
+import { journeyPuzzles, JourneyPuzzle } from "@/lib/journeyData";
 import { trackEvent } from "@/lib/analytics";
 import { EnvelopeMark, HandCheck, HandCircle, LockMark, Sprig } from "./Marks";
+
+// Levenshtein distance for "close answer" nudges
+const editDistance = (a: string, b: string): number => {
+  const m = a.length, n = b.length;
+  if (!m) return n;
+  if (!n) return m;
+  let prev = Array.from({ length: n + 1 }, (_, j) => j);
+  for (let i = 1; i <= m; i++) {
+    const cur = [i];
+    for (let j = 1; j <= n; j++) {
+      cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    }
+    prev = cur;
+  }
+  return prev[n];
+};
+
+// True when the guess is nearly right: small typo, shared long prefix
+// (e.g. "panorama" vs "panoramic views"), or one contains the other.
+const isClose = (guess: string, answers: string[]): boolean => {
+  const g = normalize(guess);
+  if (g.length < 4) return false;
+  return answers.some((a) => {
+    const t = normalize(a);
+    if (t === g) return false;
+    if (t.startsWith(g) || g.startsWith(t)) return true;
+    let prefix = 0;
+    while (prefix < Math.min(g.length, t.length) && g[prefix] === t[prefix]) prefix++;
+    if (prefix >= 5) return true;
+    return editDistance(g, t) <= 2;
+  });
+};
 
 const primaryBtn =
   "w-full min-h-[56px] bg-ink text-paper font-display uppercase tracking-[0.2em] text-sm hover:bg-ink/90 active:translate-y-px transition";
@@ -116,20 +148,20 @@ export const MarketLog = () => {
   );
 };
 
-const HintCard = ({ p, tier, opened, available }: { p: JourneyPuzzle; tier: number; opened: boolean; available: boolean }) => (
+const HintCard = ({ p, hintIndex, opened, available }: { p: JourneyPuzzle; hintIndex: number; opened: boolean; available: boolean }) => (
   <div className={`border-t border-rule ${!available ? "opacity-40" : ""}`}>
     <button
       disabled={!available || opened}
-      onClick={() => { trackEvent("unlock_hint", { hintIndex: tier }, p.index, p.name); actions.openHint(p.key, tier + 1); }}
+      onClick={() => { trackEvent("unlock_hint", { hintIndex }, p.index, p.name); actions.openHint(p.key, hintIndex + 1); }}
       className="w-full flex items-center gap-3 min-h-[52px] text-left disabled:cursor-default"
     >
-      <span className="font-hand text-2xl text-rule w-6">{tier + 1}</span>
-      <span className="flex-1 font-display text-sm uppercase tracking-[0.15em] text-ink">{TIER_LABELS[tier]}</span>
+      <span className="font-hand text-2xl text-rule w-6">{hintIndex + 1}</span>
+      <span className="flex-1 font-display text-sm uppercase tracking-[0.15em] text-ink">Hint {hintIndex + 1}</span>
       {!opened && available && <span className="text-xs font-display tracking-widest text-rule">OPEN</span>}
     </button>
     {opened && (
-      <div className="animate-unfold origin-top pb-4 pl-9 pr-1 space-y-2 text-ink/90 text-[16px] leading-relaxed">
-        {p.tiers[tier].map((h, i) => <p key={i}>{h}</p>)}
+      <div className="animate-unfold origin-top pb-4 pl-9 pr-1 text-ink/90 text-[16px] leading-relaxed">
+        <p>{p.hints[hintIndex]}</p>
       </div>
     )}
   </div>
@@ -139,7 +171,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
   const s = useGame();
   const p = journeyPuzzles.find((x) => x.key === puzzleKey)!;
   const [value, setValue] = useState("");
-  const [status, setStatus] = useState<"idle" | "wrong" | "right">(s.solved.includes(p.key) ? "right" : "idle");
+  const [status, setStatus] = useState<"idle" | "wrong" | "close" | "right">(s.solved.includes(p.key) ? "right" : "idle");
   const timer = useRef<ReturnType<typeof setTimeout>>();
   const opened = s.hintsOpened[p.key] ?? 0;
   const wrongs = s.wrongAttempts[p.key] ?? 0;
@@ -151,13 +183,14 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
     e.preventDefault();
     if (!value.trim()) return;
     const ok = p.answers.some((a) => normalize(a) === normalize(value));
-    trackEvent("check_answer", { answer: value, correct: ok }, p.index, p.name);
+    const close = !ok && isClose(value, p.answers);
+    trackEvent("check_answer", { answer: value, correct: ok, close }, p.index, p.name);
     if (ok) {
       setStatus("right");
       actions.solve(p.key);
       timer.current = setTimeout(() => actions.go("log"), 1800);
     } else {
-      setStatus("wrong");
+      setStatus(close ? "close" : "wrong");
       actions.wrong(p.key);
     }
   };
@@ -187,7 +220,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
           <input
             id="answer"
             value={value}
-            onChange={(e) => { setValue(e.target.value); if (status === "wrong") setStatus("idle"); }}
+            onChange={(e) => { setValue(e.target.value); if (status === "wrong" || status === "close") setStatus("idle"); }}
             placeholder="Enter your answer..."
             autoComplete="off"
             autoCapitalize="characters"
@@ -200,6 +233,12 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
               <p className="text-ink/75">Take another look at the postcard.</p>
             </div>
           )}
+          {status === "close" && (
+            <div className="text-center pt-2 animate-fade-in">
+              <p className="font-display text-ink">So close — you're onto something.</p>
+              <p className="text-ink/75">Look once more at the exact wording on the postcard.</p>
+            </div>
+          )}
           {wrongs >= 3 && (
             <p className="text-center font-hand text-xl text-rule pt-1">Still stuck? A hint might point you in the right direction.</p>
           )}
@@ -208,8 +247,8 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
 
       <section className="mt-10">
         <h2 className="font-display text-sm uppercase tracking-[0.25em] text-ink text-center pb-3">Need a hint?</h2>
-        {TIER_LABELS.map((_, t) => (
-          <HintCard key={t} p={p} tier={t} opened={opened > t} available={opened >= t} />
+        {p.hints.map((_, t) => (
+          <HintCard key={t} p={p} hintIndex={t} opened={opened > t} available={opened >= t} />
         ))}
         <Rule />
       </section>

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { actions, useGame } from "@/lib/gameState";
 
 /**
  * Business details the owner must confirm. Every statement below the config is
@@ -40,11 +41,16 @@ const Privacy = () => {
   }, []);
 
   const email = <T v={PRIVACY.contactEmail} label="privacy contact email" />;
+  const view = useGame().view;
+  // "/" restores the saved screen, so a player who opened the policy from a
+  // puzzle would land back on that puzzle. Send them to the Market Log instead
+  // (but don't disturb the welcome or finished screens).
+  const returnToLog = () => { if (typeof view === "object") actions.go("log"); };
 
   return (
     <main className="min-h-screen bg-paper px-5 py-10">
       <article className="mx-auto max-w-[680px] text-ink text-[17px] leading-relaxed [&_p]:mt-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mt-2 [&_li]:mt-1">
-        <Link to="/" className="font-display text-xs uppercase tracking-[0.2em] text-rule-text underline-offset-4 hover:underline inline-flex min-h-[44px] items-center">← Return to Market Log</Link>
+        <Link to="/" onClick={returnToLog} className="font-display text-xs uppercase tracking-[0.2em] text-rule-text underline-offset-4 hover:underline inline-flex min-h-[44px] items-center">← Return to Market Log</Link>
         <h1 tabIndex={-1} className="font-display text-3xl font-medium tracking-[0.1em] mt-4">Privacy Policy</h1>
         <p><strong>Effective date: <T v={PRIVACY.effectiveDate} label="date" /></strong></p>
 

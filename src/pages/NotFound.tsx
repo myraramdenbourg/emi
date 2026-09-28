@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
 const primaryBtn =
-  "w-full min-h-[56px] bg-ink text-paper font-display uppercase tracking-[0.2em] text-sm hover:bg-ink/90 active:translate-y-px transition";
+  "w-full min-h-[56px] bg-ink text-paper font-display uppercase tracking-[0.18em] text-xs whitespace-nowrap hover:bg-ink/90 active:translate-y-px transition";
 
 const Rule = ({ double = false }: { double?: boolean }) => (
   <div className={double ? "border-t-2 border-b border-rule h-[6px]" : "border-t border-rule"} />

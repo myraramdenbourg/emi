@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { actions, useGame } from "@/lib/gameState";
 
 /**
  * Business details the owner must confirm. Every statement below the config is

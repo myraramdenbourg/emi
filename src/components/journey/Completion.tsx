@@ -10,7 +10,7 @@ import { HandCheck, Sprig } from "./Marks";
 export const PRODUCT_URL = "https://echoesofthemarket.com";
 const REVIEW_URL = "https://echoesofthemarket.com";
 const FEEDBACK_URL = "mailto:hello@echoesofthemarket.com?subject=Echoes%20of%20the%20Market%20feedback";
-const FOLLOW_URL = "https://www.instagram.com/";
+const FOLLOW_URL = "https://www.instagram.com/origamiescape";
 
 const REACTIONS = [
   { id: "loved", emoji: "😍", label: "Loved it", good: true },

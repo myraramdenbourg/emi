@@ -8,6 +8,13 @@
       "when": 1790576015054,
       "tag": "0000_create_adventure_signups",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790584579302,
+      "tag": "0001_unique_signup_email",
+      "breakpoints": true
     }
   ]
 }

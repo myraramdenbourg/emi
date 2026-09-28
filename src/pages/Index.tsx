@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useGame } from "@/lib/gameState";
+import { isStorageOk, useGame } from "@/lib/gameState";
 import { journeyPuzzles } from "@/lib/journeyData";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import TopBar from "@/components/journey/TopBar";
@@ -53,6 +53,11 @@ const Index = () => {
       >
         <p role="status" className="sr-only">{unlockAnnouncement}</p>
         {s.introDone && <TopBar />}
+        {!isStorageOk() && (
+          <p role="alert" className="my-3 border-2 border-rule/60 bg-paper-deep/60 px-3 py-2 text-[15px] text-ink">
+            This browser isn't saving progress, so a refresh will start over. Keep this page open, or turn off private browsing.
+          </p>
+        )}
         {isPuzzle ? (
           <div className="lg:grid lg:grid-cols-[300px_minmax(0,1fr)] lg:gap-10">
             <aside className="hidden lg:block lg:col-start-1 lg:row-start-1 border-r border-rule pr-8">

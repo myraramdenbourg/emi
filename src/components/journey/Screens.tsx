@@ -384,6 +384,7 @@ export const FinalScreen = () => {
         >
           Finish Journey
         </button>
+        <p className="text-sm text-ink/70 pt-3">This stops your timer and shows your final time.</p>
       </div>
     </div>
   );

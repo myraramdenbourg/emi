@@ -72,7 +72,7 @@ export const Welcome = () => (
   </div>
 );
 
-export const MarketLog = () => {
+export const MarketLog = ({ compact = false }: { compact?: boolean }) => {
   const s = useGame();
   const count = journeyPuzzles.filter((p) => s.solved.includes(p.key)).length;
   const allDone = count === journeyPuzzles.length;

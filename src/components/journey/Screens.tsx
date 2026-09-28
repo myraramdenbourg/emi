@@ -68,7 +68,6 @@ export const Welcome = () => (
       <h2 id="before-you-begin" className="font-display text-sm uppercase tracking-[0.2em] font-semibold">Before you begin</h2>
       <ul className="mt-3 pl-5 list-disc space-y-2 text-[16px] leading-snug">
         <li>Solve the nine postcards in any order.</li>
-        <li>Use one device as your group’s shared Market Log.</li>
         <li>Keep both envelopes sealed until this companion tells you to open them.</li>
         <li>Hints are optional and become more specific as you open them.</li>
         <li>You can pause the timer at any time.</li>

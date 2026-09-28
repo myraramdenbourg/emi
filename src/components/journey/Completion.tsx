@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEvent } from "@/lib/analytics";
 import { journeyPuzzles } from "@/lib/journeyData";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { HandCheck, Sprig } from "./Marks";
 
 // Public links — replace with the real destinations when ready.
@@ -76,7 +77,7 @@ const SecondaryCard = ({ lead, title, text, children }: { lead: string; title: s
   <section className="py-8">
     <p className="font-hand text-2xl text-ink/80 text-center mb-3">{lead}</p>
     <div className="bg-paper-deep/60 border-2 border-rule/60 rounded-sm p-5 shadow-paper">
-      <h3 className="font-display text-sm uppercase tracking-[0.2em] text-ink font-semibold">{title}</h3>
+      <h2 className="font-display text-sm uppercase tracking-[0.2em] text-ink font-semibold">{title}</h2>
       <p className="text-[16px] text-ink/85 mt-2 leading-relaxed">{text}</p>
       <div className="mt-4">{children}</div>
     </div>
@@ -164,7 +165,7 @@ export const Completion = ({ time }: { time: string }) => {
       {/* 1. Completion moment — the first viewport */}
       <section className="min-h-[82svh] flex flex-col justify-center text-center animate-fade-in">
         <HandCheck className="w-14 h-14 mx-auto" />
-        <h1 className="font-display text-3xl font-medium tracking-[0.15em] text-ink mt-5">JOURNEY COMPLETE</h1>
+        <h1 tabIndex={-1} className="font-display text-3xl font-medium tracking-[0.15em] text-ink mt-5">JOURNEY COMPLETE</h1>
         <p className="font-hand text-3xl text-ink/85 mt-1">You made it through the market.</p>
         <Rule />
         <p className="font-display text-xs uppercase tracking-[0.3em] text-ink/70 mt-6">Your time</p>
@@ -173,21 +174,21 @@ export const Completion = ({ time }: { time: string }) => {
 
         {/* 2. Quick reaction */}
         <div className="mt-10">
-          <p className="font-hand text-2xl text-ink">How was your journey?</p>
-          <div className="grid grid-cols-2 gap-3 mt-3">
+          <p id="reaction-label" className="font-hand text-2xl text-ink">How was your journey?</p>
+          <RadioGroup aria-labelledby="reaction-label" value={reaction ?? ""} onValueChange={react} className="grid grid-cols-2 gap-3 mt-3">
             {REACTIONS.map((r) => (
-              <button
+              <RadioGroupItem
                 key={r.id}
-                onClick={() => react(r.id)}
-                aria-pressed={reaction === r.id}
-                className={`min-h-[56px] rounded-sm border-2 font-display text-sm text-ink transition-all ${
+                value={r.id}
+                aria-label={r.label}
+                className={`w-full h-auto min-h-[56px] aspect-auto rounded-sm border-2 font-display text-sm text-ink transition-all ${
                   reaction === r.id ? "border-rule bg-rule/15 scale-[1.02]" : "border-rule/40 bg-paper-deep/40"
                 }`}
               >
-                <span className="text-xl mr-2">{r.emoji}</span>{r.label}
-              </button>
+                <span className="text-xl mr-2" aria-hidden="true">{r.emoji}</span>{r.label}
+              </RadioGroupItem>
             ))}
-          </div>
+          </RadioGroup>
           {picked && (
             <div className="mt-4 animate-fade-in">
               <p className="text-[16px] text-ink/85">

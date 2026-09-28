@@ -49,7 +49,7 @@ export const Welcome = () => (
   <div className="animate-fade-in">
     <div className="text-center pt-6 pb-8">
       <p className="font-display text-xs tracking-[0.35em] text-rule-text uppercase">Echoes of the</p>
-      <h1 className="font-display text-4xl font-semibold tracking-[0.12em] text-ink mt-1">MARKET</h1>
+      <h1 tabIndex={-1} className="font-display text-4xl font-semibold tracking-[0.12em] text-ink mt-1">MARKET</h1>
     </div>
     <Rule double />
     <article className="py-8 px-1 space-y-4 text-ink text-[17px] leading-relaxed">
@@ -93,7 +93,7 @@ export const MarketLog = ({ compact = false }: { compact?: boolean }) => {
       {compact ? (
         <h2 className="font-display font-medium text-center text-ink tracking-wide text-xl py-5">MARKET LOG</h2>
       ) : (
-        <h1 className="font-display font-medium text-center text-ink tracking-wide text-3xl py-7">MARKET LOG</h1>
+        <h1 tabIndex={-1} className="font-display font-medium text-center text-ink tracking-wide text-3xl py-7">MARKET LOG</h1>
       )}
       <Rule double />
       <ul>
@@ -208,9 +208,6 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
 
   const errorId = `answer-error-${p.key}`;
   const error = status === "wrong" || status === "close";
-  const errorText = status === "wrong"
-    ? "Not quite. Take another look at the postcard."
-    : closeMsg ?? "So close — you're onto something. Look once more at the exact wording on the postcard.";
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -238,7 +235,7 @@ export const PuzzlePage = ({ puzzleKey }: { puzzleKey: string }) => {
       <Rule />
       <div className="flex items-center justify-center gap-4 py-7">
         <img src={p.icon} alt="" className="w-14 h-14 object-contain mix-blend-multiply" />
-        <h1 className="font-display text-3xl font-medium text-ink tracking-wide">{p.name}</h1>
+        <h1 tabIndex={-1} className="font-display text-3xl font-medium text-ink tracking-wide">{p.name}</h1>
       </div>
       <Rule double />
       <p className="font-hand text-2xl text-center text-ink/85 py-6 leading-snug">{p.line}</p>
@@ -345,7 +342,7 @@ export const FinalScreen = () => {
       </button>
       <Rule />
       <div className="text-center py-8 space-y-3 text-ink">
-        <h1 className="font-display text-3xl font-medium">You found them all.</h1>
+        <h1 tabIndex={-1} className="font-display text-3xl font-medium">You found them all.</h1>
         <p className="text-[17px]">Grandpa's postcards have led you as far as they can.</p>
         <p className="text-[17px]">There's one last thing waiting for you.</p>
       </div>
@@ -369,7 +366,7 @@ export const HowTo = () => (
       <ChevronLeft className="w-4 h-4" /> Market Log
     </button>
     <Rule />
-    <h1 className="font-display text-3xl font-medium text-center text-ink py-7">HOW TO PLAY</h1>
+    <h1 tabIndex={-1} className="font-display text-3xl font-medium text-center text-ink py-7">HOW TO PLAY</h1>
     <Rule double />
     <ol className="py-6 space-y-4 text-ink text-[17px] leading-relaxed list-decimal pl-6">
       <li>Solve the postcards in any order — work together around the table.</li>

@@ -9,7 +9,7 @@ const Index = () => {
   useAnalytics();
   const s = useGame();
   const view = s.introDone ? s.view : "welcome";
-  const viewKey = typeof view === "object" ? `puzzle-${view.puzzle}` : view;
+  const viewKey = typeof view === "object" ? `puzzle-${view.puzzle}` : view === "final" && s.finishedMs !== null ? "complete" : view;
   const previousView = useRef(viewKey);
   const explored = journeyPuzzles.filter((p) => s.solved.includes(p.key)).length;
   const previousExplored = useRef(explored);
@@ -25,8 +25,10 @@ const Index = () => {
   useEffect(() => {
     if (previousView.current !== viewKey) {
       const heading = document.querySelector<HTMLElement>("main h1");
-      heading?.focus();
+      // Radix returns focus to the menu trigger as it closes; move it to the new heading afterward.
+      const focusTimer = window.setTimeout(() => heading?.focus(), 350);
       previousView.current = viewKey;
+      return () => window.clearTimeout(focusTimer);
     }
   }, [viewKey]);
 

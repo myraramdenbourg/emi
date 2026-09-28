@@ -21,7 +21,7 @@ const TopBar = () => {
     <div className="flex items-center justify-between gap-2 text-ink">
       <div className="flex items-center gap-2 text-sm font-display tabular-nums">
         <Timer className="w-4 h-4 opacity-70" />
-        <span aria-hidden="true" className={paused ? "opacity-50" : ""}>{formatTime(elapsedMs(s, now))}</span>
+        <span role="timer" aria-label="Elapsed time" aria-live="off" className={paused ? "opacity-50" : ""}>{formatTime(elapsedMs(s, now))}</span>
         {paused && <span className="font-hand text-lg text-rule-text leading-none">paused</span>}
         {!s.finishedMs && (
           <button

@@ -25,6 +25,28 @@ const REACTIONS = [
 const REACTION_KEY = "eotm_reaction_v1";
 const SIGNUP_KEY = "eotm_signed_up_v1";
 
+const FB_KEY = "eotm_feedback_v1";
+type FbRef = { id?: string; token: string };
+const fbRef = (): FbRef => {
+  try { const v = JSON.parse(localStorage.getItem(FB_KEY) || "null"); if (v?.token) return v; } catch { /* ignore */ }
+  const r = { token: crypto.randomUUID() + crypto.randomUUID() };
+  try { localStorage.setItem(FB_KEY, JSON.stringify(r)); } catch { /* ignore */ }
+  return r;
+};
+let fbQueue: Promise<unknown> = Promise.resolve();
+// Serialized so a reaction save and a message save never race into two records.
+function saveFeedback(payload: { reaction?: string; message?: string; email?: string; website?: string }) {
+  const run = async () => {
+    const ref = fbRef();
+    const { data, error } = await supabase.functions.invoke("submit-feedback", { body: { ...payload, id: ref.id, token: ref.token } });
+    if (error || !data?.ok || !data.id) throw new Error("feedback_failed");
+    try { localStorage.setItem(FB_KEY, JSON.stringify({ id: data.id, token: ref.token })); } catch { /* ignore */ }
+  };
+  const p = fbQueue.then(run, run);
+  fbQueue = p.catch(() => {});
+  return p;
+}
+
 const Rule = () => <div className="border-t-2 border-rule/70 my-2" />;
 
 const loadImg = (src: string) =>
@@ -275,7 +297,7 @@ export const Completion = ({ time }: { time: string }) => {
       {/* 2. Optional reaction — same follow-up for everyone */}
       <section className="py-6 text-center">
         <Rule />
-        <p id="reaction-label" className="font-hand text-2xl text-ink mt-4">How was your journey? <span className="font-body text-base text-ink/70">(optional)</span></p>
+        <p id="reaction-label" className="font-hand text-2xl text-ink mt-4">How was the game? <span className="font-body text-base text-ink/70">(optional)</span></p>
         <RadioGroup aria-labelledby="reaction-label" value={reaction ?? ""} onValueChange={react} className="grid grid-cols-2 gap-3 mt-3">
           {REACTIONS.map((r) => (
             <div key={r.id} className="relative min-h-[56px]">

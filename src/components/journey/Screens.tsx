@@ -47,11 +47,8 @@ const Rule = ({ double = false }: { double?: boolean }) => (
 
 export const Welcome = () => (
   <div className="animate-fade-in">
-      <div className="text-center pt-6 pb-8">
-        <h1 tabIndex={-1} className="font-body text-ink leading-none">
-          <span className="block text-[24px] md:text-[30px] font-normal tracking-normal">Echoes of the</span>
-          <span className="block text-[48px] md:text-[68px] font-medium tracking-[0.06em] mt-[6px]">MARKET</span>
-        </h1>
+      <div className="pt-6 pb-8 text-center">
+        <h1 tabIndex={-1} className="sr-only">Echoes of the Market</h1>
       </div>
     <Rule double />
     <p className="text-[14px] text-ink/70 text-center pt-6">Read the introductory letter included with your game before you begin.</p>

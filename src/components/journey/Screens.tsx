@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft } from "lucide-react";
 import { actions, elapsedMs, formatTime, normalize, useGame, useNow } from "@/lib/gameState";
-import { allPuzzles, journeyPuzzles, JourneyPuzzle } from "@/lib/journeyData";
+import { allPuzzles, journeyPuzzles, JourneyPuzzle, finalPuzzle } from "@/lib/journeyData";
 import { trackEvent } from "@/lib/analytics";
 import { HandCheck, HandCircle, LockMark } from "./Marks";
 import { Completion } from "./Completion";
@@ -143,9 +143,13 @@ export const MarketLog = ({ compact = false }: { compact?: boolean }) => {
 
               <span className="flex-1">
                 <span className="block font-display text-lg sm:text-xl text-ink tracking-wide">FINAL LETTER</span>
-                <span className="block font-display text-xs tracking-[0.3em] text-rule-text">
-                  {s.solved.includes("final") ? "SOLVED" : "UNLOCKED — OPEN ENVELOPE 1"}
-                </span>
+                {s.solved.includes("final") ? (
+                  <span className="block font-hand text-lg sm:text-xl leading-tight text-rule-text">
+                    {finalPuzzle.answers[0]}
+                  </span>
+                ) : (
+                  <span className="block font-display text-xs tracking-[0.3em] text-rule-text">UNLOCKED — OPEN ENVELOPE 1</span>
+                )}
               </span>
               <span className="w-12 text-center text-rule-text text-xl">→</span>
             </button>

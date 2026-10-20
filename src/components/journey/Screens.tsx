@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft } from "lucide-react";
 import { actions, elapsedMs, formatTime, normalize, useGame, useNow } from "@/lib/gameState";
-import { allPuzzles, journeyPuzzles, JourneyPuzzle } from "@/lib/journeyData";
+import { allPuzzles, journeyPuzzles, JourneyPuzzle, finalPuzzle } from "@/lib/journeyData";
 import { trackEvent } from "@/lib/analytics";
 import { HandCheck, HandCircle, LockMark } from "./Marks";
 import { Completion } from "./Completion";
@@ -117,8 +117,13 @@ export const MarketLog = ({ compact = false }: { compact?: boolean }) => {
                 className="w-full flex items-center gap-4 min-h-[68px] py-2 text-left group"
               >
                 <img src={p.icon} alt="" className="w-11 h-11 object-contain shrink-0 mix-blend-multiply" />
-                <span className="flex-1 font-display text-lg sm:text-xl text-ink tracking-wide border-r border-rule self-stretch flex items-center pr-2">
-                  {p.name}
+                <span className="flex-1 border-r border-rule self-stretch flex flex-col justify-center pr-2">
+                  <span className="font-display text-lg sm:text-xl text-ink tracking-wide">{p.name}</span>
+                  {done && (
+                    <span className="font-hand text-lg sm:text-xl leading-tight text-rule-text">
+                      {p.answers[0]}
+                    </span>
+                  )}
                 </span>
                 <span className="w-12 h-12 shrink-0 flex items-center justify-center">
                   {done ? <HandCheck className="w-10 h-10" animate={celebrating} /> : <HandCircle className="w-9 h-9 group-hover:opacity-70" />}
@@ -138,9 +143,13 @@ export const MarketLog = ({ compact = false }: { compact?: boolean }) => {
 
               <span className="flex-1">
                 <span className="block font-display text-lg sm:text-xl text-ink tracking-wide">FINAL LETTER</span>
-                <span className="block font-display text-xs tracking-[0.3em] text-rule-text">
-                  {s.solved.includes("final") ? "SOLVED" : "UNLOCKED — OPEN ENVELOPE 1"}
-                </span>
+                {s.solved.includes("final") ? (
+                  <span className="block font-hand text-lg sm:text-xl leading-tight text-rule-text">
+                    {finalPuzzle.answers[0]}
+                  </span>
+                ) : (
+                  <span className="block font-display text-xs tracking-[0.3em] text-rule-text">UNLOCKED — OPEN ENVELOPE 1</span>
+                )}
               </span>
               <span className="w-12 text-center text-rule-text text-xl">→</span>
             </button>

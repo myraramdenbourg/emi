@@ -29,7 +29,7 @@ const ORDER: { title: string; key: string; icon: string; nudges?: JourneyPuzzle[
   { title: "CHEESE", key: "cheese", icon: "cheese" },
   { title: "GUM WALL", key: "gum", icon: "gum" },
   { title: "FLOWERS", key: "flowers", icon: "flowers" },
-  { title: "PIGS", key: "pigs", icon: "pigs" },
+  { title: "MARMOTS", key: "marmots", icon: "marmots" },
   { title: "POST ALLEY", key: "postalley", icon: "postalley" },
   { title: "PRODUCE", key: "produce", icon: "produce" },
 ];

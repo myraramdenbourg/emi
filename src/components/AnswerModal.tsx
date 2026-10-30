@@ -52,8 +52,8 @@ const getCustomResponse = (answer: string, correctAnswers: string | string[], pu
         return "You're on the right track!";
       }
       break;
-    case 'pigs':
-      if (['state'].includes(userAnswer)) {
+    case 'marmots':
+      if (['stall', 'mascot', 'maskot'].includes(userAnswer)) {
         return "Almost there! Keep going!";
       }
       break;

@@ -17,7 +17,7 @@ export const puzzleData: PuzzleData[] = [
   },
   {
     title: "MARMOTS",
-    description: "There's a secret tucked away where people leave their spare change. Follow the footsteps to show you the way.",
+    description: "There's a secret tucked away where people leave their spare change. Can you follow the footsteps?",
     hints: [
       "Do you notice the letters on the marmots and symbols on the ground?",
       "The marmots provide the key to help solve the symbols on the ground.",

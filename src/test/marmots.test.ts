@@ -4,8 +4,12 @@ import { normalize } from "@/lib/gameState";
 
 // The Marmots postcard: title and accepted answer, per the user's wording.
 const marmots = puzzleData.find((p) => p.title === "MARMOTS");
-const accepted = (value: string) =>
-  !!marmots?.answer.some((a) => normalize(a) === normalize(value));
+const list: string[] = marmots
+  ? Array.isArray(marmots.answer)
+    ? marmots.answer
+    : [marmots.answer]
+  : [];
+const accepted = (value: string) => list.some((a) => normalize(a) === normalize(value));
 
 describe("MARMOTS postcard", () => {
   it("is named MARMOTS and no postcard is named PIGS", () => {

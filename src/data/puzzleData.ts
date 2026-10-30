@@ -16,16 +16,16 @@ export const puzzleData: PuzzleData[] = [
     answer: ["WARMTH"],
   },
   {
-    title: "PIGS",
+    title: "MARMOTS",
     description: "There's a secret tucked away where people leave their spare change. Follow the footsteps to show you the way.",
     hints: [
-      "Do you notice the letters on the pigs and symbols on the ground?",
-      "The pigs provide the key to help solve the symbols on the ground.",
+      "Do you notice the letters on the marmots and symbols on the ground?",
+      "The marmots provide the key to help solve the symbols on the ground.",
       "This is called a pigpen cipher. The solution is found by looking at the lines surrounding the letters.",
       "The first footprint is an S.",
-      "The letters on the left pig spell STATE. Decipher the rest of the symbols to get the answer."
+      "The letters on the left marmot spell STALL. Decipher the rest of the symbols to get the answer."
     ],
-    answer: ["STATE FAIR", "STATEFAIR"],
+    answer: ["STALL MASCOT", "STALLMASCOT"],
   },
   {
     title: "FISH",

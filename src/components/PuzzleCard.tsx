@@ -22,7 +22,7 @@ const getIconForPuzzle = (title: string) => {
     case 'cheese': return '/assets/icons/cheese.png';
     case 'gum wall': return '/assets/icons/gum.png';
     case 'flowers': return '/assets/icons/flowers.png';
-    case 'pigs': return '/assets/icons/pigs.png';
+    case 'marmots': return '/assets/icons/marmots.png';
     case 'post alley': return '/assets/icons/postalley.png';
     case 'produce': return '/assets/icons/produce.png';
     default: return '';

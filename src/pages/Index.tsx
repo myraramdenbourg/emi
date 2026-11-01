@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { isStorageOk, useGame } from "@/lib/gameState";
-import { journeyPuzzles } from "@/lib/journeyData";
+import { allPuzzles, journeyPuzzles } from "@/lib/journeyData";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import TopBar from "@/components/journey/TopBar";
 import { FinalScreen, HowTo, MarketLog, PuzzlePage, Welcome } from "@/components/journey/Screens";
@@ -8,7 +8,10 @@ import { FinalScreen, HowTo, MarketLog, PuzzlePage, Welcome } from "@/components
 const Index = () => {
   useAnalytics();
   const s = useGame();
-  const view = s.introDone ? s.view : "welcome";
+  const rawView = s.introDone ? s.view : "welcome";
+  // Saved progress may point at a postcard that was renamed (e.g. old "pigs"); fall back to the log.
+  const view =
+    typeof rawView === "object" && !allPuzzles.some((p) => p.key === rawView.puzzle) ? "log" : rawView;
   const viewKey = typeof view === "object" ? `puzzle-${view.puzzle}` : view === "final" && s.finishedMs !== null ? "complete" : view;
   const previousView = useRef(viewKey);
   const explored = journeyPuzzles.filter((p) => s.solved.includes(p.key)).length;

@@ -73,7 +73,7 @@ export const puzzleData: PuzzleData[] = [
     hints: [
      "Do you notice the cheese wheels with different label shapes, patterns, colors, and heights?",
      "The first 6 cheese have a red string connecting some of them together. This is the pattern to follow for the rest of the cheese wheels.",
-     "No 2 wheels in each group are exactly the same. The cheese wheels connected together are very similar though.",
+     "No two wheels in each group are exactly the same. The cheese wheels connected together are very similar though.",
      "The cheese wheels that are connected to each other have 3 out of 4 characteristics the same.",
      "Following the pattern of connecting cheese wheels that have 3 out of 4 characteristics the same, you get letters from the connections.",
      "The second shelf gives you the letter I. Follow this pattern for the rest of the letters to get the solution."
